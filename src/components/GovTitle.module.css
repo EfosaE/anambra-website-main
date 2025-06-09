@@ -1,0 +1,109 @@
+.anambraBg {
+  position: absolute;
+  z-index: -10;
+  background-color: #ffb732;
+  border-radius: 7.47px;
+  transform: rotate(-5deg);
+  transform-origin: right bottom;
+
+  /* Default (mobile-first) */
+  width: 202.17px;
+  height: 51.72px;
+  top: -13px;
+  right: -8px;
+}
+
+/* Between 375px - 500px */
+@media (min-width: 375px) and (max-width: 500px) {
+  .anambraBg {
+    width: 202.17px;
+    height: 51.72px;
+    top: -15px;
+    right: -10px;
+    font-size: 32px;
+  }
+}
+
+@media (min-width: 300px) and (max-width: 374px) {
+  .anambraBg {
+    width: 150.17px;
+    height: 45.72px;
+    top: -12px;
+    right: -10px;
+  }
+}
+
+/* Between 375px - 500px */
+@media (min-width: 700px) and (max-width: 1000px) {
+  .anambraBg {
+    width: 250px;
+    height: 77px;
+    top: -15px;
+    right: -8px;
+  }
+}
+
+/* Between 500px - 1024px */
+@media (min-width: 1001px) and (max-width: 1024px) {
+  .anambraBg {
+    width: 300px;
+    height: 100px;
+    top: -24px;
+    right: -14px;
+  }
+}
+
+/* Large Screens */
+@media (min-width: 1024px) {
+  .anambraBg {
+    width: 400px;
+    height: 108px;
+    top: -28px;
+    right: -18px;
+  }
+}
+
+.govTitle {
+  position: relative;
+  z-index: 10;
+  font-weight: bold;
+  color: black;
+  font-family: "Integral CF", sans-serif;
+  line-height: 1.2;
+
+  /* Default (mobile-first) font size */
+  font-size: 23px;
+}
+
+/* Between 400px and 500px */
+@media (min-width: 375px) and (max-width: 500px) {
+  .govTitle {
+    font-size: 31px;
+  }
+}
+
+/* Medium to Large screens */
+@media (min-width: 700px) and (max-width: 1000px) {
+  .govTitle {
+    font-size: 40px;
+  }
+}
+
+/* Large desktops */
+@media (min-width: 1024px) {
+  .govTitle {
+    font-size: 64px;
+  }
+}
+
+.line {
+  margin: 0;
+  padding: 0;
+  line-height: 1.2;
+}
+
+.anambraText {
+  position: relative;
+  /* Remove tailwind-style padding */
+  padding: 0 4px; /* Minimized */
+}
