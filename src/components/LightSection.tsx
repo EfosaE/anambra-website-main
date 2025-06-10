@@ -1,6 +1,6 @@
 // components/LightSection.tsx
 import styles from "./LightSection.module.css";
-import { LightSectionData } from "@/lib/types/graphql/homepage.types";
+import { LightSectionData } from "@/types/graphql/homepage.types";
 
 type Props = {
   backgroundImage: LightSectionData["backgroundImage"];
@@ -13,7 +13,7 @@ export default function LightSection({ backgroundImage, stats }: Props) {
       className={styles.section}
       style={{ backgroundImage: `url('${backgroundImage.url}')` }}
     >
-      <div className={styles.sectionInner}>
+      {/* <div className={styles.sectionInner}>
         <div className={styles.glassCard}>
           <h2 className={styles.title}>Light of the Nation</h2>
           <div className={styles.statWrapper}>
@@ -25,7 +25,7 @@ export default function LightSection({ backgroundImage, stats }: Props) {
             ))}
           </div>
         </div>
-      </div>
+      </div> */}
     </section>
   );
 }

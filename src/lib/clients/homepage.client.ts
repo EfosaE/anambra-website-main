@@ -1,6 +1,6 @@
 import { HomepageQueries } from "@/lib/graphql/queries/homepage";
 import client from "@/lib/http";
-import { LightSectionData } from "../types/graphql/homepage.types";
+import { LightSectionData } from "../../types/graphql/homepage.types";
 
 export type HomepageData = {
   Light_Section: LightSectionData;

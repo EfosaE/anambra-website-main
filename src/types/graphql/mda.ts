@@ -1,4 +1,4 @@
-// lib/types/graphql/mda.ts
+// types/graphql/mda.ts
 
 export interface Mda {
   documentId: string;

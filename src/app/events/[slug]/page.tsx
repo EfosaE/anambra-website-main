@@ -4,9 +4,9 @@ import { notFound } from "next/navigation";
 export default async function EventDetailPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>; // Changed: params is now a Promise
 }) {
-  const { slug } = params;
+  const { slug } = await params; // Changed: await the params Promise
   console.log("Event detail page: documentId", slug);
 
   const event = await fetchEventById(slug);
