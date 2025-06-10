@@ -4,13 +4,16 @@ import { useEffect } from "react";
 import { FiX } from "react-icons/fi";
 import clsx from "clsx";
 import GlobalSearch from "./GlobalSearch";
+import { Article } from "@/types/graphql/articles";
 
 export default function GlobalSearchDrawer({
   open,
   onClose,
+  articles
 }: {
   open: boolean;
   onClose: () => void;
+  articles: Article[];
 }) {
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
@@ -61,7 +64,7 @@ export default function GlobalSearchDrawer({
 
         {/* Content */}
         <div className="p-6">
-          <GlobalSearch />
+          <GlobalSearch articles={articles} />
         </div>
       </div>
     </>

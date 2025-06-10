@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import clsx from "clsx";
@@ -8,12 +8,28 @@ import { usePathname } from "next/navigation";
 import { FaChevronDown } from "react-icons/fa";
 import { FiSearch } from "react-icons/fi";
 import GlobalSearchDrawer from "./GlobalSearchDrawer";
+import { fetchAllArticles } from "@/lib/clients/articles.client";
+import { Article } from "@/types/graphql/articles";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [governmentMenuOpen, setGovernmentMenuOpen] = useState(false);
   const [searchDrawerOpen, setSearchDrawerOpen] = useState(false);
   const pathname = usePathname();
+  const [articles, setArticles] = useState<Article[]>([]);
+
+  useEffect(() => {
+    const getArticles = async () => {
+      try {
+        const fetched = await fetchAllArticles();
+        setArticles(fetched);
+      } catch (err) {
+        console.error("Failed to fetch articles:", err);
+      }
+    };
+
+    getArticles();
+  }, []);
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
@@ -35,8 +51,7 @@ export default function Navbar() {
           {/* Hamburger */}
           <button
             className="md:hidden text-3xl text-gray-700 focus:outline-none"
-            onClick={toggleMenu}
-          >
+            onClick={toggleMenu}>
             ☰
           </button>
 
@@ -53,15 +68,13 @@ export default function Navbar() {
                   <div
                     className="absolute left-0 top-full mt-1 bg-white shadow-lg rounded-md z-50 
                     opacity-0 invisible group-hover:visible group-hover:opacity-100 
-                    transition-all duration-200 ease-out"
-                  >
+                    transition-all duration-200 ease-out">
                     <ul className="py-2 px-2">
                       {link.subLinks.map((subLink) => (
                         <li key={subLink.href} className="whitespace-nowrap">
                           <Link
                             href={subLink.href}
-                            className="block px-4 py-2 text-[#111111] hover:bg-[#E9E9E9] transition rounded text-[10px] md:text-[14px]"
-                          >
+                            className="block px-4 py-2 text-[#111111] hover:bg-[#E9E9E9] transition rounded text-[10px] md:text-[14px]">
                             {subLink.label}
                           </Link>
                         </li>
@@ -76,8 +89,7 @@ export default function Navbar() {
                   className={clsx(
                     "text-[#111111] hover:text-[#DA9617] transition",
                     { "text-[#DA9617] font-semibold": pathname === link.href }
-                  )}
-                >
+                  )}>
                   {link.label}
                 </Link>
               )
@@ -89,8 +101,7 @@ export default function Navbar() {
             <button
               onClick={() => setSearchDrawerOpen(true)}
               className="text-gray-600 hover:text-black"
-              title="Search"
-            >
+              title="Search">
               <FiSearch size={20} />
             </button>
           </div>
@@ -104,17 +115,15 @@ export default function Navbar() {
               "translate-x-full": !menuOpen,
               "translate-x-0": menuOpen,
             }
-          )}
-        >
+          )}>
           <div className="p-6 space-y-4 pt-20">
             {navLinks.map((link) => (
               <div key={link.href}>
                 {link.label === "GOVERNMENT" ? (
                   <div>
                     <button
-                      className="block text-[#111111] hover:text-[#DA9617] transition text-lg font-medium flex items-center gap-1"
-                      onClick={() => setGovernmentMenuOpen((prev) => !prev)}
-                    >
+                      className=" text-[#111111] hover:text-[#DA9617] transition text-lg font-medium flex items-center gap-1"
+                      onClick={() => setGovernmentMenuOpen((prev) => !prev)}>
                       {link.label}
                       <FaChevronDown className="text-xs mt-1" />
                     </button>
@@ -125,8 +134,7 @@ export default function Navbar() {
                             key={subLink.href}
                             href={subLink.href}
                             className="block text-[#111111] hover:text-[#DA9617] transition font-medium px-2 py-1 text-[12px] md:text-[14px]"
-                            onClick={() => setMenuOpen(false)}
-                          >
+                            onClick={() => setMenuOpen(false)}>
                             {subLink.label}
                           </Link>
                         ))}
@@ -141,8 +149,7 @@ export default function Navbar() {
                       "block text-[#111111] hover:text-[#DA9617] transition text-lg font-medium",
                       { "text-[#DA9617] font-semibold": pathname === link.href }
                     )}
-                    onClick={() => setMenuOpen(false)}
-                  >
+                    onClick={() => setMenuOpen(false)}>
                     {link.label}
                   </Link>
                 )}
@@ -164,6 +171,7 @@ export default function Navbar() {
       <GlobalSearchDrawer
         open={searchDrawerOpen}
         onClose={() => setSearchDrawerOpen(false)}
+        articles={articles}
       />
     </>
   );
