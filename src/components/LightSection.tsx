@@ -10,22 +10,18 @@ type Props = {
 export default function LightSection({ backgroundImage, stats }: Props) {
   return (
     <section
-      className={styles.section}
-      style={{ backgroundImage: `url('${backgroundImage.url}')` }}
-    >
-      {/* <div className={styles.sectionInner}>
-        <div className={styles.glassCard}>
-          <h2 className={styles.title}>Light of the Nation</h2>
-          <div className={styles.statWrapper}>
-            {stats.map((stat) => (
-              <div key={stat.id} className={styles.statBox}>
-                <h2 className={styles.statValue}>{stat.value}</h2>
-                <p className={styles.statLabel}>{stat.label}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div> */}
+      className={`
+    w-full min-h-screen 
+    flex items-center justify-center
+    relative overflow-hidden
+  `}
+      style={{
+        backgroundImage: `url('${backgroundImage.url}')`,
+        backgroundSize: "cover", // This is the key!
+        backgroundPosition: "center center",
+        backgroundRepeat: "no-repeat",
+      }}>
+      {/* Your content */}
     </section>
   );
 }
