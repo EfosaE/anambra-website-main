@@ -255,3 +255,10 @@
 - Definition: `src/lib/clients/search-keyword.client.ts`
 - Query: `SearchKeywordQueries.byId`
 - Parameters: `documentId: ID!`
+
+
+## Ease of Doing Business Endpoints
+### `fetchAbout`
+- Definition: `src/lib/clients/about.client.ts`
+- Query: `aboutQueries.root`
+- Returns: About page content with title and content

@@ -179,6 +179,10 @@ export default function Navbar() {
 
 const navLinks = [
   {
+    href: "/",
+    label: "HOME",
+  },
+  {
     href: "/anambra",
     label: "ABOUT",
     subLinks: [
