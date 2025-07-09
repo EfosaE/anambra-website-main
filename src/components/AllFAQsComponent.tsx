@@ -11,8 +11,12 @@ export default function AllFAQsComponent() {
 
   useEffect(() => {
     const loadFaqs = async () => {
-      const result = await fetchAllFaqs();
-      setFaqs(result);
+      try {
+        const result = await fetchAllFaqs();
+        setFaqs(result);
+      } catch (error) {
+        console.error("Failed to fetch FAQs:", error);
+      }
     };
     loadFaqs();
   }, []);
@@ -44,8 +48,7 @@ export default function AllFAQsComponent() {
       <div className="flex flex-col items-center justify-center mb-10">
         <form
           onSubmit={(e) => e.preventDefault()}
-          className="flex items-center bg-[#E9E9E9] rounded-[12px] mb-4 w-full max-w-[611px] px-[7px]"
-        >
+          className="flex items-center bg-[#E9E9E9] rounded-[12px] mb-4 w-full max-w-[611px] px-[7px]">
           <input
             type="text"
             placeholder="Search FAQs..."
@@ -73,8 +76,7 @@ export default function AllFAQsComponent() {
             backgroundRepeat: "no-repeat",
             backgroundPosition: "right 0.75rem center",
             backgroundSize: "1rem",
-          }}
-        >
+          }}>
           <option value="">Sort By</option>
           <option value="newest">Newest</option>
           <option value="oldest">Oldest</option>
@@ -88,8 +90,7 @@ export default function AllFAQsComponent() {
           <div
             key={faq.documentId}
             className="bg-white border border-gray-300 p-6 rounded-[8px] flex flex-col justify-between"
-            style={{ minHeight: "152px" }}
-          >
+            style={{ minHeight: "152px" }}>
             {/* {faq.FaqAnswer?.map((block: any, i: number) => (
               <p
                 key={i}
