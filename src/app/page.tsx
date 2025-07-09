@@ -5,6 +5,7 @@ import LatestNews from "@/components/LatestNews";
 import LightSection from "@/components/LightSection";
 import NoticeBoard from "@/components/NoticeBoard";
 import { fetchHomepageData } from "@/lib/clients/homepage.client";
+export const dynamic = "force-dynamic";
 
 export default async function Home() {
   const homepage = await fetchHomepageData();
