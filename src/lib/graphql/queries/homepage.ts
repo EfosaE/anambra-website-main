@@ -91,6 +91,12 @@ export const HomepageQueries = {
               createdAt
               updatedAt
               publishedAt
+              cover {
+                url
+              }
+              category {
+                name
+              }
             }
           }
         }

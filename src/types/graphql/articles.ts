@@ -1,6 +1,7 @@
 // /types/graphql/article.d.ts
 export interface Article {
   __typename: string;
+  documentId: string;
   title: string;
   slug: string;
   description: string;

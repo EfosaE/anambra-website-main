@@ -3,13 +3,17 @@
 
 import { useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useTypingPlaceholder } from "./useTypingPlaceholder"; // Ensure the path is correct
+import { useTypingPlaceholder } from "./useTypingPlaceholder";
 import { useMultiTypingPlaceholder } from "./useMultiTypingPlaceholder";
+import { HeroProps } from "./Hero";
 
-export default function SearchComponent() {
+function fetchRelatedArticles () {
+  
+}
+
+export default function SearchComponent({ keywords }: HeroProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isFocused, setIsFocused] = useState(false);
-
 
   const animatedPlaceholder = useMultiTypingPlaceholder({
     texts: [
@@ -19,7 +23,7 @@ export default function SearchComponent() {
     ],
     isActive: !isFocused,
   });
-  
+
   const scroll = (dir: "left" | "right") => {
     if (scrollRef.current) {
       scrollRef.current.scrollBy({
@@ -42,7 +46,7 @@ export default function SearchComponent() {
       <div className="flex items-center bg-[#E9E9E9] rounded-[12px] mb-4 w-full max-w-[611px] pl-[4px]">
         <input
           type="text"
-          placeholder={animatedPlaceholder}
+          placeholder="Click any of the tags below to search"
           className="grow bg-transparent px-2 text-[13px] text-gray-800 focus:outline-none placeholder-black"
           style={{ borderRadius: "12px" }}
           onFocus={() => setIsFocused(true)}
@@ -70,22 +74,13 @@ export default function SearchComponent() {
         {/* Scrollable Button List */}
         <div
           ref={scrollRef}
-          className="flex overflow-x-auto gap-2 px-2 scrollbar-none w-full"
-        >
-          {[
-            "Emergency",
-            "Budget",
-            "Land Dispute",
-            "Government Officials",
-            "Ease of Business",
-            "Public Complaints",
-            "Road Works",
-          ].map((label, index) => (
+          className="flex overflow-x-auto gap-2 px-2 scrollbar-none w-full">
+          {keywords.map((keyword, index) => (
             <button
               key={index}
-              className="rounded-[8px] shrink-0 h-[36px] px-2.5 border-2 border-black text-black bg-white font-medium hover:bg-gray-100 transition text-[13px]"
-            >
-              {label}
+              onClick={fetchRelatedArticles}
+              className="cursor-pointer rounded-[8px] shrink-0 h-[36px] px-2.5 border-2 border-black text-black bg-white font-medium hover:bg-gray-100 transition text-[13px]">
+              {keyword.keyword}
             </button>
           ))}
         </div>

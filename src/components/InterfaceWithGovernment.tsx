@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function InterfaceWithGovernment() {
   return (
     <section className="px-4 md:px-20 py-16">
@@ -25,17 +27,16 @@ export default function InterfaceWithGovernment() {
               </h2>
 
               <p className="text-[12px] sm:text-[16px] max-w-xs mb-6">
-                Everything you need to know to begin running an enterprise in
-                Anambra state
+                Everything you need to know about ongoing government projects.
               </p>
-              <button className="text-[12px] sm:text-[16px] mt-4 flex items-center justify-center gap-2 w-[247px] h-[48px] bg-[#FFB732] text-black font-semibold rounded-md">
+              <a href="https://lens.anambrastate.gov.ng/" target="_blank" className="cursor-pointer text-[12px] sm:text-[16px] mt-4 flex items-center justify-center gap-2 w-[247px] h-[48px] bg-[#FFB732] text-black font-semibold rounded-md">
                 Get Started
                 <img
                   src="/images/arrowup.png"
                   alt="Arrow Up"
                   className="w-4 h-4"
                 />
-              </button>
+              </a>
             </div>
           </div>
 
@@ -55,14 +56,14 @@ export default function InterfaceWithGovernment() {
                 Everything you need to know to begin running an enterprise in
                 Anambra state
               </p>
-              <button className="text-[12px] sm:text-[16px] mt-6 flex items-center justify-center gap-2 w-[247px] h-[48px] bg-[#FFB732] text-black font-semibold rounded-md">
+              <Link href="/business" target="_blank" className="text-[12px] sm:text-[16px] mt-6 flex items-center justify-center gap-2 w-[247px] h-[48px] bg-[#FFB732] text-black font-semibold rounded-md">
                 Explore Now
                 <img
                   src="/images/arrowup.png"
                   alt="Arrow Up"
                   className="w-4 h-4"
                 />
-              </button>
+              </Link >
             </div>
           </div>
         </div>

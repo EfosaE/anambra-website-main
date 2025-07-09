@@ -6,29 +6,41 @@ import LightSection from "@/components/LightSection";
 import NoticeBoard from "@/components/NoticeBoard";
 import { fetchHomepageData } from "@/lib/clients/homepage.client";
 
-
-
 export default async function Home() {
   const homepage = await fetchHomepageData();
 
-  const allArticles = homepage.News_Articles_Grid.selected_category.flatMap(
-    (category) =>
-      category.articles.map((article) => ({
-        ...article,
-        categoryName: category.name,
-      }))
-  );
+  const grid = homepage.News_Articles_Grid;
+
+  let latestArticles: any[] = [];
+
+  if (grid.news_selection_criteria === "Latest") {
+    latestArticles = grid.selected_category
+      .flatMap((category) => {
+        console.log(category.articles);
+        return category.articles.map((article: any) => ({
+          ...article,
+          categoryName: category.name,
+        }));
+      })
+      .sort(
+        (a, b) =>
+          new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
+      );
+  }
+
+  // console.log("Latest Articles:", latestArticles);
 
   const { faqs } = homepage.FAQ_Section;
   const { backgroundImage, stats } = homepage.Light_Section;
+  const { search_keywords } = homepage.SearchSection;
 
   return (
     <>
-      <Hero />
+      <Hero keywords={search_keywords} />
       <LightSection backgroundImage={backgroundImage} stats={stats} />
       <NoticeBoard />
       <InterfaceWithGovernment />
-      <LatestNews articles={allArticles} />
+      <LatestNews articles={latestArticles} />
       <FAQComponent faqs={faqs} />
     </>
   );
