@@ -5,6 +5,8 @@ import { marked } from "marked";
 import { fetchAboutPage } from "@/lib/clients/about.client";
 import { AboutBlock } from "@/types/graphql/about";
 import ScrollableSlider from "@/components/ScrollableSlider";
+import TopTabs from "@/components/TopTabs";
+import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
@@ -52,21 +54,22 @@ export default async function Anambra() {
       <h2 className="mt-[50px] mb-[70px] text-[40px] font-bold text-black text-center">
         {about.title}
       </h2>
-
+      <TopTabs />
       <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
         {/* Sidebar */}
-        <aside className="md:col-span-2">
+        <aside className="md:col-span-2 sticky top-24 self-start">
           <div className="flex flex-col border rounded-md overflow-hidden">
             {about.blocks
               .filter((b) => b.__typename === "ComponentSharedRichText")
               .map((block, idx) => {
                 const heading = block.body.match(/^##\s+(.*)/m)?.[1];
                 return heading ? (
-                  <button
+                  <Link
+                    href={`#${heading}`}
                     key={idx}
                     className="py-3 px-4 border-b last:border-none text-left text-sm hover:bg-gray-100">
                     {heading}
-                  </button>
+                  </Link>
                 ) : null;
               })}
           </div>
@@ -75,16 +78,6 @@ export default async function Anambra() {
         {/* Main Content */}
         <div className="md:col-span-10 space-y-12">
           {pairedBlocks.map((block, idx) => {
-            const heading =
-              block.text?.__typename === "ComponentSharedRichText"
-                ? block.text.body.match(/^##\s+(.*)/m)?.[1]
-                : undefined;
-
-            const html =
-              block.text?.__typename === "ComponentSharedRichText"
-                ? marked.parse(block.text.body.replace(/^##\s+.*\n/, ""))
-                : "";
-
             if (
               block.text?.__typename === "ComponentSharedRichText" &&
               block.media?.__typename === "ComponentSharedMedia"
@@ -97,59 +90,61 @@ export default async function Anambra() {
               const isEven = idx % 2 === 0;
 
               return (
-                <div
-                  key={idx}
-                  className="grid md:grid-cols-2 gap-6 items-start md:items-center">
-                  {isEven ? (
-                    <>
-                      {/* Text First */}
-                      <div>
-                        {heading && (
-                          <h3 className="inline-block text-sm mb-[10px] font-semibold text-[#CB681C] bg-[#CB681C]/20 px-4 py-2 rounded">
-                            {heading}
-                          </h3>
-                        )}
-                        <div
-                          className="text-gray-700 space-y-4 text-sm"
-                          dangerouslySetInnerHTML={{ __html: html }}
-                        />
-                      </div>
-                      <div className="flex items-center h-full">
-                        <Image
-                          src={block.media.file.url}
-                          width={block.media.file.width}
-                          height={block.media.file.height}
-                          alt={heading ?? "Anambra"}
-                          className="rounded-md w-full h-auto"
-                        />
-                      </div>
-                    </>
-                  ) : (
-                    <>
-                      {/* Image First */}
-                      <div className="flex items-center h-full">
-                        <Image
-                          src={block.media.file.url}
-                          width={block.media.file.width}
-                          height={block.media.file.height}
-                          alt={heading ?? "Anambra"}
-                          className="rounded-md w-full h-auto"
-                        />
-                      </div>
-                      <div>
-                        {heading && (
-                          <h3 className="inline-block text-sm mb-[10px] font-semibold text-[#CB681C] bg-[#CB681C]/20 px-4 py-2 rounded">
-                            {heading}
-                          </h3>
-                        )}
-                        <div
-                          className="text-gray-700 space-y-4 text-sm"
-                          dangerouslySetInnerHTML={{ __html: html }}
-                        />
-                      </div>
-                    </>
-                  )}
-                </div>
+                <section id={`${heading}`} key={idx} className="scroll-mt-24">
+                  <div className="grid md:grid-cols-2 gap-6 items-center">
+                    {isEven ? (
+                      <>
+                        {/* Text First */}
+                        <div>
+                          {heading && (
+                            <h3 className="inline-block text-sm mb-[10px] font-semibold text-[#CB681C] bg-[#CB681C]/20 px-4 py-2 rounded">
+                              {heading}
+                            </h3>
+                          )}
+                          <div
+                            className="text-gray-700 space-y-4 text-sm"
+                            dangerouslySetInnerHTML={{ __html: html }}
+                          />
+                        </div>
+                        {/* Image */}
+                        <div className="flex items-center h-full">
+                          <Image
+                            src={block.media.file.url}
+                            width={block.media.file.width}
+                            height={block.media.file.height}
+                            alt={heading ?? "Anambra"}
+                            className="rounded-md w-full h-auto"
+                          />
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        {/* Image First */}
+                        <div className="flex items-center h-full">
+                          <Image
+                            src={block.media.file.url}
+                            width={block.media.file.width}
+                            height={block.media.file.height}
+                            alt={heading ?? "Anambra"}
+                            className="rounded-md w-full h-auto"
+                          />
+                        </div>
+                        {/* Text */}
+                        <div>
+                          {heading && (
+                            <h3 className="inline-block text-sm mb-[10px] font-semibold text-[#CB681C] bg-[#CB681C]/20 px-4 py-2 rounded">
+                              {heading}
+                            </h3>
+                          )}
+                          <div
+                            className="text-gray-700 space-y-4 text-sm"
+                            dangerouslySetInnerHTML={{ __html: html }}
+                          />
+                        </div>
+                      </>
+                    )}
+                  </div>
+                </section>
               );
             }
 
@@ -178,9 +173,10 @@ export default async function Anambra() {
               // 5. Conditional layout
               return youtubeId ? (
                 // 🟩 2-column grid layout when YouTube exists
-                <div
+                <section
+                  id={`${heading}`}
                   key={idx}
-                  className="grid md:grid-cols-2 gap-6 py-[40px] items-start md:items-center">
+                  className="grid md:grid-cols-2 gap-6 py-[40px] items-start md:items-center scroll-mt-24">
                   <div>
                     {heading && (
                       <h3 className="inline-block text-sm font-semibold mb-[10px] text-[#CB681C] bg-[#CB681C]/20 px-4 py-2 rounded">
@@ -201,10 +197,13 @@ export default async function Anambra() {
                       className="w-full h-full rounded-md"
                     />
                   </div>
-                </div>
+                </section>
               ) : (
                 // 🟨 Single-column if no video
-                <div key={idx} className="mt-10 max-w-[707px]">
+                <section
+                  id={`${heading}`}
+                  key={idx}
+                  className="mt-10 max-w-[707px] scroll-mt-24">
                   {heading && (
                     <h3 className="inline-block mb-4 text-sm font-semibold text-[#CB681C] bg-[#CB681C]/20 px-4 py-2 rounded">
                       {heading}
@@ -214,7 +213,7 @@ export default async function Anambra() {
                     className="text-gray-700 text-sm space-y-3"
                     dangerouslySetInnerHTML={{ __html: html }}
                   />
-                </div>
+                </section>
               );
             }
 

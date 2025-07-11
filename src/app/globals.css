@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @config './tailwind.config.ts';
 
@@ -29,6 +29,10 @@
   font-display: swap;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 p {
   margin-bottom: 10px;
 }
@@ -52,8 +56,6 @@ input[type="checkbox"].custom-golden.custom-golden:checked {
   background-position: center;
   background-repeat: no-repeat;
 }
-
-
 
 /* Utility class for Integral CF if needed in Tailwind custom class */
 .text-integral {
