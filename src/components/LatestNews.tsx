@@ -31,7 +31,7 @@ export default function LatestNews({ articles }: LatestNewsProps) {
 
               <div className="flex gap-2 px-1">
                 {article.category.name && (
-                  <p className="bg-[#DADADA] text-gray-800 text-[13px] font-medium px-1 py-1 rounded-[4px]">
+                  <p className=" text-[#DA9617] text-[14px] font-medium px-1 py-1 rounded-[4px]">
                     {article.category.name}
                   </p>
                 )}

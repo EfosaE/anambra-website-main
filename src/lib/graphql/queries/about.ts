@@ -6,7 +6,26 @@ export const aboutQueries = {
     query FetchAbout {
       about {
         title
-        content
+        blocks {
+          ... on ComponentSharedMedia {
+            file {
+              url
+              width
+              height
+              mime
+            }
+          }
+          ... on ComponentSharedRichText {
+            body
+          }
+          ... on ComponentSharedSlider {
+            files {
+              url
+              width
+              height
+            }
+          }
+        }
       }
     }
   `,
