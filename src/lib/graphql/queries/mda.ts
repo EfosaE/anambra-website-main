@@ -13,15 +13,16 @@ export const MdaQueries = {
         updatedAt
         publishedAt
         Officials {
+          name
+          designation
           Contact {
-            image {
-              file {
-                alternativeText
-                url
-                width
-                height
-              }
-            }
+            email
+            phone
+          }
+          profile_picture {
+            url
+            width
+            height
           }
         }
         departments {
