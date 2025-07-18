@@ -6,7 +6,7 @@ export const aboutQueries = {
     query FetchAbout {
       about {
         title
-        blocks {
+        main_page {
           ... on ComponentSharedMedia {
             file {
               url

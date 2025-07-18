@@ -195,9 +195,9 @@ const navLinks = [
     label: "GOVERNMENT",
     subLinks: [
       { href: "/government/mdas", label: "Ministries, Departments, Agencies" },
-      { href: "/government/executive-council", label: "Executive Council" },
+      { href: "/government/ansec", label: "Executive Council" },
       {
-        href: "/government/local-government-area",
+        href: "/government/lgas",
         label: "Local Government Area",
       },
     ],

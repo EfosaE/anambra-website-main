@@ -29,7 +29,7 @@ export default async function Home() {
       );
   }
 
-  // console.log("Latest Articles:", latestArticles);
+  
 
   const { faqs } = homepage.FAQ_Section;
   const { backgroundImage, stats } = homepage.Light_Section;

@@ -3,7 +3,7 @@
 export type AboutQueryResponse = {
   about: {
     title: string;
-    blocks: AboutBlock[];
+    main_page: AboutBlock[];
   };
 };
 
@@ -35,3 +35,15 @@ export type ComponentSharedSlider = {
     height: number;
   }[];
 };
+
+export type LGAQueryResponse = {
+  about: {
+    lgas: {
+      "anambra state": {
+        lga: string;
+        towns: string[];
+      }[];
+    };
+  };
+};
+

@@ -1,6 +1,7 @@
 import client from "@/lib/http";
-import { AboutQueryResponse } from "@/types/graphql/about";
+import { AboutQueryResponse, LGAQueryResponse } from "@/types/graphql/about";
 import { aboutQueries } from "../graphql/queries/about";
+import { lgaQueries } from "../graphql/queries/lga";
 
 export async function fetchAboutPage(): Promise<AboutQueryResponse | null> {
   try {
@@ -17,3 +18,22 @@ export async function fetchAboutPage(): Promise<AboutQueryResponse | null> {
     return null;
   }
 }
+
+export async function fetchLGAPage(): Promise<LGAQueryResponse | null> {
+  try {
+    const { data } = await client.query<{ about: LGAQueryResponse["about"] }>({
+      query: lgaQueries.root,
+      fetchPolicy: "no-cache",
+    });
+
+    if (process.env.NODE_ENV === "development") {
+      console.log(data.about.lgas);
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Error fetching LGA page:", error);
+    return null;
+  }
+}
+

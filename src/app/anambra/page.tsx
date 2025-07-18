@@ -17,7 +17,7 @@ export default async function Anambra() {
     return <div className="text-center py-20">Content unavailable</div>;
 
   // Pair blocks: text + image together
-  const blocks = about.blocks;
+  const blocks = about.main_page;
   const pairedBlocks: {
     text?: AboutBlock;
     media?: AboutBlock;
@@ -59,7 +59,7 @@ export default async function Anambra() {
         {/* Sidebar */}
         <aside className="md:col-span-2 sticky top-24 self-start">
           <div className="flex flex-col border rounded-md overflow-hidden">
-            {about.blocks
+            {about.main_page
               .filter((b) => b.__typename === "ComponentSharedRichText")
               .map((block, idx) => {
                 const heading = block.body.match(/^##\s+(.*)/m)?.[1];

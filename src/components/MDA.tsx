@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -8,6 +7,7 @@ import { fetchAllMdaCategories } from "@/lib/clients/mda.client";
 import { Mda } from "@/types/graphql/mda"; // Adjust if needed
 
 const categories = ["Ministries", "Agencies"];
+
 const tabs = [
   "Core Mandate",
   "Functions",
@@ -93,8 +93,7 @@ export default function MDA() {
                 selectedCategory === category
                   ? "border-b-2 border-blue-600 text-blue-600"
                   : "text-black hover:text-blue-600"
-              )}
-            >
+              )}>
               {category}
             </button>
           ))}
@@ -102,8 +101,7 @@ export default function MDA() {
 
         <form
           onSubmit={handleSearch}
-          className="flex items-center bg-[#E9E9E9] rounded-[12px] h-12 w-full max-w-xl"
-        >
+          className="flex items-center bg-[#E9E9E9] rounded-[12px] h-12 w-full max-w-xl">
           <input
             type="text"
             placeholder="Search MDAs..."
@@ -113,8 +111,7 @@ export default function MDA() {
           />
           <button
             type="submit"
-            className="text-gray-600 hover:text-black transition text-xl pr-[6px]"
-          >
+            className="text-gray-600 hover:text-black transition text-xl pr-[6px]">
             <img
               src="/images/searchicon.png"
               alt="Search"
@@ -130,24 +127,23 @@ export default function MDA() {
           <div
             key={mda.documentId}
             onClick={() => openModal(mda)}
-            className="cursor-pointer bg-white border border-gray-300 rounded-lg p-5 flex flex-col justify-between"
-          >
-            <div className="flex items-center mb-4">
-              <div className="mr-3">
-                <img
-                  src="/images/icons/ministries.svg"
-                  alt="Icon"
-                  className="w-10 h-10"
-                />
-              </div>
-              <h4 className="text-[16px] font-semibold">{mda.name}</h4>
+            className="cursor-pointer bg-white border border-gray-300 rounded-lg p-5 flex flex-col justify-between">
+            <div className="flex items-center gap-3 mb-4">
+              <img
+                src="/images/icons/ministries.svg"
+                alt="Icon"
+                className="w-10 h-10 shrink-0"
+              />
+              <h4 className="text-base font-semibold leading-tight">
+                {mda.name}
+              </h4>
             </div>
+
             {Array.isArray(mda.Mandate) &&
               mda.Mandate.map((block: any, i: number) => (
                 <p
                   key={i}
-                  className="text-[13px] text-gray-700 leading-relaxed mb-2"
-                >
+                  className="text-[13px] text-gray-700 leading-relaxed mb-2">
                   {block.children?.map((child: any) => child.text).join("")}
                 </p>
               ))}
@@ -161,8 +157,7 @@ export default function MDA() {
           <div className="relative bg-white rounded-xl w-full max-w-3xl max-h-[90vh] overflow-y-auto shadow-lg p-6">
             <button
               onClick={closeModal}
-              className="absolute top-4 right-4 text-gray-600 hover:text-black"
-            >
+              className="absolute top-4 right-4 text-gray-600 hover:text-black">
               <X size={20} />
             </button>
 
@@ -177,8 +172,7 @@ export default function MDA() {
                     activeTab === tab
                       ? "border-b-2 border-black text-black"
                       : "text-gray-600 hover:text-black"
-                  )}
-                >
+                  )}>
                   {tab}
                 </button>
               ))}
@@ -267,8 +261,7 @@ export default function MDA() {
               <a
                 href="#"
                 target="_blank"
-                className="inline-block bg-black text-white px-6 py-2 rounded-full text-sm font-semibold hover:bg-gray-800 transition"
-              >
+                className="inline-block bg-black text-white px-6 py-2 rounded-full text-sm font-semibold hover:bg-gray-800 transition">
                 Visit Website
               </a>
             </div>
