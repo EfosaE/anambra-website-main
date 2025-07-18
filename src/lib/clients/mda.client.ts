@@ -1,12 +1,23 @@
 // lib/clients/mda.client.ts
 import { MdaQueries } from "@/lib/graphql/queries/mda";
 import client from "@/lib/http";
+import { ApolloError } from "@apollo/client";
+import { handleError } from "../utils/graphqlHelpers";
 
 export const fetchAllMdaCategories = async () => {
-  const { data } = await client.query({
-    query: MdaQueries.root,
-  });
-  return data.mdas;
+  try {
+    const { data } = await client.query({
+      query: MdaQueries.root,
+    });
+    return data.mdas;
+  } catch (error) {
+    if (error instanceof ApolloError) {
+      handleError(error);
+    } else {
+      console.error("Unknown error fetching MDA categories:", error);
+    }
+    return null;
+  }
 };
 
 // export const fetchAllMdaCategoriesDeep = async () => {
@@ -17,9 +28,18 @@ export const fetchAllMdaCategories = async () => {
 // };
 
 export const fetchMdaById = async (documentId: string) => {
-  const { data } = await client.query({
-    query: MdaQueries.byId,
-    variables: { documentId },
-  });
-  return data.mda;
+  try {
+    const { data } = await client.query({
+      query: MdaQueries.byId,
+      variables: { documentId },
+    });
+    return data.mda;
+  } catch (error) {
+    if (error instanceof ApolloError) {
+      handleError(error);
+    } else {
+      console.error("Unknown error fetching MDA by id:", error);
+    }
+    return null;
+  }
 };

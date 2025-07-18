@@ -60,9 +60,10 @@ export const HomepageQueries = {
           }
         }
         FoterSection {
-          id
-          title
-          link
+          FooterLinks {
+            link
+            name
+          }
         }
         Lens_Ease_Section {
           id
