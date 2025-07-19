@@ -38,15 +38,17 @@ export default function Navbar() {
       <nav className="sticky top-0 z-50 font-[Instrument Sans] bg-[#FFF9F2]">
         <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
           {/* Logo */}
-          <Link href="/">
-            <Image
-              src="/images/logo.png"
-              alt="Anambra Logo"
-              width={54.27}
-              height={54.27}
-              className="cursor-pointer"
-            />
-          </Link>
+          <div>
+            <Link href="/">
+              <Image
+                src="/images/logo.png"
+                alt="Anambra Logo"
+                width={54.27}
+                height={54.27}
+                className="cursor-pointer"
+              />
+            </Link>
+          </div>
 
           {/* Hamburger */}
           <button
@@ -58,7 +60,7 @@ export default function Navbar() {
           {/* Desktop Nav */}
           <div className="hidden md:flex flex-1 justify-center space-x-6 ml-20 text-sm">
             {navLinks.map((link) =>
-              link.label === "GOVERNMENT" ? (
+              link.label === "GOVERNMENT" || link.label === "MORE" ? (
                 <div key={link.href} className="relative group">
                   <button className="text-[#111111] hover:text-[#DA9617] transition flex items-center gap-1">
                     {link.label}
@@ -84,7 +86,7 @@ export default function Navbar() {
                 </div>
               ) : (
                 <Link
-                  key={link.href}
+                  key={link.label}
                   href={link.href}
                   className={clsx(
                     "text-[#111111] hover:text-[#DA9617] transition",
@@ -210,9 +212,18 @@ const navLinks = [
       { href: "/business", label: "Business in Anambra" },
     ],
   },
+
   { href: "/services", label: "SERVICES" },
-  { href: "/document-library", label: "DOCUMENTS" },
-  { href: "/gallery", label: "GALLERY" },
+
   { href: "/news", label: "NEWS" },
-  { href: "/events", label: "EVENTS" },
+
+  {
+    href: "/",
+    label: "MORE",
+    subLinks: [
+      { href: "/document-library", label: "Documents" },
+      { href: "/gallery", label: "Gallery" },
+      { href: "/events", label: "Events" },
+    ],
+  },
 ];

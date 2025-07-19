@@ -31,7 +31,6 @@ export const fetchHomepageData = async (): Promise<HomepageData | null> => {
   try {
     const { data } = await client.query({
       query: HomepageQueries.root,
-      fetchPolicy: "no-cache",
     });
 
     const banner = data.homepage.Banner;

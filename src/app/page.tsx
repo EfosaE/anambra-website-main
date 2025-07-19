@@ -38,7 +38,7 @@ export default async function Home() {
   return (
     <>
       <Hero keywords={search_keywords} />
-      <LightSection backgroundImage={backgroundImage} stats={stats} />
+      <LightSection stats={stats} />
       <NoticeBoard />
       <InterfaceWithGovernment />
       <LatestNews articles={latestArticles} />

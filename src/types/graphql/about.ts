@@ -47,3 +47,20 @@ export type LGAQueryResponse = {
   };
 };
 
+export type ExecutiveCouncilMember = {
+  designation: string;
+  name: string;
+  profile_picture: {
+    url: string;
+    width: number;
+    height: number;
+  } | null; // In case some members have no image
+};
+
+export type AboutData = {
+  executive_council: ExecutiveCouncilMember[];
+};
+
+export type ExecutiveCouncilQueryResponse = {
+  about: AboutData;
+};
