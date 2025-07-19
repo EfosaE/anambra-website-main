@@ -33,9 +33,9 @@ export async function fetchLGAPage(): Promise<LGAQueryResponse | null> {
       fetchPolicy: "no-cache",
     });
 
-    if (process.env.NODE_ENV === "development") {
-      console.log(data.about.lgas);
-    }
+    // if (process.env.NODE_ENV === "development") {
+    //   console.log(data.about.lgas);
+    // }
 
     return data;
   } catch (error) {
@@ -56,9 +56,9 @@ export async function fetchAnsecPage(): Promise<ExecutiveCouncilQueryResponse | 
       fetchPolicy: "no-cache",
     });
 
-    if (process.env.NODE_ENV === "development") {
-      console.log(data.about.executive_council);
-    }
+    // if (process.env.NODE_ENV === "development") {
+    //   console.log(data.about.executive_council);
+    // }
 
     return data;
   } catch (error) {

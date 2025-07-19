@@ -57,7 +57,7 @@ export default async function Anambra() {
       <TopTabs />
       <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
         {/* Sidebar */}
-        <aside className="md:col-span-2 sticky top-24 self-start">
+        <aside className="md:col-span-2 lg:sticky top-24 self-start">
           <div className="flex flex-col border rounded-md overflow-hidden">
             {about.main_page
               .filter((b) => b.__typename === "ComponentSharedRichText")

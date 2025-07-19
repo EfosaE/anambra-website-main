@@ -1,57 +1,68 @@
+import { ApolloError } from "@apollo/client";
 import { HomepageQueries } from "@/lib/graphql/queries/homepage";
 import client from "@/lib/http";
-import { ApolloError } from "@apollo/client";
-
-import { LightSectionData } from "../../types/graphql/homepage.types";
-import { Article } from "@/types/graphql/articles";
+import { FooterQueryResponse, HomepageData } from "@/types/graphql/homepage";
 import { handleError } from "../utils/graphqlHelpers";
 
-export type HomepageData = {
-  Light_Section: LightSectionData;
-  News_Articles_Grid: {
-    news_selection_criteria: "Latest" | "Most Viewed" | "By Tag";
-    selected_category: {
-      name: string;
-      slug: string;
-      description: string;
-      articles: Article[];
-    }[];
-  };
-  FAQ_Section: {
-    faqs: any[];
-  };
-  SearchSection: {
-    search_keywords: {
-      keyword: string;
-    }[];
-  };
-};
-
-export const fetchHomepageData = async (): Promise<HomepageData | null> => {
+export const fetchHomepageData = async (): Promise<
+  HomepageData["homepage"] | null
+> => {
   try {
-    const { data } = await client.query({
-      query: HomepageQueries.root,
-    });
+    const { data } = await client.query<{ homepage: HomepageData["homepage"] }>(
+      {
+        query: HomepageQueries.root,
+      }
+    );
 
-    const banner = data.homepage.Banner;
+    const { homepage } = data;
+
+    // Validate presence of critical fields (optional)
+    if (!homepage.Banner || !homepage.News_Articles_Grid) {
+      console.error("Incomplete homepage data received:", homepage);
+      return null;
+    }
+
+    // console.log(homepage.News_Articles_Grid)
 
     return {
-      Light_Section: {
-        stats: banner.Statistics,
-        backgroundImage: banner.banner_image[0],
-      },
-      News_Articles_Grid: data.homepage.News_Articles_Grid,
-      FAQ_Section: data.homepage.FAQ_Section,
-      SearchSection: {
-        search_keywords: data.homepage.SearchSection.search_keywords,
-      },
+      Banner: homepage.Banner,
+      News_Articles_Grid: homepage.News_Articles_Grid,
+      FAQ_Section: homepage.FAQ_Section,
+      SearchSection: homepage.SearchSection,
     };
   } catch (error) {
     if (error instanceof ApolloError) {
-      handleError(error); // ✅ your clean GraphQL logging
+      handleError(error);
     } else {
       console.error("Unknown error fetching homepage data:", error);
     }
-    return null; // ✅ fallback value to prevent app crash
+    return null;
+  }
+};
+
+export const fetchFooterSection = async (): Promise<
+  FooterQueryResponse["homepage"]["FooterSection"] | null
+> => {
+  try {
+    const { data } = await client.query<{
+      homepage: FooterQueryResponse["homepage"];
+    }>({
+      query: HomepageQueries.footer,
+    });
+
+    console.log("data", data);
+
+    if (!data.homepage) {
+      return null;
+    }
+
+    return data.homepage.FooterSection;
+  } catch (error) {
+    if (error instanceof ApolloError) {
+      handleError(error);
+    } else {
+      console.error("Unknown error fetching footer section:", error);
+    }
+    return null;
   }
 };

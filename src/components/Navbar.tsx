@@ -13,7 +13,9 @@ import { Article } from "@/types/graphql/articles";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [governmentMenuOpen, setGovernmentMenuOpen] = useState(false);
+  // const [governmentMenuOpen, setGovernmentMenuOpen] = useState(false);
+  const [openSubMenu, setOpenSubMenu] = useState<string | null>(null);
+
   const [searchDrawerOpen, setSearchDrawerOpen] = useState(false);
   const pathname = usePathname();
   const [articles, setArticles] = useState<Article[]>([]);
@@ -121,22 +123,30 @@ export default function Navbar() {
           <div className="p-6 space-y-4 pt-20">
             {navLinks.map((link) => (
               <div key={link.href}>
-                {link.label === "GOVERNMENT" ? (
+                {["GOVERNMENT", "MORE"].includes(link.label) ? (
                   <div>
                     <button
-                      className=" text-[#111111] hover:text-[#DA9617] transition text-lg font-medium flex items-center gap-1"
-                      onClick={() => setGovernmentMenuOpen((prev) => !prev)}>
+                      className="text-[#111111] hover:text-[#DA9617] transition text-lg font-medium flex items-center gap-1"
+                      onClick={() =>
+                        setOpenSubMenu((prev) =>
+                          prev === link.label ? null : link.label
+                        )
+                      }>
                       {link.label}
                       <FaChevronDown className="text-xs mt-1" />
                     </button>
-                    {governmentMenuOpen && (
+
+                    {openSubMenu === link.label && (
                       <div className="pl-4 mt-2 bg-[#E9E9E9] rounded-md py-2">
                         {link.subLinks.map((subLink) => (
                           <Link
                             key={subLink.href}
                             href={subLink.href}
                             className="block text-[#111111] hover:text-[#DA9617] transition font-medium px-2 py-1 text-[12px] md:text-[14px]"
-                            onClick={() => setMenuOpen(false)}>
+                            onClick={() => {
+                              setOpenSubMenu(null);
+                              setMenuOpen(false); // close entire menu if needed
+                            }}>
                             {subLink.label}
                           </Link>
                         ))}

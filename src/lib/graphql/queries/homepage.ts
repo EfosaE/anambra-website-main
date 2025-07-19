@@ -5,9 +5,6 @@ export const HomepageQueries = {
     query Homepage {
       homepage {
         documentId
-        createdAt
-        updatedAt
-        publishedAt
         Banner {
           id
           title
@@ -16,14 +13,6 @@ export const HomepageQueries = {
             id
             label
             value
-          }
-          banner_image {
-            alternativeText
-            width
-            url
-            size
-            name
-            height
           }
         }
         FAQ_Section {
@@ -37,6 +26,9 @@ export const HomepageQueries = {
             createdAt
             updatedAt
             publishedAt
+            tags {
+              Name
+            }
             faq_category {
               documentId
               Name
@@ -58,18 +50,6 @@ export const HomepageQueries = {
             updatedAt
             publishedAt
           }
-        }
-        FoterSection {
-          FooterLinks {
-            link
-            name
-          }
-        }
-        Lens_Ease_Section {
-          id
-          lens_section_title
-          lens_section_description
-          lens_section_link
         }
         News_Articles_Grid {
           id
@@ -101,14 +81,19 @@ export const HomepageQueries = {
             }
           }
         }
-        IllustrationSection {
-          id
-          illustration_animation {
-            alternativeText
-            width
-            url
+      }
+    }
+  `,
+
+  footer: gql`
+    query FooterSection {
+      homepage {
+        documentId
+        FooterSection {
+          FooterLinks {
+            link
             name
-            height
+            category
           }
         }
       }

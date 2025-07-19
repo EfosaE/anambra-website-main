@@ -9,9 +9,9 @@ export default function GlobalSearch({ articles }: { articles: Article[] }) {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [query, setQuery] = useState("");
 
-  useEffect(() => {
-    console.log(articles);
-  }, []);
+  // useEffect(() => {
+  //   console.log(articles);
+  // }, []);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();

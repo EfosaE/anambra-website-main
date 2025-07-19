@@ -3,18 +3,9 @@
 import { useRef, useState, useEffect } from "react";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { FAQ } from "@/types/graphql/faq";
 
-type FAQTag = {
-  Name: string;
-  Slug: string;
-};
 
-type FAQ = {
-  documentId: string;
-  question: string;
-  FaqAnswer: any[];
-  tags?: FAQTag[];
-};
 
 type FAQComponentProps = {
   faqs: FAQ[];

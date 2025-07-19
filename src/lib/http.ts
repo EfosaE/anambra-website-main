@@ -11,9 +11,24 @@ const httpLink = new HttpLink({
   },
 });
 
+const cache = new InMemoryCache({
+  typePolicies: {
+    Homepage: {
+      keyFields: ["documentId"],
+      fields: {
+        FooterSection: {
+          merge(existing, incoming) {
+            return incoming || existing;
+          },
+        },
+      },
+    },
+  },
+});
+
 const client = new ApolloClient({
   link: httpLink,
-  cache: new InMemoryCache(),
+  cache,
 });
 
 export default client;

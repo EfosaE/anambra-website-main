@@ -5,44 +5,52 @@ import LatestNews from "@/components/LatestNews";
 import LightSection from "@/components/LightSection";
 import NoticeBoard from "@/components/NoticeBoard";
 import { fetchHomepageData } from "@/lib/clients/homepage.client";
+import { Article } from "@/types/graphql/articles";
+
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const homepage = await fetchHomepageData();
+  const data = await fetchHomepageData();
 
-  const grid = homepage.News_Articles_Grid;
+  if (!data) {
+    return <div>Some Important Data is Missing</div>;
+  }
 
-  let latestArticles: any[] = [];
+  const { FAQ_Section, Banner, SearchSection, News_Articles_Grid } = data;
 
-  if (grid.news_selection_criteria === "Latest") {
-    latestArticles = grid.selected_category
-      .flatMap((category) => {
-        console.log(category.articles);
-        return category.articles.map((article: any) => ({
+  let latestArticles: Article[] = [];
+
+  if (News_Articles_Grid.news_selection_criteria === "Latest") {
+    const seen = new Set<string>();
+
+    latestArticles = News_Articles_Grid.selected_category
+      .flatMap((category) =>
+        category.articles.map((article) => ({
           ...article,
           categoryName: category.name,
-        }));
+        }))
+      )
+      .filter((article) => {
+        const key = article.documentId;
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
       })
       .sort(
         (a, b) =>
-          new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
+          new Date(b.Article_publish_date).getTime() -
+          new Date(a.Article_publish_date).getTime()
       );
   }
 
-  
-
-  const { faqs } = homepage.FAQ_Section;
-  const { backgroundImage, stats } = homepage.Light_Section;
-  const { search_keywords } = homepage.SearchSection;
-
   return (
     <>
-      <Hero keywords={search_keywords} />
-      <LightSection stats={stats} />
+      <Hero keywords={SearchSection.search_keywords} />
+      <LightSection stats={Banner.Statistics} />
       <NoticeBoard />
       <InterfaceWithGovernment />
       <LatestNews articles={latestArticles} />
-      <FAQComponent faqs={faqs} />
+      <FAQComponent faqs={FAQ_Section.faqs} />
     </>
   );
 }
