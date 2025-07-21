@@ -1,25 +1,23 @@
+// graphql/SearchKeywordQueries.ts
 import { gql } from "@apollo/client";
 
 export const SearchKeywordQueries = {
-  root: gql`
-    query FetchSearchKeywords {
-      searchKeywords {
+  byKeyword: gql`
+    query SearchKeywords($filters: SearchKeywordFiltersInput) {
+      searchKeywords(filters: $filters) {
         documentId
         keyword
-        createdAt
-        updatedAt
-        publishedAt
-      }
-    }
-  `,
-  byId: gql`
-    query SearchKeywordById($documentId: ID!) {
-      searchKeyword(documentId: $documentId) {
-        documentId
-        keyword
-        createdAt
-        updatedAt
-        publishedAt
+        articles {
+          title
+        }
+        faqs {
+          question
+          FaqAnswer
+        }
+        services {
+          Name
+          Description
+        }
       }
     }
   `,

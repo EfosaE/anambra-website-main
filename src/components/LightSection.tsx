@@ -43,12 +43,12 @@ export default function LightSection({ stats }: Props) {
       const statsCenter = statsRect.left + statsRect.width / 2;
       const diff = Math.abs(statsCenter - screenCenter);
 
-      console.log({
-        statsCenter,
-        screenCenter,
-        diff,
-        currentTranslateX: currentTranslateX.current,
-      }); // For debugging
+      // console.log({
+      //   statsCenter,
+      //   screenCenter,
+      //   diff,
+      //   currentTranslateX: currentTranslateX.current,
+      // }); // For debugging
 
       // 3. Trigger secondary animations if condition met
       if (diff < 0.8) {

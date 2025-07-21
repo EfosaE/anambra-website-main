@@ -1,12 +1,11 @@
 // app/layout.tsx
-import BackArrow from "@/components/BackArrow";
-import Footer from "@/components/Footer";
-import Navbar from "@/components/Navbar";
 import "./globals.css";
 import { Instrument_Sans, Playfair_Display } from "next/font/google";
-
-
-
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import BackArrow from "@/components/BackArrow";
+import { ModalProvider } from "@/context/modal-context";
+import GlobalSearchDrawer from "@/components/GlobalSearchDrawer";
 
 const instrumentSans = Instrument_Sans({
   subsets: ["latin"],
@@ -47,13 +46,17 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${instrumentSans.variable} ${playfair.variable}`}
-    >
+      className={`${instrumentSans.variable} ${playfair.variable}`}>
       <body className="font-instrument text-body bg-background min-h-screen flex flex-col">
-        <Navbar />
-        <BackArrow />
-        <main className="grow px-0 sm:px-4 md:px-8 py-4">{children}</main>
-        <Footer />
+        <ModalProvider>
+          <Navbar />
+          <BackArrow />
+          <main className="grow px-0 sm:px-4 md:px-8 py-4">{children}</main>
+          <Footer />
+
+          {/* Search Drawer */}
+          <GlobalSearchDrawer />
+        </ModalProvider>
       </body>
     </html>
   );

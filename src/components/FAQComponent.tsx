@@ -173,7 +173,7 @@ export default function FAQComponent({ faqs }: FAQComponentProps) {
                 aria-labelledby={`faq-question-${idx}`}>
                 <p
                   id={`faq-question-${idx}`}
-                  className="text-[14px] sm:text-base md:text-lg text-black mb-2 leading-relaxed cursor-pointer line-clamp-2"
+                  className="text-[14px] sm:text-base md:text-lg text-black mb-2 leading-relaxed cursor-pointer line-clamp-2 underline hover:text-primary"
                   onClick={() => setOpenIndex(openIndex === idx ? null : idx)}>
                   {faq.question?.trim() || "Question not available"}
                 </p>

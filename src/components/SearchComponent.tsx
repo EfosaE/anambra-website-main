@@ -46,7 +46,7 @@ export default function SearchComponent({ keywords }: HeroProps) {
       <div className="flex items-center bg-[#E9E9E9] rounded-[12px] mb-4 w-full max-w-[611px] pl-[4px]">
         <input
           type="text"
-          placeholder="Click any of the tags below to search"
+          placeholder="Enter keywords or phrases or click a button below"
           className="grow bg-transparent px-2 text-[13px] text-gray-800 focus:outline-none placeholder-black"
           style={{ borderRadius: "12px" }}
           onFocus={() => setIsFocused(true)}
@@ -80,7 +80,7 @@ export default function SearchComponent({ keywords }: HeroProps) {
               key={index}
               onClick={fetchRelatedArticles}
               className="cursor-pointer rounded-[8px] shrink-0 h-[36px] px-2.5 border-2 border-black text-black bg-white font-medium hover:bg-gray-100 transition text-[13px]">
-              {keyword.keyword}
+              {keyword.keyword.toUpperCase()}
             </button>
           ))}
         </div>
