@@ -42,7 +42,7 @@ export default function GovTitle() {
       </h1>
 
       <p
-        className={`mt-16 italic text-lg sm:text-xl text-[#3f3f3f]
+        className={`mt-16 italic text-sm md:text-lg text-[#3f3f3f]
  transition-opacity duration-500 ease-in-out ${
    isVisible ? "opacity-100" : "opacity-0"
  }`}>

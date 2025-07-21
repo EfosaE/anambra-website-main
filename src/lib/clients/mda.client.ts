@@ -1,13 +1,23 @@
 // lib/clients/mda.client.ts
-import { MdaQueries } from "@/lib/graphql/queries/mda";
-import client from "@/lib/http";
 import { ApolloError } from "@apollo/client";
-import { handleError } from "../utils/graphqlHelpers";
 
-export const fetchAllMdaCategories = async () => {
+import client from "@/lib/http"; // or your ApolloClient instance
+import { handleError } from "../utils/graphqlHelpers";
+import { MdaQueries } from "../graphql/queries/mda";
+
+
+export const fetchMdaByType = async (typeMda: string) => {
   try {
     const { data } = await client.query({
-      query: MdaQueries.root,
+      query: MdaQueries.byType,
+      // fetchPolicy: "network-only", // Ensure fresh data
+      variables: {
+        filters: {
+          type: {
+            eqi: typeMda, // or whatever MDA type you're targeting
+          },
+        },
+      },
     });
     return data.mdas;
   } catch (error) {

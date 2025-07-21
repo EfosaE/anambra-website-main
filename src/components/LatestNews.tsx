@@ -1,5 +1,6 @@
 import { Article } from "@/types/graphql/articles";
 import Link from "next/link";
+import Image from "next/image";
 
 type LatestNewsProps = {
   articles: Article[];
@@ -20,14 +21,14 @@ export default function LatestNews({ articles }: LatestNewsProps) {
             <article
               key={article.documentId}
               className="space-y-3 bg-white p-5 rounded-md">
-              {/* <div className="w-full h-[217px] overflow-hidden rounded-lg bg-gray-200">
-           
-                <img
-                  src={article.cover.url}
-                  alt={article.title}
-                  className="w-full h-full object-cover"
+              <div className="relative w-full h-[217px] overflow-hidden rounded-lg bg-gray-200 group">
+                <Image
+                  src={article.cover?.url}
+                  alt="Cover photo"
+                  fill
+                  className="object-cover transition-transform duration-300 ease-in-out group-hover:scale-115"
                 />
-              </div> */}
+              </div>
 
               <div className="flex gap-2 px-1">
                 {article.category.name && (
@@ -36,6 +37,7 @@ export default function LatestNews({ articles }: LatestNewsProps) {
                   </p>
                 )}
               </div>
+
               <Link
                 href={`/news/${article.slug}`}
                 className="text-[15px] underline  sm:text-lg font-semibold text-black">

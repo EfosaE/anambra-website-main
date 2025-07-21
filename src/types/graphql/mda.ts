@@ -9,19 +9,22 @@ export interface Mda {
   createdAt: string;
   updatedAt: string;
   publishedAt: string;
+  websitelink?: string;
 
   Officials?: {
-    Contact?: {
-      image?: {
-        file?: {
-          alternativeText?: string;
-          url?: string;
-          width?: number;
-          height?: number;
-        };
-      };
+    designation: string;
+    name: string;
+    Contact: {
+      email: string;
+      phone: string;
     };
   }[];
+
+  MdaContact?: {
+    address: string;
+    email: string;
+    phone: string;
+  }
 
   departments?: {
     name: string;

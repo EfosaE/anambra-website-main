@@ -3,19 +3,24 @@
 import { useState, useEffect } from "react";
 import clsx from "clsx";
 import { fetchAllFaqs } from "@/lib/clients/faq.client";
+import Spinner from "./Spinner";
 
 export default function AllFAQsComponent() {
   const [query, setQuery] = useState("");
   const [sortOption, setSortOption] = useState("");
   const [faqs, setFaqs] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const loadFaqs = async () => {
+      setIsLoading(true);
       try {
         const result = await fetchAllFaqs();
         setFaqs(result);
       } catch (error) {
         console.error("Failed to fetch FAQs:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
     loadFaqs();
@@ -85,28 +90,59 @@ export default function AllFAQsComponent() {
         </select>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredFaqs.map((faq) => (
-          <div
-            key={faq.documentId}
-            className="bg-white border border-gray-300 p-6 rounded-[8px] flex flex-col justify-between"
-            style={{ minHeight: "152px" }}>
-            {/* {faq.FaqAnswer?.map((block: any, i: number) => (
-              <p
-                key={i}
-                className="text-[14px] sm:text-base md:text-lg text-black mb-4"
-              >
-                {block.children?.map((child: any) => child.text).join(" ")}
+      {isLoading ? (
+        <div className="flex items-start justify-center h-64">
+          <Spinner size={40} />
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredFaqs.map((faq) => (
+            <div
+              key={faq.documentId}
+              className="bg-white border border-gray-300 p-6 rounded-[8px] flex flex-col justify-between shadow-sm hover:shadow-md transition-all duration-300"
+              style={{ minHeight: "180px" }}>
+              {/* Question */}
+              <p className="text-[14px] sm:text-base md:text-lg text-black mb-2 font-semibold leading-relaxed">
+                {faq.question?.trim() || "Question not available"}
               </p>
-            ))} */}
-            <p>{faq.question}</p>
-            <div className="flex justify-between mt-auto pt-4 text-[11px] text-blue-600 font-semibold">
-              <span>{faq.faq_category?.Name || "Unknown"}</span>
-              <span>FAQ</span>
+
+              {/* Answer */}
+              <div className="text-sm text-gray-700 leading-relaxed mb-4">
+                {faq.FaqAnswer?.length ? (
+                  faq.FaqAnswer.map((block: any, blockIdx: number) => {
+                    if (block.type === "paragraph") {
+                      return (
+                        <p key={blockIdx} className="mb-2">
+                          {block.children?.map(
+                            (child: any, childIdx: number) => (
+                              <span key={childIdx}>{child.text}</span>
+                            )
+                          )}
+                        </p>
+                      );
+                    }
+                    return null;
+                  })
+                ) : (
+                  <p>Answer not available</p>
+                )}
+              </div>
+
+              {/* Footer */}
+              <div className="flex justify-between mt-auto pt-4 text-[11px] text-blue-600 font-semibold">
+                <span>{faq.faq_category?.Name?.trim() || "General"}</span>
+                <span>FAQ</span>
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
+
+      {!isLoading && filteredFaqs.length === 0 && (
+        <div className="text-center py-12 text-gray-500">
+          No FAQs match your criteria.
+        </div>
+      )}
     </section>
   );
 }

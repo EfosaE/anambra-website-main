@@ -11,7 +11,7 @@ export async function fetchAboutPage(): Promise<AboutQueryResponse | null> {
     const { data } = await client.query<{ about: AboutQueryResponse["about"] }>(
       {
         query: aboutQueries.root,
-        fetchPolicy: "no-cache",
+        // fetchPolicy: "no-cache",
       }
     );
     // console.log(data.about);
@@ -30,7 +30,7 @@ export async function fetchLGAPage(): Promise<LGAQueryResponse | null> {
   try {
     const { data } = await client.query<{ about: LGAQueryResponse["about"] }>({
       query: lgaQueries.root,
-      fetchPolicy: "no-cache",
+      // fetchPolicy: "no-cache",
     });
 
     // if (process.env.NODE_ENV === "development") {
@@ -53,7 +53,7 @@ export async function fetchAnsecPage(): Promise<ExecutiveCouncilQueryResponse | 
   try {
     const { data } = await client.query<{ about: ExecutiveCouncilQueryResponse["about"] }>({
       query: ansecQueries.root,
-      fetchPolicy: "no-cache",
+      // fetchPolicy: "no-cache",
     });
 
     // if (process.env.NODE_ENV === "development") {

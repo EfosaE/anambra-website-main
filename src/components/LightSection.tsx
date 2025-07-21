@@ -107,7 +107,7 @@ export default function LightSection({ stats }: Props) {
                 <p className="text-xl font-bold text-black lg:text-3xl">
                   {stat.value}
                 </p>
-                <p className="text-sm text-gray-700">{stat.label}</p>
+                <p className="text-sm md:text-base text-gray-700">{stat.label}</p>
               </div>
             ))}
           </div>

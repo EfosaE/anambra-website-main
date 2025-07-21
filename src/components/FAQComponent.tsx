@@ -4,8 +4,8 @@ import { useRef, useState, useEffect } from "react";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { FAQ } from "@/types/graphql/faq";
-
-
+import clsx from "clsx";
+import FAQModal from "./FAQModal";
 
 type FAQComponentProps = {
   faqs: FAQ[];
@@ -13,14 +13,17 @@ type FAQComponentProps = {
 
 export default function FAQComponent({ faqs }: FAQComponentProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [selectedFaq, setSelectedFaq] = useState<FAQ | null>(null);
+
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
   const [isScrolling, setIsScrolling] = useState(false);
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   // Check scroll position and update arrow visibility
   const checkScrollPosition = () => {
     if (!scrollRef.current) return;
-    
+
     const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
     setCanScrollLeft(scrollLeft > 10); // Small threshold for better UX
     setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
@@ -29,16 +32,16 @@ export default function FAQComponent({ faqs }: FAQComponentProps) {
   // Initialize scroll position check
   useEffect(() => {
     checkScrollPosition();
-    
+
     const scrollElement = scrollRef.current;
     if (scrollElement) {
-      scrollElement.addEventListener('scroll', checkScrollPosition);
+      scrollElement.addEventListener("scroll", checkScrollPosition);
       // Also check on resize
       const resizeObserver = new ResizeObserver(checkScrollPosition);
       resizeObserver.observe(scrollElement);
-      
+
       return () => {
-        scrollElement.removeEventListener('scroll', checkScrollPosition);
+        scrollElement.removeEventListener("scroll", checkScrollPosition);
         resizeObserver.disconnect();
       };
     }
@@ -46,13 +49,13 @@ export default function FAQComponent({ faqs }: FAQComponentProps) {
 
   const scroll = (direction: "left" | "right") => {
     if (!scrollRef.current || isScrolling) return;
-    
+
     setIsScrolling(true);
     const container = scrollRef.current;
     const cardWidth = 360; // min-width of each card
     const gap = 24; // gap-6 = 24px
     const scrollAmount = cardWidth + gap;
-    
+
     container.scrollBy({
       left: direction === "left" ? -scrollAmount : scrollAmount,
       behavior: "smooth",
@@ -63,8 +66,11 @@ export default function FAQComponent({ faqs }: FAQComponentProps) {
   };
 
   // Handle keyboard navigation
-  const handleKeyDown = (e: React.KeyboardEvent, direction: "left" | "right") => {
-    if (e.key === 'Enter' || e.key === ' ') {
+  const handleKeyDown = (
+    e: React.KeyboardEvent,
+    direction: "left" | "right"
+  ) => {
+    if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
       scroll(direction);
     }
@@ -94,7 +100,7 @@ export default function FAQComponent({ faqs }: FAQComponentProps) {
               FAQs
             </h2>
           </div>
-          
+
           <div className="flex justify-center px-4 md:px-8">
             <div className="w-full max-w-[360px] bg-white border border-gray-300 p-6 rounded-[8px] flex flex-col justify-between min-h-[152px]">
               <p className="text-[14px] sm:text-base md:text-lg text-black mb-8">
@@ -110,8 +116,7 @@ export default function FAQComponent({ faqs }: FAQComponentProps) {
           <div className="text-center mt-8 py-8 md:py-7 px-4">
             <Link
               href="/faq"
-              className="inline-flex items-center px-6 py-2 rounded-md bg-white border border-gray-700 text-gray-700 text-sm font-semibold leading-6 hover:bg-gray-300 transition"
-            >
+              className="inline-flex items-center px-6 py-2 rounded-md bg-white border border-gray-700 text-gray-700 text-sm font-semibold leading-6 hover:bg-gray-300 transition">
               View All FAQs
               <img
                 src="/images/arrowup.png"
@@ -143,8 +148,7 @@ export default function FAQComponent({ faqs }: FAQComponentProps) {
               onKeyDown={(e) => handleKeyDown(e, "left")}
               className="absolute -left-8 top-1/2 transform -translate-y-1/2 z-10 p-2 rounded-full hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
               aria-label="Scroll left"
-              disabled={isScrolling}
-            >
+              disabled={isScrolling}>
               <ChevronLeft className="w-5 h-5 text-black" />
             </button>
           )}
@@ -154,22 +158,52 @@ export default function FAQComponent({ faqs }: FAQComponentProps) {
             ref={scrollRef}
             className="flex overflow-x-auto scrollbar-none gap-6 px-4 md:px-8 py-2 scroll-smooth"
             role="region"
-            aria-label="FAQ carousel"
-          >
+            aria-label="FAQ carousel">
             {faqs.map((faq, idx) => (
               <div
-                key={`${faq.documentId}-${idx}`} // More robust key
-                className="min-w-[360px] bg-white border border-gray-300 p-6 rounded-[8px] flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow"
-                style={{ minHeight: "152px" }}
+                key={`${faq.documentId}-${idx}`}
+                className={clsx(
+                  "min-w-[360px] bg-white border border-gray-300 p-6 rounded-[8px] flex flex-col justify-between shadow-sm hover:shadow-md transition-all duration-300 ease-in-out",
+                  {
+                    "h-[180px] overflow-hidden": openIndex !== idx,
+                    "h-auto": openIndex === idx,
+                  }
+                )}
                 role="article"
-                aria-labelledby={`faq-question-${idx}`}
-              >
-                <p 
+                aria-labelledby={`faq-question-${idx}`}>
+                <p
                   id={`faq-question-${idx}`}
-                  className="text-[14px] sm:text-base md:text-lg text-black mb-8 leading-relaxed"
-                >
+                  className="text-[14px] sm:text-base md:text-lg text-black mb-2 leading-relaxed cursor-pointer line-clamp-2"
+                  onClick={() => setOpenIndex(openIndex === idx ? null : idx)}>
                   {faq.question?.trim() || "Question not available"}
                 </p>
+
+                {openIndex === idx && (
+                  <div className="text-sm leading-relaxed mb-6 text-gray-700">
+                    <div className="line-clamp-3">
+                      {faq.FaqAnswer?.length ? (
+                        faq.FaqAnswer.map((block, blockIdx) => {
+                          if (block.type === "paragraph") {
+                            return block.children?.map((child, childIdx) => (
+                              <span key={childIdx}>{child.text}</span>
+                            ));
+                          }
+                          return null;
+                        })
+                      ) : (
+                        <p>Answer not available</p>
+                      )}
+                    </div>
+
+                    <div className="mt-2">
+                      <button
+                        onClick={() => setSelectedFaq(faq)}
+                        className="text-[#DA9617] hover:underline text-xs font-medium">
+                        Read more →
+                      </button>
+                    </div>
+                  </div>
+                )}
 
                 <div className="flex justify-between mt-auto pt-4 text-[11px] text-blue-600 font-semibold">
                   <span className="truncate mr-2">
@@ -188,8 +222,7 @@ export default function FAQComponent({ faqs }: FAQComponentProps) {
               onKeyDown={(e) => handleKeyDown(e, "right")}
               className="absolute -right-4 top-1/2 transform -translate-y-1/2 z-10 p-2 rounded-full hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
               aria-label="Scroll right"
-              disabled={isScrolling}
-            >
+              disabled={isScrolling}>
               <ChevronRight className="w-5 h-5 text-black" />
             </button>
           )}
@@ -199,8 +232,7 @@ export default function FAQComponent({ faqs }: FAQComponentProps) {
         <div className="text-center mt-8 py-8 md:py-7 px-4">
           <Link
             href="/faq"
-            className="inline-flex items-center px-6 py-2 rounded-md bg-white border border-gray-700 text-gray-700 text-sm font-semibold leading-6 hover:bg-gray-300 transition focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
+            className="inline-flex items-center px-6 py-2 rounded-md bg-white border border-gray-700 text-gray-700 text-sm font-semibold leading-6 hover:bg-gray-300 transition focus:outline-none focus:ring-2 focus:ring-blue-500">
             View All FAQs
             <img
               src="/images/arrowup.png"
@@ -211,6 +243,9 @@ export default function FAQComponent({ faqs }: FAQComponentProps) {
           </Link>
         </div>
       </div>
+      {selectedFaq && (
+        <FAQModal faq={selectedFaq} onClose={() => setSelectedFaq(null)} />
+      )}
     </section>
   );
 }

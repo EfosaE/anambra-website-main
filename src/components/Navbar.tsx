@@ -61,9 +61,9 @@ export default function Navbar() {
 
           {/* Desktop Nav */}
           <div className="hidden md:flex flex-1 justify-center space-x-6 ml-20 text-sm">
-            {navLinks.map((link) =>
+            {navLinks.map((link, idx) =>
               link.label === "GOVERNMENT" || link.label === "MORE" ? (
-                <div key={link.href} className="relative group">
+                <div key={`${link.href}-${idx}`} className="relative group">
                   <button className="text-[#111111] hover:text-[#DA9617] transition flex items-center gap-1">
                     {link.label}
                     <FaChevronDown className="text-xs mt-1" />
@@ -121,8 +121,8 @@ export default function Navbar() {
             }
           )}>
           <div className="p-6 space-y-4 pt-20">
-            {navLinks.map((link) => (
-              <div key={link.href}>
+            {navLinks.map((link, idx) => (
+              <div key={`${link.href}-${idx}`}>
                 {["GOVERNMENT", "MORE"].includes(link.label) ? (
                   <div>
                     <button
