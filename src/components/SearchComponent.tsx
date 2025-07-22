@@ -1,19 +1,42 @@
 // SearchComponent.tsx
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useTypingPlaceholder } from "./useTypingPlaceholder";
 import { useMultiTypingPlaceholder } from "./useMultiTypingPlaceholder";
 import { HeroProps } from "./Hero";
 
-function fetchRelatedArticles () {
-  
-}
+import { useRouter } from "next/navigation";
+import { useModal } from "@/context/modal-context";
 
 export default function SearchComponent({ keywords }: HeroProps) {
+  const router = useRouter();
+  const { isOpen, openModal } = useModal();
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [query, setQuery] = useState("");
   const [isFocused, setIsFocused] = useState(false);
+
+  // Handle modal opening from URL
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const q = params.get("q");
+    console.log(q, "from useEffect");
+
+    if (q) {
+      setQuery(q);
+      openModal(); // Automatically open modal
+    }
+  }, []);
+
+  function fetchRelatedContent(query: string) {
+    console.log("called!!!", query);
+    const params = new URLSearchParams(window.location.search);
+    params.set("q", query);
+    router.push(`?${params.toString()}`);
+
+    openModal();
+  }
 
   const animatedPlaceholder = useMultiTypingPlaceholder({
     texts: [
@@ -46,14 +69,21 @@ export default function SearchComponent({ keywords }: HeroProps) {
       <div className="flex items-center bg-[#E9E9E9] rounded-[12px] mb-4 w-full max-w-[611px] pl-[4px]">
         <input
           type="text"
-          placeholder="Enter keywords or phrases or click a button below"
+          placeholder='Type keywords like "pay tax", or use the buttons below'
           className="grow bg-transparent px-2 text-[13px] text-gray-800 focus:outline-none placeholder-black"
           style={{ borderRadius: "12px" }}
+          value={query}
+          onChange={(e) => {
+            setQuery(e.target.value);
+          }}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
         />
 
-        <button className="text-gray-600 hover:text-black transition text-xl pr-[7px]">
+        <button
+          className="text-gray-600 hover:text-black transition text-xl pr-[7px] disabled:opacity-50 disabled:cursor-not-allowed"
+          disabled={query.trim().length < 2}
+          onClick={() => fetchRelatedContent(query)}>
           <img
             src="/images/searchicon.png"
             alt="Search"
@@ -78,7 +108,10 @@ export default function SearchComponent({ keywords }: HeroProps) {
           {keywords.map((keyword, index) => (
             <button
               key={index}
-              onClick={fetchRelatedArticles}
+              onClick={() => {
+                setQuery(keyword.keyword.toLowerCase());
+                fetchRelatedContent(keyword.keyword.toLowerCase());
+              }}
               className="cursor-pointer rounded-[8px] shrink-0 h-[36px] px-2.5 border-2 border-black text-black bg-white font-medium hover:bg-gray-100 transition text-[13px]">
               {keyword.keyword.toUpperCase()}
             </button>

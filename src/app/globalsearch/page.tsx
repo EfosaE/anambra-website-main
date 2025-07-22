@@ -100,14 +100,14 @@ export default function GlobalSearchPage() {
       </div>
 
       {/* Bottom Link with 748px width */}
-      <div className="flex justify-center w-full max-w-[748px] mx-auto mt-6">
+      {/* <div className="flex justify-center w-full max-w-[748px] mx-auto mt-6">
         <a
           href="#"
           className="text-blue-600 hover:underline text-sm font-semibold"
         >
           See More Results
         </a>
-      </div>
+      </div> */}
     </section>
   );
 }

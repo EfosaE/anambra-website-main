@@ -43,17 +43,15 @@ function Card({ item }: { item: Article | FAQ | Service }) {
   if ("title" in item) {
     // Article
     return (
-      <div className="border rounded-xl overflow-hidden shadow-sm p-4 bg-white hover:shadow-md transition-shadow cursor-pointer">
-        <img
-          src={item.cover?.url}
-          alt={item.cover?.alternativeText || item.title}
-          className="w-full h-40 object-cover mb-3 rounded"
-        />
-        <h3 className="font-bold text-lg">{item.title}</h3>
+      <div className="border rounded-xl overflow-hidden shadow-sm p-4 bg-white hover:shadow-md transition-shadow cursor-pointer flex flex-col">
+        <h3 className="font-bold text-lg underline">{item.title}</h3>
         <p className="text-sm text-gray-600 line-clamp-2 mt-1">
           {item.description}
         </p>
-        <div className="text-xs text-gray-500 mt-2">{item.category?.name}</div>
+
+        <div className="text-xs md:text-base  text-golden mt-auto">
+          <p>From Article</p>
+        </div>
       </div>
     );
   }
@@ -61,13 +59,14 @@ function Card({ item }: { item: Article | FAQ | Service }) {
   if ("question" in item) {
     // FAQ
     return (
-      <div className="border rounded-xl overflow-hidden shadow-sm p-4 bg-white hover:shadow-md transition-shadow cursor-pointer">
-        <h3 className="font-bold text-lg">{item.question}</h3>
+      <div className="border rounded-xl overflow-hidden shadow-sm p-4 bg-white hover:shadow-md transition-shadow cursor-pointer flex flex-col">
+        <h3 className="font-bold text-lg underline">{item.question}</h3>
         <p className="text-sm text-gray-600 mt-1">
           {item.FaqAnswer?.[0]?.children?.[0]?.text?.slice(0, 120)}...
         </p>
-        <div className="text-xs text-gray-500 mt-2">
-          {item.faq_category?.Name}
+
+        <div className="text-xs md:text-base text-golden mt-aut0">
+          <p>From FAQs</p>
         </div>
       </div>
     );
@@ -76,13 +75,16 @@ function Card({ item }: { item: Article | FAQ | Service }) {
   if ("Name" in item && "Description" in item) {
     // Service
     return (
-      <div className="border rounded-xl overflow-hidden shadow-sm p-4 bg-white hover:shadow-md transition-shadow cursor-pointer">
-        <h3 className="font-bold text-lg">{item.Name}</h3>
-        <p className="text-sm text-gray-600 mt-1 line-clamp-2">
+      <div className="border rounded-xl overflow-hidden shadow-sm p-4 bg-white hover:shadow-md transition-shadow cursor-pointer flex flex-col">
+        <h3 className="font-bold text-lg underline">{item.Name}</h3>
+        <p className="text-sm text-gray-600 mt-1 line-clamp-3">
           {item.Description}
         </p>
-        <div className="text-xs text-gray-500 mt-2">
+        {/* <div className="text-xs text-gray-500 mt-2">
           {item.email || item.phone || item.WebsiteLink || "No contact info"}
+        </div> */}
+        <div className="text-xs md:text-base text-golden mt-auto">
+          <p>From Service</p>
         </div>
       </div>
     );

@@ -9,6 +9,7 @@ import SearchResultGrid, { SearchResultWrapper } from "./SearchResultGrid";
 export default function GlobalSearch({ query }: { query: string }) {
   const [result, setResult] = useState<SearchResultWrapper[] | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     console.log("RESULT", result);
@@ -17,28 +18,40 @@ export default function GlobalSearch({ query }: { query: string }) {
   useEffect(() => {
     const delayDebounce = setTimeout(() => {
       const search = async () => {
-        setIsLoading(true); // ✅ Trigger loading after debounce delay
+        setIsLoading(true);
 
-        console.log("query", query);
-        if (query.trim().length >= 2) {
-          const data = await fetchContentBySearchKeyword(query);
-          setResult(data);
-        } else {
-          setResult(null);
+        try {
+          console.log("query", query);
+
+          if (query.trim().length >= 2) {
+            const data = await fetchContentBySearchKeyword(query);
+            setResult(data);
+          } else {
+            setResult(null);
+          }
+        } catch (error) {
+          setError(error);
+          console.error("Search failed:", error);
+          // Optional: display an error message to the user
+          setResult(null); // Or set to [] if you prefer
+        } finally {
+          setIsLoading(false);
         }
-
-        setIsLoading(false); // ✅ Always stop loading
       };
 
       search();
-    }, 400); // debounce delay
+    }, 400);
 
     return () => clearTimeout(delayDebounce);
   }, [query]);
 
   return (
     <section className="max-w-7xl mx-auto px-4 py-4">
-      {isLoading ? (
+      {error ? (
+        <div className="text-center text-red-500 py-12">
+          An error occurred while fetching search results. Please try again.
+        </div>
+      ) : isLoading ? (
         <div className="flex justify-center items-center py-12">
           <div className="w-6 h-6 border-2 border-t-transparent border-gray-500 rounded-full animate-spin" />
         </div>
