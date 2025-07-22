@@ -21,7 +21,7 @@ export const HomepageQueries = {
           faqs {
             documentId
             question
-            faq_Published_Date
+            publishedAt
             FaqAnswer
             createdAt
             updatedAt

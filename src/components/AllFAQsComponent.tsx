@@ -33,13 +33,13 @@ export default function AllFAQsComponent() {
       if (sortOption === "za") return b.question.localeCompare(a.question);
       if (sortOption === "newest")
         return (
-          new Date(b.faq_Published_Date).getTime() -
-          new Date(a.faq_Published_Date).getTime()
+          new Date(b.publishedAt).getTime() -
+          new Date(a.publishedAt).getTime()
         );
       if (sortOption === "oldest")
         return (
-          new Date(a.faq_Published_Date).getTime() -
-          new Date(b.faq_Published_Date).getTime()
+          new Date(a.publishedAt).getTime() -
+          new Date(b.publishedAt).getTime()
         );
       return 0;
     });

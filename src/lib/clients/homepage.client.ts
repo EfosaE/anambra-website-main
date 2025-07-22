@@ -11,6 +11,7 @@ export const fetchHomepageData = async (): Promise<
     const { data } = await client.query<{ homepage: HomepageData["homepage"] }>(
       {
         query: HomepageQueries.root,
+        // fetchPolicy: "no-cache"
       }
     );
 
@@ -50,7 +51,7 @@ export const fetchFooterSection = async (): Promise<
       query: HomepageQueries.footer,
     });
 
-    console.log("data", data);
+    // console.log("data", data);
 
     if (!data.homepage) {
       return null;

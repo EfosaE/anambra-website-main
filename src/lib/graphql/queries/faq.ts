@@ -6,7 +6,7 @@ export const FaqQueries = {
       faqs {
         documentId
         question
-        # faq_Published_Date
+        # publishedAt
         FaqAnswer
         createdAt
         updatedAt
@@ -23,7 +23,7 @@ export const FaqQueries = {
       faq(documentId: $documentId) {
         documentId
         question
-        # faq_Published_Date
+        # publishedAt
         FaqAnswer
         createdAt
         updatedAt

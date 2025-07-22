@@ -1,7 +1,7 @@
 export type FAQ = {
   documentId: string;
   question: string;
-  // faq_Published_Date: string;
+  // publishedAt: string;
   FaqAnswer: RichTextNode[];
   createdAt: string;
   updatedAt: string;
