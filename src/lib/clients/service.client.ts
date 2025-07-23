@@ -4,6 +4,7 @@ import { serviceQueries } from "@/lib/graphql/queries/service";
 import { CategoryQueries } from "../graphql/queries/category";
 import { ApolloError } from "@apollo/client";
 import { handleError } from "../utils/graphqlHelpers";
+import { Service } from "@/types/graphql/service";
 
 export const fetchAllServices = async () => {
   try {
@@ -19,11 +20,11 @@ export const fetchAllServices = async () => {
   }
 };
 
-export const fetchServiceById = async (id: string) => {
+export const fetchServiceById = async (id: string): Promise<Service | null> => {
   try {
     const { data } = await client.query({
       query: serviceQueries.byId,
-      variables: { id },
+      variables: { documentId: id },
     });
     return data.service;
   } catch (error) {

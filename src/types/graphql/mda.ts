@@ -1,6 +1,7 @@
 // types/graphql/mda.ts
 
 export interface Mda {
+  __typename: "Mda";
   documentId: string;
   name: string;
   Slug: string;

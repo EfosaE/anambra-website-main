@@ -1,4 +1,5 @@
 export type FAQ = {
+  __typename: "FAQ";
   documentId: string;
   question: string;
   // publishedAt: string;

@@ -1,4 +1,5 @@
 export type Service = {
+  __typename: "Service";
   Name: string;
   Description: string;
   documentId: string;

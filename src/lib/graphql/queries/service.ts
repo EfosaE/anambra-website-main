@@ -34,12 +34,15 @@ export const serviceQueries = {
     }
   `,
   byId: gql`
-    query FetchServiceById($id: String!) {
-      service(documentId: $id) {
+    query Service($documentId: ID!) {
+      service(documentId: $documentId) {
         documentId
         Name
         Description
         ServicesDetails
+        WebsiteLink
+        email
+        phone
         createdAt
         updatedAt
         publishedAt

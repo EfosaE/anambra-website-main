@@ -8,13 +8,19 @@ export const SearchKeywordQueries = {
         documentId
         keyword
         articles {
+          __typename
+          documentId
           title
         }
         faqs {
+          __typename
+          documentId
           question
           FaqAnswer
         }
         services {
+          __typename
+          documentId
           Name
           Description
         }

@@ -1,5 +1,5 @@
 export interface Article {
-  __typename: string;
+  __typename: "Article";
   documentId: string;
   title: string;
   slug: string;

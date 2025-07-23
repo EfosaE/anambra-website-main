@@ -11,9 +11,9 @@ export default function GlobalSearch({ query }: { query: string }) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    console.log("RESULT", result);
-  }, [result]);
+  // useEffect(() => {
+  //   console.log("RESULT", result);
+  // }, [result]);
 
   useEffect(() => {
     const delayDebounce = setTimeout(() => {
@@ -22,7 +22,7 @@ export default function GlobalSearch({ query }: { query: string }) {
         setIsLoading(true);
 
         try {
-          console.log("query", query);
+          // console.log("query", query);
 
           if (query.trim().length >= 2) {
             const data = await fetchContentBySearchKeyword(query);
