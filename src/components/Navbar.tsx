@@ -10,28 +10,22 @@ import { FiSearch } from "react-icons/fi";
 import { fetchAllArticles } from "@/lib/clients/articles.client";
 import { Article } from "@/types/graphql/articles";
 import { useModal } from "@/context/modal-context";
+import { GlobalQueryResponse } from "@/types/graphql/global";
 
-export default function Navbar() {
+export default function Navbar({
+  icon,
+}: {
+  icon: GlobalQueryResponse["global"]["favicon"];
+}) {
+  // const cmsBaseUrl = "https://cms.anambrastate.gov.ng"; // adjust to your real domain
+  // const logoUrl = icon?.url ? `${cmsBaseUrl}${icon.url}` : "/images/logo.png";
+  console.log(icon.url);
   const [menuOpen, setMenuOpen] = useState(false);
-  // const [governmentMenuOpen, setGovernmentMenuOpen] = useState(false);
   const [openSubMenu, setOpenSubMenu] = useState<string | null>(null);
 
   const { openModal } = useModal();
   const pathname = usePathname();
-  const [articles, setArticles] = useState<Article[]>([]);
 
-  useEffect(() => {
-    const getArticles = async () => {
-      try {
-        const fetched = await fetchAllArticles();
-        setArticles(fetched);
-      } catch (err) {
-        console.error("Failed to fetch articles:", err);
-      }
-    };
-
-    getArticles();
-  }, []);
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
@@ -51,7 +45,7 @@ export default function Navbar() {
           <div className="flex justify-center w-full md:w-auto">
             <Link href="/">
               <Image
-                src="/images/logo.png"
+                src={icon?.url?.trim() ? icon.url : "/images/logo.png"}
                 alt="Anambra Logo"
                 width={54.27}
                 height={54.27}

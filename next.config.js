@@ -1,7 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    // For Next.js 13+ (App Router)
     remotePatterns: [
       {
         protocol: 'https',
@@ -9,9 +8,15 @@ const nextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'cms.anambrastate.gov.ng', 
+        port: '',
+        pathname: '/uploads/**', // adjust path if needed
+      },
     ],
   },
-  reactStrictMode: true
-}
+  reactStrictMode: true,
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

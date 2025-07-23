@@ -1,6 +1,7 @@
 // app/news/[slug]/page.tsx
 import RelatedNews from "@/components/news/RelatedNews";
 import { fetchArticleBySlug } from "@/lib/clients/articles.client";
+import { marked } from "marked";
 import { notFound } from "next/navigation";
 
 export default async function NewsDetailPage({
@@ -39,14 +40,36 @@ export default async function NewsDetailPage({
         <img
           src={article.cover.url}
           alt={article.cover.alternativeText || article.title}
-          className="w-full rounded-lg mb-8"
+          className="w-full max-h-96 rounded-lg mb-8"
         />
       )}
 
-      {/* Content */}
       <article className="prose prose-lg">
         <p>{article.description}</p>
-        {/* If you have rich text or full body field, render it here */}
+
+        {article.blocks?.map((block, idx) => {
+          switch (block.__typename) {
+            case "ComponentSharedRichText":
+            case "ComponentSharedQuote":
+              return (
+                <div
+                  key={idx}
+                  dangerouslySetInnerHTML={{ __html: marked.parse(block.body) }}
+                />
+              );
+
+            case "ComponentSharedMedia":
+              if (block.file)
+                return (
+                  <figure key={idx}>
+                    <img src={block.file.url} alt={`media-${idx}`} />
+                  </figure>
+                );
+
+            default:
+              return null;
+          }
+        })}
       </article>
 
       {/* Related News */}

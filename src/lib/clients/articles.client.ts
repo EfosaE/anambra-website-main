@@ -3,6 +3,7 @@ import { articleQueries } from "@/lib/graphql/queries/articles";
 import client from "@/lib/http";
 import { handleError } from "../utils/graphqlHelpers";
 import { ApolloError } from "@apollo/client";
+import { Article } from "@/types/graphql/articles";
 
 // export const fetchAllArticles = async () => {
 //   const { data } = await client.query({ query: articleQueries.all });
@@ -16,7 +17,6 @@ import { ApolloError } from "@apollo/client";
 //   });
 //   return data.articles[0];
 // };
-
 
 export const fetchAllArticles = async () => {
   try {
@@ -32,7 +32,7 @@ export const fetchAllArticles = async () => {
   }
 };
 
-export const fetchArticleBySlug = async (slug: string) => {
+export const fetchArticleBySlug = async (slug: string): Promise<Article> => {
   try {
     const { data } = await client.query({
       query: articleQueries.bySlug,

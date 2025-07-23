@@ -2,14 +2,21 @@ import { gql } from "@apollo/client";
 
 export const GlobalQueries = {
   root: gql`
-    query FetchGlobal {
-      global {
+    query Global($status: PublicationStatus) {
+      global(status: $status) {
         documentId
         siteName
+        favicon {
+          url
+          name
+          height
+          width
+        }
         siteDescription
-        createdAt
-        updatedAt
-        publishedAt
+        defaultSeo {
+          metaDescription
+          metaTitle
+        }
       }
     }
   `,

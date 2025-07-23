@@ -3,7 +3,7 @@
   align-items: center;
   justify-content: center;
   position: absolute;
-  top: 150px;
+  top: 50px;
   left: 0;
   width: 100vw;
   /* Keep this if you want CSS to define the initial off-screen state, */
@@ -20,16 +20,11 @@
 /* 📱 Mobile: push it down a bit more */
 @media (max-width: 640px) {
   .wrapper {
-    top: 280px; /* adjust as needed */
+    top: 120px; /* adjust as needed */
   }
 }
 
-/* DELETE OR COMMENT OUT THIS ENTIRE BLOCK: */
-/* @keyframes moveIn { */
-/* to { */
-/* transform: translateX(0); */
-/* } */
-/* } */
+
 
 .stats {
   display: flex;

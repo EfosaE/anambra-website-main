@@ -18,6 +18,7 @@ export default function GlobalSearch({ query }: { query: string }) {
   useEffect(() => {
     const delayDebounce = setTimeout(() => {
       const search = async () => {
+        setError(null);
         setIsLoading(true);
 
         try {

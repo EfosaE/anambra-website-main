@@ -39,7 +39,7 @@ export const articleQueries = {
   `,
   bySlug: gql`
     query FetchArticleBySlug($slug: String!) {
-      articles(filters: { slug: { eq: $slug } }) {
+      articles(filters: { slug: { eqi: $slug } }) {
         title
         description
         Article_publish_date
@@ -50,25 +50,18 @@ export const articleQueries = {
         tags {
           Name
         }
-        cover {
-          documentId
-          name
-          alternativeText
-          caption
-          width
-          height
-          formats
-          hash
-          ext
-          mime
-          size
-          url
-          previewUrl
-          provider
-          provider_metadata
-          createdAt
-          updatedAt
-          publishedAt
+        blocks {
+          ... on ComponentSharedRichText {
+            body
+          }
+          ... on ComponentSharedMedia {
+            file {
+              url
+            }
+          }
+          ... on ComponentSharedQuote {
+            body
+          }
         }
       }
     }

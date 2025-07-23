@@ -33,7 +33,7 @@ export default async function Footer() {
   }
   const grouped = groupLinksByCategory(footerData.FooterLinks);
 
-  console.log(grouped);
+  // console.log(grouped);
 
   return (
     <footer className="relative text-white pt-12 mt-16">

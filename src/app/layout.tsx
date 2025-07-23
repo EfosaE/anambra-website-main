@@ -4,6 +4,8 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { ModalProvider } from "@/context/modal-context";
 import ClientSearchDrawerWrapper from "@/components/ClientSearchDrawerWrapper";
+import { fetchGlobalData } from "@/lib/clients/global.client";
+import { Metadata } from "next/types";
 
 const instrumentSans = Instrument_Sans({
   subsets: ["latin"],
@@ -19,35 +21,65 @@ const playfair = Playfair_Display({
   display: "swap",
 });
 
-export const metadata = {
-  title: {
-    default: "Anambra State Government",
-    template: "%s | Anambra State Government",
-  },
-  description: "Official platform for the Anambra State Government",
-  metadataBase: new URL("https://anambrastate.gov.ng/"),
-  openGraph: {
-    title: "Anambra State Government",
-    description: "Empowering citizens through digital access",
-    siteName: "Anambra State Government",
-    type: "website",
-    locale: "en_NG",
-    url: "https://anambrastate.gov.ng/",
-  },
-};
+// export const metadata = {
+//   title: {
+//     default: "Anambra State Government",
+//     template: "%s | Anambra State Government",
+//   },
+//   description: "Official platform for the Anambra State Government",
+//   metadataBase: new URL("https://anambrastate.gov.ng/"),
+//   openGraph: {
+//     title: "Anambra State Government",
+//     description: "Empowering citizens through digital access",
+//     siteName: "Anambra State Government",
+//     type: "website",
+//     locale: "en_NG",
+//     url: "https://anambrastate.gov.ng/",
+//   },
+// };
+export async function generateMetadata(): Promise<Metadata> {
+  const data = await fetchGlobalData();
+  const seo = data?.defaultSeo;
+  const favicon = data?.favicon?.url;
 
-export default function RootLayout({
+  return {
+    title: {
+      default: seo?.metaTitle || "Anambra State Government",
+      template: `%s | ${data?.siteName || "Anambra State Government"}`,
+    },
+    description:
+      seo?.metaDescription ||
+      "Official platform for the Anambra State Government",
+    metadataBase: new URL("https://anambrastate.gov.ng/"),
+    openGraph: {
+      title: seo?.metaTitle || "Anambra State Government",
+      description:
+        seo?.metaDescription || "Empowering citizens through digital access",
+      siteName: data?.siteName || "Anambra State Government",
+      type: "website",
+      locale: "en_NG",
+      url: "https://anambrastate.gov.ng/",
+    },
+    icons: {
+      icon: favicon ? `${favicon}` : "/favicon.ico",
+    },
+  };
+}
+
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const data = await fetchGlobalData();
+  console.log(data);
   return (
     <html
       lang="en"
       className={`${instrumentSans.variable} ${playfair.variable}`}>
       <body className="font-instrument text-body bg-background min-h-screen flex flex-col">
         <ModalProvider>
-          <Navbar />
+          <Navbar icon={data.favicon} />
           {/* <BackArrow /> */}
           <main className="grow px-0 sm:px-4 md:px-8 py-4">{children}</main>
           <Footer />

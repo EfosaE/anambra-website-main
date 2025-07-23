@@ -89,9 +89,9 @@ export default function LightSection({ stats }: Props) {
     <section>
       <div
         className="
-    w-full h-[120vh] flex items-start justify-center relative overflow-hidden
-    bg-[url('/images/light-bg-sm.svg')] 
-    sm:bg-[url('/images/illustration.svg')]
+    w-full h-[86vh] flex items-start justify-center relative overflow-hidden
+    bg-[url('/images/mobile-illustration.svg')] 
+    sm:bg-[url('/images/desktop-illustration.svg')]
     bg-cover bg-center bg-no-repeat
   ">
         {/* Moving Wrapper */}
@@ -107,7 +107,9 @@ export default function LightSection({ stats }: Props) {
                 <p className="text-xl font-bold text-black lg:text-3xl">
                   {stat.value}
                 </p>
-                <p className="text-sm md:text-base text-gray-700">{stat.label}</p>
+                <p className="text-sm md:text-base text-gray-700">
+                  {stat.label}
+                </p>
               </div>
             ))}
           </div>
