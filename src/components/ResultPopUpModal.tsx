@@ -5,7 +5,8 @@ import { FAQ } from "@/types/graphql/faq";
 import { Mda } from "@/types/graphql/mda";
 import { Service } from "@/types/graphql/service";
 import { X } from "lucide-react";
-import ServiceDetails from "./ServiceDetails";
+import ServiceDetails from "./services/ServiceDetails";
+import FAQDetails from "./faq/FAQDetails";
 
 type ResultModalProps = {
   item: Article | FAQ | Service | Mda;
@@ -13,6 +14,8 @@ type ResultModalProps = {
 };
 
 export default function ResultPopUpModal({ item, onClose }: ResultModalProps) {
+  console.log("Modal item type:", item.__typename, item); // ✅ debug here
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/35 overflow-auto py-10">
       <div className="relative bg-white w-full max-w-2xl rounded-lg shadow-lg p-6 mx-4">
@@ -23,25 +26,8 @@ export default function ResultPopUpModal({ item, onClose }: ResultModalProps) {
         </button>
 
         {/* FAQ Block */}
-        {item.__typename === "FAQ" && (
-          <>
-            <h2 className="text-lg font-semibold mb-4">{item.question}</h2>
-            <div className="text-gray-700 text-sm space-y-2">
-              {item.FaqAnswer?.map((block, idx) =>
-                block.type === "paragraph" ? (
-                  <p key={idx}>
-                    {block.children?.map((child, childIdx) => (
-                      <span key={childIdx}>{child.text}</span>
-                    ))}
-                  </p>
-                ) : null
-              )}
-            </div>
-            <div className="mt-6 flex justify-between text-[11px] text-blue-600 font-semibold">
-              <span>{item.tags?.[0]?.Name || "General"}</span>
-              <span>FAQ</span>
-            </div>
-          </>
+        {item.__typename === "Faq" && (
+          <FAQDetails faq={item} isOpen={true}/>
         )}
 
         {/* Article Block */}

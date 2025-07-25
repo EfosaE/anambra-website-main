@@ -3,6 +3,9 @@
 
 import { X } from "lucide-react";
 import { FAQ } from "@/types/graphql/faq";
+import FAQDetails from "./faq/FAQDetails";
+import { useEffect } from "react";
+// import FAQCard from "./faq/FAQDetails";
 
 type FAQModalProps = {
   faq: FAQ;
@@ -10,6 +13,10 @@ type FAQModalProps = {
 };
 
 export default function FAQModal({ faq, onClose }: FAQModalProps) {
+  useEffect(() => {
+    console.log(faq);
+  }, [faq]);
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/35">
       <div className="relative bg-white w-full max-w-xl rounded-lg shadow-lg p-6 mx-4">
@@ -21,10 +28,12 @@ export default function FAQModal({ faq, onClose }: FAQModalProps) {
         </button>
 
         {/* Question */}
-        <h2 className="text-lg font-semibold mb-4">{faq.question}</h2>
+        {/* <h2 className="text-lg font-semibold mb-4">{faq.question}</h2> */}
+
+        <FAQDetails faq={faq} isOpen={true}/>
 
         {/* Answer */}
-        <div className="text-gray-700 text-sm space-y-2">
+        {/* <div className="text-gray-700 text-sm space-y-2">
           {faq.FaqAnswer?.map((block, idx) => {
             if (block.type === "paragraph") {
               return (
@@ -37,13 +46,13 @@ export default function FAQModal({ faq, onClose }: FAQModalProps) {
             }
             return null;
           })}
-        </div>
+        </div> */}
 
         {/* Tags / Footer */}
-        <div className="mt-6 flex justify-between text-[11px] text-blue-600 font-semibold">
+        {/* <div className="mt-6 flex justify-between text-[11px] text-blue-600 font-semibold">
           <span>{faq.tags?.[0]?.Name || "General"}</span>
           <span>FAQ</span>
-        </div>
+        </div> */}
       </div>
     </div>
   );

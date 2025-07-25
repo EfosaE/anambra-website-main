@@ -1,5 +1,5 @@
 export type FAQ = {
-  __typename: "FAQ";
+  __typename: "Faq";
   documentId: string;
   question: string;
   // publishedAt: string;
@@ -19,6 +19,7 @@ export type FAQ = {
     updatedAt: string;
     publishedAt: string;
   };
+  Action: { name: string; url: string } | null;
 };
 
 export type RichTextNode = {

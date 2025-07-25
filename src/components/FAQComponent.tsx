@@ -6,6 +6,8 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { FAQ } from "@/types/graphql/faq";
 import clsx from "clsx";
 import FAQModal from "./FAQModal";
+import FAQDetails from "./faq/FAQDetails";
+// import FAQCard from "./faq/FAQDetails";
 
 type FAQComponentProps = {
   faqs: FAQ[];
@@ -95,7 +97,7 @@ export default function FAQComponent({ faqs }: FAQComponentProps) {
     return (
       <section className="px-4 md:px-20 py-16">
         <div className="max-w-[1201px] mx-auto">
-          <div className="text-center mb-10">
+          {/* <div className="text-center mb-10">
             <h2 className="text-[28px] sm:text-3xl md:text-[40px] font-bold text-black">
               FAQs
             </h2>
@@ -111,7 +113,7 @@ export default function FAQComponent({ faqs }: FAQComponentProps) {
                 <span>FAQ</span>
               </div>
             </div>
-          </div>
+          </div> */}
 
           <div className="text-center mt-8 py-8 md:py-7 px-4">
             <Link
@@ -160,58 +162,13 @@ export default function FAQComponent({ faqs }: FAQComponentProps) {
             role="region"
             aria-label="FAQ carousel">
             {faqs.map((faq, idx) => (
-              <div
-                key={`${faq.documentId}-${idx}`}
-                className={clsx(
-                  "min-w-[360px] bg-white border border-gray-300 p-6 rounded-[8px] flex flex-col justify-between shadow-sm hover:shadow-md transition-all duration-300 ease-in-out",
-                  {
-                    "h-[180px] overflow-hidden": openIndex !== idx,
-                    "h-auto": openIndex === idx,
-                  }
-                )}
-                role="article"
-                aria-labelledby={`faq-question-${idx}`}>
-                <p
-                  id={`faq-question-${idx}`}
-                  className="text-[14px] sm:text-base md:text-lg text-black mb-2 leading-relaxed cursor-pointer line-clamp-2 underline hover:text-primary"
-                  onClick={() => setOpenIndex(openIndex === idx ? null : idx)}>
-                  {faq.question?.trim() || "Question not available"}
-                </p>
-
-                {openIndex === idx && (
-                  <div className="text-sm leading-relaxed mb-6 text-gray-700">
-                    <div className="line-clamp-3">
-                      {faq.FaqAnswer?.length ? (
-                        faq.FaqAnswer.map((block, blockIdx) => {
-                          if (block.type === "paragraph") {
-                            return block.children?.map((child, childIdx) => (
-                              <span key={childIdx}>{child.text}</span>
-                            ));
-                          }
-                          return null;
-                        })
-                      ) : (
-                        <p>Answer not available</p>
-                      )}
-                    </div>
-
-                    <div className="mt-2">
-                      <button
-                        onClick={() => setSelectedFaq(faq)}
-                        className="text-[#DA9617] hover:underline text-xs font-medium">
-                        Read more →
-                      </button>
-                    </div>
-                  </div>
-                )}
-
-                <div className="flex justify-between mt-auto pt-4 text-[11px] text-blue-600 font-semibold">
-                  <span className="truncate mr-2">
-                    {faq.tags?.[0]?.Name?.trim() || "General"}
-                  </span>
-                  <span>FAQ</span>
-                </div>
-              </div>
+              <FAQDetails
+                key={faq.documentId}
+                faq={faq}
+                isOpen={true}
+                onToggle={() => setOpenIndex(openIndex === idx ? null : idx)}
+                onReadMore={() => setSelectedFaq(faq)}
+              />
             ))}
           </div>
 

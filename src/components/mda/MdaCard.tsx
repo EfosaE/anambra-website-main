@@ -44,7 +44,7 @@ export default function MdaCard({ mda }: { mda: Mda }) {
           <img
             src="/images/icons/ministries.svg"
             alt="Icon"
-            className="w-10 h-10 shrink-0"
+            className="w-10 h-7 shrink-0"
           />
           <h4 className="text-base font-semibold leading-tight">{mda.name}</h4>
         </div>

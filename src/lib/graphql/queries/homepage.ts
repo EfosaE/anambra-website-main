@@ -23,6 +23,10 @@ export const HomepageQueries = {
             question
             publishedAt
             FaqAnswer
+            Action {
+              name
+              url
+            }
             createdAt
             updatedAt
             publishedAt

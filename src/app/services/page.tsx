@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useQuery, gql } from "@apollo/client";
 import ServiceCard from "@/components/services/servicecard";
-import { fetchServiceCategories } from "@/lib/clients/service.client";
 
 type ServiceCategory = {
   Name: string;
@@ -11,31 +11,32 @@ type ServiceCategory = {
   Description: string;
 };
 
+const FETCH_SERVICE_CATEGORIES = gql`
+  query ServiceCategories {
+    serviceCategories {
+      documentId
+      Name
+      Slug
+      Description
+      createdAt
+      updatedAt
+      publishedAt
+    }
+  }
+`;
+
 export default function ServicesPage() {
   const [query, setQuery] = useState("");
-  const [categories, setCategories] = useState<ServiceCategory[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const loadCategories = async () => {
-      try {
-        const result = await fetchServiceCategories();
-        setCategories(result);
-      } catch (err: any) {
-        console.error("Failed to fetch categories:", err);
-        setError("Failed to load service categories.");
-      } finally {
-        setLoading(false);
-      }
-    };
+  const { data, loading, error } = useQuery<{
+    serviceCategories: ServiceCategory[];
+  }>(FETCH_SERVICE_CATEGORIES);
 
-    loadCategories();
-  }, []);
+  const categories = data?.serviceCategories ?? [];
 
-  if (loading)
-    return <p className="text-center mt-20 text-[13px]">Loading...</p>;
-  if (error) return <p className="text-center mt-20 text-[13px]">{error}</p>;
+  const filtered = categories.filter((cat) =>
+    cat.Name.toLowerCase().includes(query.toLowerCase())
+  );
 
   return (
     <main className="max-w-7xl mx-auto px-4 pt-[50px] pb-20">
@@ -69,13 +70,16 @@ export default function ServicesPage() {
         </form>
       </div>
 
-      {/* Grid of Service Categories */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
-        {categories
-          .filter((category) =>
-            category.Name.toLowerCase().includes(query.toLowerCase())
-          )
-          .map((category) => (
+      {/* Result State */}
+      {loading ? (
+        <p className="text-center mt-10 text-[13px]">Loading services...</p>
+      ) : error ? (
+        <p className="text-center mt-10 text-[13px] text-red-500">
+          Failed to load service categories.
+        </p>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
+          {filtered.map((category) => (
             <ServiceCard
               key={category.documentId}
               title={category.Name}
@@ -83,7 +87,8 @@ export default function ServicesPage() {
               description={category.Description}
             />
           ))}
-      </div>
+        </div>
+      )}
     </main>
   );
 }

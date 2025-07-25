@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useParams, useSearchParams } from "next/navigation";
+import { useParams, useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { fetchAllServices } from "@/lib/clients/service.client";
 import { fetchAllFaqs } from "@/lib/clients/faq.client";
@@ -11,14 +11,18 @@ const TABS = ["All", "Services", "FAQ"];
 export default function ServiceDetailPage() {
   const { slug } = useParams();
   const searchParams = useSearchParams();
+  const router = useRouter();
+
   const tabParam = searchParams.get("tab");
 
   const [activeTab, setActiveTab] = useState("Services");
   const [query, setQuery] = useState("");
-  const [services, setServices] = useState([]);
-  const [faqs, setFaqs] = useState([]);
+  const [services, setServices] = useState<any[]>([]);
+  const [faqs, setFaqs] = useState<any[]>([]);
 
   useEffect(() => {
+    if (!slug) return;
+
     const loadData = async () => {
       try {
         const [allServices, allFaqs] = await Promise.all([
@@ -26,22 +30,18 @@ export default function ServiceDetailPage() {
           fetchAllFaqs(),
         ]);
 
-        const slugStr = slug?.toString().toLowerCase();
+        const slugStr = slug.toString().toLowerCase();
 
-        const matchedServices = allServices.filter(
-          (s) => s.service_category?.Slug?.toLowerCase() === slugStr
+        setServices(
+          allServices.filter(
+            (s) => s.service_category?.Slug?.toLowerCase() === slugStr
+          )
         );
-
-        const matchedFaqs = allFaqs.filter(
-          (faq) => faq.faq_category?.Slug?.toLowerCase() === slugStr
+        setFaqs(
+          allFaqs.filter(
+            (faq) => faq.faq_category?.Slug?.toLowerCase() === slugStr
+          )
         );
-
-        console.log("Slug:", slugStr);
-        console.log("Matched Services:", matchedServices);
-        console.log("Matched FAQs:", matchedFaqs);
-
-        setServices(matchedServices);
-        setFaqs(matchedFaqs);
       } catch (err) {
         console.error("Error fetching services/faqs:", err);
       }
@@ -53,6 +53,7 @@ export default function ServiceDetailPage() {
   useEffect(() => {
     const validTab = TABS.map((t) => t.toLowerCase());
     const cleanTab = tabParam?.toLowerCase();
+
     if (cleanTab && validTab.includes(cleanTab)) {
       setActiveTab(
         TABS.find((t) => t.toLowerCase() === cleanTab) || "Services"
@@ -64,23 +65,23 @@ export default function ServiceDetailPage() {
 
   const heading =
     services[0]?.service_category?.Name ??
-    slug
-      ?.toString()
-      .replace(/-/g, " ")
-      .replace(/\b\w/g, (c) => c.toUpperCase()) ??
+    slug?.toString().replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()) ??
     "Service";
 
-  const filteredServices = services.filter((service) =>
-    service.Name?.toLowerCase().includes(query.toLowerCase())
+  const filteredServices = services.filter((s) =>
+    s.Name?.toLowerCase().includes(query.toLowerCase())
   );
 
   const filteredFaqs = faqs.filter((faq) =>
     faq.question?.toLowerCase().includes(query.toLowerCase())
   );
 
+  const showServices = activeTab === "All" || activeTab === "Services";
+  const showFaqs = activeTab === "All" || activeTab === "FAQ";
+
   const renderTabContent = () => {
-    const showServices = activeTab === "All" || activeTab === "Services";
-    const showFaqs = activeTab === "All" || activeTab === "FAQ";
+    const noResults = showServices && filteredServices.length === 0 &&
+                      showFaqs && filteredFaqs.length === 0;
 
     return (
       <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -128,13 +129,21 @@ export default function ServiceDetailPage() {
             </div>
           ))}
 
-        {showFaqs && filteredFaqs.length === 0 && (
+        {noResults && (
           <p className="col-span-full text-center text-[13px] text-gray-500">
-            No FAQs found for this category.
+            No services or FAQs found for this category.
           </p>
         )}
       </div>
     );
+  };
+
+  // Update tab in URL when user clicks a tab
+  const handleTabClick = (tab: string) => {
+    setActiveTab(tab);
+    const current = new URLSearchParams(Array.from(searchParams.entries()));
+    current.set("tab", tab.toLowerCase());
+    router.push(`?${current.toString()}`);
   };
 
   return (
@@ -150,7 +159,7 @@ export default function ServiceDetailPage() {
           className="flex items-center bg-[#E9E9E9] rounded-[12px] w-full max-w-[529px] px-[7px]">
           <input
             type="text"
-            placeholder="Search Services..."
+            placeholder={`Search ${activeTab === "FAQ" ? "FAQs" : "Services"}...`}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             className="grow bg-transparent text-[13px] text-gray-800 focus:outline-none pl-[7px]"
@@ -174,7 +183,7 @@ export default function ServiceDetailPage() {
           {TABS.map((tab) => (
             <button
               key={tab}
-              onClick={() => setActiveTab(tab)}
+              onClick={() => handleTabClick(tab)}
               className={`flex-1 h-full text-sm sm:text-base font-semibold transition duration-200 border-b-2 ${
                 activeTab === tab
                   ? "text-black border-black"

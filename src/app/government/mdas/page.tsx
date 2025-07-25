@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import clsx from "clsx";
 import Spinner from "@/components/Spinner";
-import MdaCard from "@/components/MdaCard";
+import MdaCard from "@/components/mda/MdaCard";
 import { Mda } from "@/types/graphql/mda";
 import { fetchMdaByType } from "@/lib/clients/mda.client";
 
