@@ -10,8 +10,8 @@ const ExecutiveCouncil = async () => {
   const { executive_council } = data.about;
 
   return (
-    <>
-      <h2 className="text-2xl font-bold mb-4">ANSG Executive Council.</h2>
+    <main className="mx-auto container py-4">
+      <h2 className="text-2xl font-bold my-4 text-center">ANSG Executive Council.</h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-4">
         {executive_council.map((member) => {
@@ -38,7 +38,7 @@ const ExecutiveCouncil = async () => {
           );
         })}
       </div>
-    </>
+    </main>
   );
 };
 

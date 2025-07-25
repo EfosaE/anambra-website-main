@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import clsx from "clsx";
 
 const sections = [
@@ -13,52 +13,66 @@ const sections = [
 export default function HeadingSection() {
   const [selectedSection, setSelectedSection] = useState("Overview");
 
+  useEffect(() => {
+    console.log(selectedSection);
+  }, [selectedSection]);
+
+  // const handleScrollTo = (id: string) => {
+  //   setSelectedSection(id);
+  //   const el = document.getElementById(id);
+  //   if (el) {
+  //     el.scrollIntoView({ behavior: "smooth", block: "start" });
+  //   }
+  // };
+
   const handleScrollTo = (id: string) => {
     setSelectedSection(id);
     const el = document.getElementById(id);
     if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "start" });
+      const yOffset = -120; // Adjust this value to match your sticky header height
+      const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: y, behavior: "smooth" });
     }
   };
 
   return (
-    <div className="w-full py-4">
-      {/* Heading */}
-      <div className="max-w-[1200px] mx-auto px-4 mb-[24px] pt-[50px] sm:px-6 lg:px-8 text-center">
+    <>
+      {/* Heading - Normal document flow */}
+      <div className="max-w-[1200px] mx-auto px-4 mb-6 pt-[50px] sm:px-6 lg:px-8 text-center">
         <h1 className="text-[30px] sm:text-[40px] font-bold text-black">
           Guide to Starting Business in Anambra state
         </h1>
       </div>
 
-      {/* Stretch background nav */}
-      <div className="w-full bg-[#F0F0F0] overflow-x-auto scrollbar-none">
-        <div className="max-w-[1200px] mx-auto flex justify-center gap-4 px-4 sm:px-6 lg:px-8 min-w-max whitespace-nowrap">
-          {sections.map((section) =>
-            section === "Submit Survey" ? (
-              <button
-                key={section}
-                onClick={() => handleScrollTo(section.replace(/\s+/g, ""))}
-                className="text-[14px] font-semibold bg-black text-white rounded-[8px] px-4 h-[40px] flex items-center"
-              >
-                {section}
-              </button>
-            ) : (
-              <button
-                key={section}
-                onClick={() => handleScrollTo(section.replace(/\s+/g, ""))}
-                className={clsx(
-                  "text-[14px] font-semibold px-4 h-[40px] flex items-center rounded-[8px] transition",
-                  selectedSection === section
-                    ? "bg-gray-300 text-black"
-                    : "text-black hover:bg-gray-200"
-                )}
-              >
-                {section}
-              </button>
-            )
-          )}
+      {/* Sticky nav - Will stick when it reaches top: 0 */}
+      <div className="sticky top-20 z-50 bg-orange-100 shadow-sm">
+        <div className="overflow-x-auto scrollbar-hide">
+          <div className="max-w-[1200px] mx-auto flex justify-center gap-4 px-4 sm:px-6 lg:px-8 py-2 min-w-max">
+            {sections.map((section) =>
+              section === "Submit Survey" ? (
+                <button
+                  key={section}
+                  onClick={() => handleScrollTo(section.replace(/\s+/g, ""))}
+                  className="text-[14px] font-semibold bg-golden/75 text-white rounded-[4px] px-4 h-[40px] flex items-center hover:bg-golden transition-colors duration-200 cursor-pointer whitespace-nowrap">
+                  {section}
+                </button>
+              ) : (
+                <button
+                  key={section}
+                  onClick={() => handleScrollTo(section)}
+                  className={clsx(
+                    "group text-[14px] font-semibold px-4 h-[40px] flex items-center transition-all duration-200 border-b-4 whitespace-nowrap",
+                    selectedSection === section
+                      ? "border-golden text-black"
+                      : "border-transparent text-black/75 hover:text-black hover:border-golden"
+                  )}>
+                  {section}
+                </button>
+              )
+            )}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

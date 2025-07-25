@@ -4,7 +4,7 @@ import TabbedStepsSection from "./MDA/TabbedStepsSection";
 
 export default function MdaProcessesSection() {
   return (
-    <section id="MDAProcesses" className="w-full mt-[20px]">
+    <section id="MDA Processes" className="w-full mt-[20px] overflow-hidden">
       <div className="w-full pt-[68px] px-4">
         <div className="flex items-center w-full">
           <div className="flex-1 h-px bg-[#B3B0AD]" />

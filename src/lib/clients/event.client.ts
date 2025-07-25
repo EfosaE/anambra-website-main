@@ -2,7 +2,7 @@
 import { EventQueries } from "@/lib/graphql/queries/event";
 import client from "@/lib/http";
 import { ApolloError } from "@apollo/client";
-import { handleError } from "../utils/graphqlHelpers";
+import { logApolloError } from "../utils/graphqlHelpers";
 
 export const fetchAllEvents = async () => {
   try {
@@ -12,7 +12,7 @@ export const fetchAllEvents = async () => {
     return data.events;
   } catch (error) {
     if (error instanceof ApolloError) {
-      handleError(error);
+      logApolloError(error);
     } else {
       console.error("Unknown error fetching events:", error);
     }
@@ -29,7 +29,7 @@ export const fetchEventBySlug = async (slug: string) => {
     return data.events[0];
   } catch (error) {
     if (error instanceof ApolloError) {
-      handleError(error);
+      logApolloError(error);
     } else {
       console.error("Unknown error fetching event by slug:", error);
     }
@@ -48,7 +48,7 @@ export const fetchEventById = async (documentId: string) => {
     return data.event;
   } catch (error) {
     if (error instanceof ApolloError) {
-      handleError(error);
+      logApolloError(error);
     } else {
       console.error("Unknown error fetching event by id:", error);
     }

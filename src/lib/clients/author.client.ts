@@ -2,7 +2,7 @@
 import { AuthorQueries } from "@/lib/graphql/queries/author";
 import client from "@/lib/http";
 import { ApolloError } from "@apollo/client";
-import { handleError } from "../utils/graphqlHelpers";
+import { logApolloError } from "../utils/graphqlHelpers";
 
 export const fetchAllAuthors = async () => {
   try {
@@ -12,7 +12,7 @@ export const fetchAllAuthors = async () => {
     return data.authors;
   } catch (error) {
     if (error instanceof ApolloError) {
-      handleError(error);
+      logApolloError(error);
     } else {
       console.error("Unknown error fetching authors:", error);
     }
@@ -29,7 +29,7 @@ export const fetchAuthorById = async (documentId: string) => {
     return data.author;
   } catch (error) {
     if (error instanceof ApolloError) {
-      handleError(error);
+      logApolloError(error);
     } else {
       console.error("Unknown error fetching author by id:", error);
     }

@@ -11,18 +11,15 @@ import ContactSection from "@/components/business/ContactSection";
 
 export default function BusinessPage() {
   return (
-    <>
-      {/* HeadingSection without container wrapper */}
+    <main>
       <HeadingSection />
-
-      {/* Container for rest of content */}
-      {/* <div className="w-full"> */}
-      <OverviewSection />
-      <StimulatorsSection />
-      <RequirementsSection />
-      <MdaProcessesSection />
-      <ContactSection />
-      {/* </div> */}
-    </>
+      <div className="container mx-auto">
+        <OverviewSection />
+        <StimulatorsSection />
+        <RequirementsSection />
+        <MdaProcessesSection />
+        <ContactSection />
+      </div>
+    </main>
   );
 }

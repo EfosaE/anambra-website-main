@@ -50,7 +50,7 @@ export default async function Anambra() {
   }
 
   return (
-    <section className="max-w-7xl mx-auto px-4 py-10">
+    <main className="max-w-7xl mx-auto px-4 py-10">
       <h2 className="mt-[50px] mb-[70px] text-[40px] font-bold text-black text-center">
         {about.title}
       </h2>
@@ -249,6 +249,6 @@ export default async function Anambra() {
           })}
         </div>
       </div>
-    </section>
+    </main>
   );
 }

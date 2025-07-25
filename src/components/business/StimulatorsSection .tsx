@@ -36,7 +36,7 @@ export default function StimulatorsSection() {
   };
 
   return (
-    <section id="BusinessStimulators" className="w-full mt-[28px]">
+    <section id="Business Stimulators" className="w-full mt-[28px]">
       {/* Full-width heading */}
       <div className="w-full py-[70px] px-4">
         <div className="flex items-center w-full">

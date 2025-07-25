@@ -2,7 +2,7 @@
 import { TagQueries } from "@/lib/graphql/queries/tag";
 import client from "@/lib/http";
 import { ApolloError } from "@apollo/client";
-import { handleError } from "../utils/graphqlHelpers";
+import { logApolloError } from "../utils/graphqlHelpers";
 
 export const fetchAllTags = async () => {
   try {
@@ -12,7 +12,7 @@ export const fetchAllTags = async () => {
     return data.tags;
   } catch (error) {
     if (error instanceof ApolloError) {
-      handleError(error);
+      logApolloError(error);
     } else {
       console.error("Unknown error fetching tags:", error);
     }
@@ -29,7 +29,7 @@ export const fetchTagById = async (documentId: string) => {
     return data.tag;
   } catch (error) {
     if (error instanceof ApolloError) {
-      handleError(error);
+      logApolloError(error);
     } else {
       console.error("Unknown error fetching tag by id:", error);
     }

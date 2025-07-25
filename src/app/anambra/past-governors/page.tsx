@@ -43,7 +43,7 @@ const governors = [
 
 const PastGovernors = () => {
   return (
-    <section className="max-w-7xl mx-auto px-4 py-10">
+    <main className="max-w-7xl mx-auto px-4 py-10">
       <h2 className="mt-[50px] mb-[70px] text-3xl font-bold text-black text-center">
         Past Governors of Anambra
       </h2>
@@ -77,7 +77,7 @@ const PastGovernors = () => {
           </div>
         ))}
       </div>
-    </section>
+    </main>
   );
 };
 

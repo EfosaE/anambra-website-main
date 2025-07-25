@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useQuery, gql } from "@apollo/client";
 import ServiceCard from "@/components/services/servicecard";
+import Spinner from "@/components/Spinner";
 
 type ServiceCategory = {
   Name: string;
@@ -72,7 +73,7 @@ export default function ServicesPage() {
 
       {/* Result State */}
       {loading ? (
-        <p className="text-center mt-10 text-[13px]">Loading services...</p>
+        <Spinner  size={40} position="top"/>
       ) : error ? (
         <p className="text-center mt-10 text-[13px] text-red-500">
           Failed to load service categories.

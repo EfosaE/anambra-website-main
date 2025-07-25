@@ -2,7 +2,7 @@
 import { DepartmentQueries } from "@/lib/graphql/queries/department";
 import client from "@/lib/http";
 import { ApolloError } from "@apollo/client";
-import { handleError } from "../utils/graphqlHelpers";
+import { logApolloError } from "../utils/graphqlHelpers";
 
 export const fetchAllDepartments = async () => {
   try {
@@ -12,7 +12,7 @@ export const fetchAllDepartments = async () => {
     return data.departments;
   } catch (error) {
     if (error instanceof ApolloError) {
-      handleError(error);
+      logApolloError(error);
     } else {
       console.error("Unknown error fetching departments:", error);
     }
@@ -29,7 +29,7 @@ export const fetchDepartmentById = async (documentId: string) => {
     return data.department;
   } catch (error) {
     if (error instanceof ApolloError) {
-      handleError(error);
+      logApolloError(error);
     } else {
       console.error("Unknown error fetching department by id:", error);
     }

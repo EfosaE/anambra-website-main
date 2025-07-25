@@ -2,7 +2,7 @@ import { ApolloError } from "@apollo/client";
 import { HomepageQueries } from "@/lib/graphql/queries/homepage";
 import client from "@/lib/http";
 import { FooterQueryResponse, HomepageData } from "@/types/graphql/homepage";
-import { handleError } from "../utils/graphqlHelpers";
+import { logApolloError } from "../utils/graphqlHelpers";
 
 export const fetchHomepageData = async (): Promise<
   HomepageData["homepage"] | null
@@ -33,7 +33,7 @@ export const fetchHomepageData = async (): Promise<
     };
   } catch (error) {
     if (error instanceof ApolloError) {
-      handleError(error);
+      logApolloError(error);
     } else {
       console.error("Unknown error fetching homepage data:", error);
     }
@@ -60,7 +60,7 @@ export const fetchFooterSection = async (): Promise<
     return data.homepage.FooterSection;
   } catch (error) {
     if (error instanceof ApolloError) {
-      handleError(error);
+      logApolloError(error);
     } else {
       console.error("Unknown error fetching footer section:", error);
     }

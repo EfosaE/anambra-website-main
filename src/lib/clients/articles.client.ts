@@ -1,7 +1,7 @@
 //lib/clients/article.client.ts
 import { articleQueries } from "@/lib/graphql/queries/articles";
 import client from "@/lib/http";
-import { handleError } from "../utils/graphqlHelpers";
+import { logApolloError } from "../utils/graphqlHelpers";
 import { ApolloError } from "@apollo/client";
 import { Article } from "@/types/graphql/articles";
 
@@ -24,7 +24,7 @@ export const fetchAllArticles = async () => {
     return data.articles;
   } catch (error) {
     if (error instanceof ApolloError) {
-      handleError(error);
+      logApolloError(error);
     } else {
       console.error("Unknown error fetching articles:", error);
     }
@@ -41,7 +41,7 @@ export const fetchArticleBySlug = async (slug: string): Promise<Article> => {
     return data.articles[0];
   } catch (error) {
     if (error instanceof ApolloError) {
-      handleError(error);
+      logApolloError(error);
     } else {
       console.error("Unknown error fetching article by slug:", error);
     }

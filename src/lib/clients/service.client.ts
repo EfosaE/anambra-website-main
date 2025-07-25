@@ -3,7 +3,7 @@ import client from "@/lib/http";
 import { serviceQueries } from "@/lib/graphql/queries/service";
 import { CategoryQueries } from "../graphql/queries/category";
 import { ApolloError } from "@apollo/client";
-import { handleError } from "../utils/graphqlHelpers";
+import { logApolloError } from "../utils/graphqlHelpers";
 import { Service } from "@/types/graphql/service";
 
 export const fetchAllServices = async () => {
@@ -12,7 +12,7 @@ export const fetchAllServices = async () => {
     return data.services;
   } catch (error) {
     if (error instanceof ApolloError) {
-      handleError(error);
+      logApolloError(error);
     } else {
       console.error("Unknown error fetching services:", error);
     }
@@ -29,7 +29,7 @@ export const fetchServiceById = async (id: string): Promise<Service | null> => {
     return data.service;
   } catch (error) {
     if (error instanceof ApolloError) {
-      handleError(error);
+      logApolloError(error);
     } else {
       console.error("Unknown error fetching service by id:", error);
     }
@@ -43,7 +43,7 @@ export const fetchServiceCategories = async () => {
     return data.serviceCategories;
   } catch (error) {
     if (error instanceof ApolloError) {
-      handleError(error);
+      logApolloError(error);
     } else {
       console.error("Unknown error fetching service categories:", error);
     }
@@ -60,7 +60,7 @@ export const fetchCategoryById = async (documentId: string) => {
     return data.category;
   } catch (error) {
     if (error instanceof ApolloError) {
-      handleError(error);
+      logApolloError(error);
     } else {
       console.error("Unknown error fetching category by id:", error);
     }

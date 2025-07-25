@@ -1,44 +1,47 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import clsx from "clsx";
 import Spinner from "@/components/Spinner";
 import MdaCard from "@/components/mda/MdaCard";
 import { Mda } from "@/types/graphql/mda";
-import { fetchMdaByType } from "@/lib/clients/mda.client";
+import { useQuery } from "@apollo/client";
+import { MdaQueries } from "@/lib/graphql/queries/mda";
+import { logApolloError } from "@/lib/utils/graphqlHelpers";
+import ErrorWithRetry from "@/components/ErrorWithRetry";
 
 const categories = ["Ministry", "Agency"];
 
 export default function MdasPage() {
   const [selectedCategory, setSelectedCategory] = useState("Ministry");
-  const [isLoading, setIsLoading] = useState(false);
   const [query, setQuery] = useState("");
-  const [mdas, setMdas] = useState<Mda[] | null>(null);
 
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        setIsLoading(true);
-        const data = await fetchMdaByType(selectedCategory);
-        setMdas(data);
-      } catch (error) {
-        console.error("Failed to fetch MDAs:", error);
-        setMdas([]);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    getData();
-  }, [selectedCategory]);
+  const { data, loading, error, refetch } = useQuery<{
+    mdas: Mda[];
+  }>(MdaQueries.byType, {
+    variables: {
+      filters: {
+        type: {
+          eqi: selectedCategory,
+        },
+      },
+    },
+  });
+
+  if (error) {
+    logApolloError(error);
+  }
+
+  const allMdas = data?.mdas || [];
 
   const filteredMdas = query.trim()
-    ? (mdas ?? []).filter((mda) =>
+    ? allMdas.filter((mda) =>
         mda.name.toLowerCase().includes(query.toLowerCase())
       )
-    : mdas;
+    : allMdas;
 
   return (
-    <section className="max-w-7xl mx-auto px-4 py-10">
+    <main className="max-w-7xl mx-auto px-4 py-10">
       <div className="text-center mb-8">
         <h2 className="mt-[50px] text-[30px] md:text-[40px] font-bold text-black">
           MDAs
@@ -85,11 +88,15 @@ export default function MdasPage() {
       </div>
 
       {/* Cards or Spinner or No Results */}
-      {isLoading ? (
-        <div className="flex items-center justify-center h-64">
-          <Spinner size={40} />
-        </div>
-      ) : !filteredMdas ? null : filteredMdas.length === 0 ? (
+      {loading ? (
+        <Spinner size={40} position="top" />
+      ) : error ? (
+        <ErrorWithRetry
+          error={error}
+          onRetry={() => refetch()}
+          message="Failed to load MDAs"
+        />
+      ) : filteredMdas.length === 0 ? (
         <div className="flex items-center justify-center min-h-[200px]">
           <p className="text-gray-600">
             {query.trim()
@@ -104,6 +111,6 @@ export default function MdasPage() {
           ))}
         </div>
       )}
-    </section>
+    </main>
   );
 }

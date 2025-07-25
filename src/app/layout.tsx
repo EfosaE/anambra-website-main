@@ -82,7 +82,7 @@ export default async function RootLayout({
         <ApolloWrapper>
           <ModalProvider>
             <Navbar icon={data.favicon} />
-            <main className="grow px-0 sm:px-4 md:px-8 py-4">{children}</main>
+            {children}
             <Footer />
             <ClientSearchDrawerWrapper />
           </ModalProvider>

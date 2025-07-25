@@ -27,7 +27,7 @@ export default function GlobalSearchPage() {
   };
 
   return (
-    <section className="max-w-7xl mx-auto px-4 py-4">
+    <main className="max-w-7xl mx-auto px-4 py-4">
       {/* Heading */}
       <div className="text-center mb-8">
         <h2 className="text-3xl font-bold text-black">Global Search</h2>
@@ -108,6 +108,6 @@ export default function GlobalSearchPage() {
           See More Results
         </a>
       </div> */}
-    </section>
+    </main>
   );
 }

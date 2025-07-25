@@ -5,6 +5,7 @@ import clsx from "clsx";
 import { FiSearch } from "react-icons/fi";
 import { fetchContentBySearchKeyword } from "@/lib/clients/search-keyword.client";
 import SearchResultGrid, { SearchResultWrapper } from "./SearchResultGrid";
+import { logApolloError } from "@/lib/utils/graphqlHelpers";
 
 export default function GlobalSearch({ query }: { query: string }) {
   const [result, setResult] = useState<SearchResultWrapper[] | null>(null);
@@ -32,7 +33,7 @@ export default function GlobalSearch({ query }: { query: string }) {
           }
         } catch (error) {
           setError(error);
-          console.error("Search failed:", error);
+          logApolloError(error);
           // Optional: display an error message to the user
           setResult(null); // Or set to [] if you prefer
         } finally {

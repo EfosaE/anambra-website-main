@@ -3,7 +3,7 @@ import { AboutQueryResponse, ExecutiveCouncilQueryResponse, LGAQueryResponse } f
 import { aboutQueries } from "../graphql/queries/about";
 import { lgaQueries } from "../graphql/queries/lga";
 import { ApolloError } from "@apollo/client";
-import { handleError } from "../utils/graphqlHelpers";
+import { logApolloError } from "../utils/graphqlHelpers";
 import { ansecQueries } from "../graphql/queries/executives";
 
 export async function fetchAboutPage(): Promise<AboutQueryResponse | null> {
@@ -18,7 +18,7 @@ export async function fetchAboutPage(): Promise<AboutQueryResponse | null> {
     return data;
   } catch (error) {
     if (error instanceof ApolloError) {
-      handleError(error);
+      logApolloError(error);
     } else {
       console.error("Unknown error fetching About page:", error);
     }
@@ -40,7 +40,7 @@ export async function fetchLGAPage(): Promise<LGAQueryResponse | null> {
     return data;
   } catch (error) {
     if (error instanceof ApolloError) {
-      handleError(error);
+      logApolloError(error);
     } else {
       console.error("Unknown error fetching LGA page:", error);
     }
@@ -63,7 +63,7 @@ export async function fetchAnsecPage(): Promise<ExecutiveCouncilQueryResponse | 
     return data;
   } catch (error) {
     if (error instanceof ApolloError) {
-      handleError(error);
+      logApolloError(error);
     } else {
       console.error("Unknown error fetching ANSEC page:", error);
     }

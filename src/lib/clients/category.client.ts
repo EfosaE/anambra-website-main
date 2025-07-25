@@ -1,7 +1,7 @@
 import client from "@/lib/http";
 import { CategoryQueries } from "@/lib//graphql/queries/category";
 import { ApolloError } from "@apollo/client";
-import { handleError } from "../utils/graphqlHelpers";
+import { logApolloError } from "../utils/graphqlHelpers";
 
 export const fetchAuthor = async () => {
   try {
@@ -9,7 +9,7 @@ export const fetchAuthor = async () => {
     return data.categories;
   } catch (error) {
     if (error instanceof ApolloError) {
-      handleError(error);
+      logApolloError(error);
     } else {
       console.error("Unknown error fetching categories:", error);
     }
@@ -26,7 +26,7 @@ export const fetchAuthorById = async (id: string) => {
     return data.category;
   } catch (error) {
     if (error instanceof ApolloError) {
-      handleError(error);
+      logApolloError(error);
     } else {
       console.error("Unknown error fetching category by id:", error);
     }

@@ -2,7 +2,7 @@
 import { ApolloError } from "@apollo/client";
 
 import client from "@/lib/http"; // or your ApolloClient instance
-import { handleError } from "../utils/graphqlHelpers";
+import { logApolloError } from "../utils/graphqlHelpers";
 import { MdaQueries } from "../graphql/queries/mda";
 
 
@@ -22,7 +22,7 @@ export const fetchMdaByType = async (typeMda: string) => {
     return data.mdas;
   } catch (error) {
     if (error instanceof ApolloError) {
-      handleError(error);
+      logApolloError(error);
     } else {
       console.error("Unknown error fetching MDA categories:", error);
     }
@@ -46,7 +46,7 @@ export const fetchMdaById = async (documentId: string) => {
     return data.mda;
   } catch (error) {
     if (error instanceof ApolloError) {
-      handleError(error);
+      logApolloError(error);
     } else {
       console.error("Unknown error fetching MDA by id:", error);
     }
