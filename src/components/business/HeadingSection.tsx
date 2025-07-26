@@ -55,7 +55,7 @@ export default function HeadingSection() {
                 <button
                   key={section}
                   onClick={() => handleScrollTo(section.replace(/\s+/g, ""))}
-                  className="text-[14px] font-semibold bg-golden/75 text-white rounded-[4px] p-4 flex items-center hover:bg-golden transition-colors duration-200 cursor-pointer whitespace-nowrap">
+                  className="text-[14px] font-semibold bg-golden/75 text-white rounded-[4px] px-4 py-1 flex items-center hover:bg-golden transition-colors duration-200 cursor-pointer whitespace-nowrap">
                   {section}
                 </button>
               ) : (

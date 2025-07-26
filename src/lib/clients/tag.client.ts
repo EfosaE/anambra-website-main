@@ -36,3 +36,20 @@ export const fetchTagById = async (documentId: string) => {
     return null;
   }
 };
+
+
+// export const fetchContentByTags = async (text: string) => {
+//   const { data } = await client.query({
+//     query: SearchKeywordQueries.byKeyword,
+//     variables: {
+//       filters: {
+//         keyword: {
+//           containsi: text,
+//         },
+//       },
+//     },
+//     fetchPolicy: "no-cache", // Optional: avoid caching while typing
+//   });
+
+//   return data.searchKeywords;
+// };

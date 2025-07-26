@@ -9,7 +9,6 @@ import RankingStatsSection from "./RankingStatsSection";
 import { BusinessPageOverview, CouncilMember } from "@/types/graphql/business";
 import { parseMarkdown, toBulletedHTMLList } from "@/lib/utils/app.utils";
 
-
 interface OverviewComponentProps extends BusinessPageOverview {}
 
 export default function OverviewSection({
@@ -101,8 +100,7 @@ export default function OverviewSection({
               />
             </div>
 
-
-                {/* Front line mdas */}
+            {/* Front line mdas */}
             <div>
               <h3 className="inline-block text-sm font-semibold text-[#CB681C] bg-[#CB681C]/20 px-4 py-2 rounded">
                 Front Line MDAs
@@ -146,15 +144,15 @@ export default function OverviewSection({
                     className="grid grid-cols-2 grid-rows-3 gap-2 min-w-[400px]">
                     {group.map((member, idx) => (
                       <div key={idx} className=" p-4 text-center">
-                        <div className="w-full h-36 relative mb-1">
+                        <div className="relative w-full h-36 rounded overflow-hidden mb-1">
                           <Image
                             src={member.profile_picture[0].url}
                             alt={member.name}
-                            layout="fill"
-                            objectFit="cover"
-                            className="rounded"
+                            fill
+                            className="object-cover"
                           />
                         </div>
+
                         <p className="text-base font-semibold text-[12px] lg:text-[16px] mb-1">
                           {member.name}
                         </p>
