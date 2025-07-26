@@ -2,25 +2,23 @@
 
 import { useRef, useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { RequirementStep } from "@/types/graphql/business";
+import { parseRichContent, toBulletedHTMLList } from "@/lib/utils/app.utils";
 
 type TabbedStepsSectionProps = {
-  heading: string;
-  subheading?: string;
-  steps: string[];
-  contents: Record<string, string>;
+  heading?: string;
+  steps: RequirementStep[];
   id?: string;
 };
 
 export default function TabbedStepsSection({
   heading,
-  subheading,
   steps,
-  contents,
   id,
 }: TabbedStepsSectionProps) {
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const [selected, setSelected] = useState(steps[0]);
+  const [selected, setSelected] = useState(1);
   const [isOverflowing, setIsOverflowing] = useState(false);
   const [atStart, setAtStart] = useState(true);
   const [atEnd, setAtEnd] = useState(false);
@@ -62,12 +60,8 @@ export default function TabbedStepsSection({
   return (
     <section id={id} className="space-y-6 relative">
       {/* Heading */}
-      <h2 className="text-[20px] text-center mt-[66px] mb-4">{heading}</h2>
-
-      {subheading && (
-        <p className="text-sm text-center text-gray-700 max-w-[808px] mx-auto -mt-4 mb-6 px-4">
-          {subheading}
-        </p>
+      {heading && (
+        <h2 className="text-[20px] text-center mt-[66px] mb-4 uppercase font-bold">{heading}</h2>
       )}
 
       {/* Tabs + Arrows */}
@@ -81,14 +75,14 @@ export default function TabbedStepsSection({
             className="flex gap-4 min-w-max mx-auto relative">
             {steps.map((step) => (
               <button
-                key={step}
-                onClick={() => setSelected(step)}
-                className={`w-[119.5px] h-[48px] shrink-0 text-sm sm:text-base font-semibold border-b-2 transition duration-200 flex items-center justify-center ${
-                  selected === step
+                key={step.number}
+                onClick={() => setSelected(step.number)}
+                className={`w-[112px] h-[48px] shrink-0 text-sm sm:text-base font-semibold border-b-2 transition duration-200 flex items-center justify-center ${
+                  selected === step.number
                     ? "text-black border-black"
                     : "text-black border-transparent hover:text-black hover:border-black"
                 }`}>
-                {step}
+                {`Step ${step.number}`}
               </button>
             ))}
           </div>
@@ -120,9 +114,20 @@ export default function TabbedStepsSection({
       </div>
 
       {/* Step Content */}
-      <div className="bg-[#BBBBBB]/20 rounded p-6 text-sm text-gray-700 max-w-[808px] mx-auto px-4">
-        <p>{contents[selected]}</p>
-      </div>
+      {steps[selected - 1] && (
+        <div className="bg-[#BBBBBB]/20 rounded p-6 text-sm text-gray-700 max-w-[808px] mx-auto px-4">
+          {steps[selected - 1]?.heading && (
+            <p className="-mt-2 mb-4 text-center font-bold">
+              {steps[selected - 1].heading}
+            </p>
+          )}
+          <div
+            dangerouslySetInnerHTML={{
+              __html: parseRichContent(steps[selected - 1].content),
+            }}
+          />
+        </div>
+      )}
     </section>
   );
 }

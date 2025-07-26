@@ -2,7 +2,13 @@
 
 "use client";
 
-export default function ContactSection() {
+import { ContactInfo } from "@/types/graphql/business";
+
+export default function ContactSection({
+  contactInfo,
+}: {
+  contactInfo: ContactInfo;
+}) {
   return (
     <section id="Contact" className="w-full mt-[20px]">
       <div className="w-full py-[70px] px-4">
@@ -16,9 +22,9 @@ export default function ContactSection() {
       </div>
 
       <ul className="space-y-4 text-[16px] text-center">
-        <li>Name: Ministry of Business Development</li>
-        <li>Email: business@state.gov.ng</li>
-        <li>Phone: +234 800 123 4567</li>
+        <li>Name: {contactInfo.address}</li>
+        <li>Email: {contactInfo.email}</li>
+        <li>Phone: {contactInfo.phone}</li>
       </ul>
     </section>
   );

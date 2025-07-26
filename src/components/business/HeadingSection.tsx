@@ -1,3 +1,5 @@
+"use client"
+
 import { useEffect, useState } from "react";
 import clsx from "clsx";
 
@@ -45,15 +47,15 @@ export default function HeadingSection() {
       </div>
 
       {/* Sticky nav - Will stick when it reaches top: 0 */}
-      <div className="sticky top-20 z-50 bg-orange-100 shadow-sm">
+      <div className="sticky top-20 z-30 bg-orange-100 shadow-sm">
         <div className="overflow-x-auto scrollbar-hide">
-          <div className="max-w-[1200px] mx-auto flex justify-center gap-4 px-4 sm:px-6 lg:px-8 py-2 min-w-max">
+          <div className="max-w-[1200px] mx-auto flex justify-center gap-4 px-4 sm:px-6 lg:px-8 min-w-max">
             {sections.map((section) =>
               section === "Submit Survey" ? (
                 <button
                   key={section}
                   onClick={() => handleScrollTo(section.replace(/\s+/g, ""))}
-                  className="text-[14px] font-semibold bg-golden/75 text-white rounded-[4px] px-4 h-[40px] flex items-center hover:bg-golden transition-colors duration-200 cursor-pointer whitespace-nowrap">
+                  className="text-[14px] font-semibold bg-golden/75 text-white rounded-[4px] p-4 flex items-center hover:bg-golden transition-colors duration-200 cursor-pointer whitespace-nowrap">
                   {section}
                 </button>
               ) : (
@@ -61,7 +63,7 @@ export default function HeadingSection() {
                   key={section}
                   onClick={() => handleScrollTo(section)}
                   className={clsx(
-                    "group text-[14px] font-semibold px-4 h-[40px] flex items-center transition-all duration-200 border-b-4 whitespace-nowrap",
+                    "group text-[14px] font-semibold p-4 flex items-center transition-all duration-200 border-b-4 whitespace-nowrap",
                     selectedSection === section
                       ? "border-golden text-black"
                       : "border-transparent text-black/75 hover:text-black hover:border-golden"

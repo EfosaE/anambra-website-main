@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { ChevronDown } from "lucide-react";
 
 interface AccordionTableSectionProps {
   title: string;
@@ -32,14 +33,20 @@ export default function AccordionTableSection({
           >
             <button
               onClick={() => toggleAccordion(i)}
-              className="w-full text-left p-4 font-semibold text-[15px] bg-[#E2E2E2]"
+              className="w-full flex items-center justify-between text-left p-4 font-semibold text-[15px] bg-[#E2E2E2]"
             >
-              {table.title}
+              <span>{table.title}</span>
+              <ChevronDown
+                className={`transition-transform duration-300 ${
+                  openIndex === i ? "rotate-180" : "rotate-0"
+                }`}
+                size={18}
+              />
             </button>
             {openIndex === i && (
               <div className="p-4 overflow-x-auto">
                 <table className="w-full text-sm border border-[#B3B0AD] text-left">
-                  <thead className="">
+                  <thead>
                     <tr>
                       {table.headers.map((header, idx) => (
                         <th

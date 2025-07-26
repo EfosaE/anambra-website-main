@@ -6,52 +6,26 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 // Import the ranking component
 import RankingStatsSection from "./RankingStatsSection";
+import { BusinessPageOverview, CouncilMember } from "@/types/graphql/business";
+import { parseMarkdown, toBulletedHTMLList } from "@/lib/utils/app.utils";
 
-const councilMembers = [
-  {
-    name: "Mr. C. Fred Agbata",
-    role: "MD/CEO Anambra State ICT Agency",
-    image: "/images/avatar.png",
-  },
-  {
-    name: "Mrs. Adaeze Umeh",
-    role: "Commissioner of Commerce",
-    image: "/images/lady.jpg",
-  },
-  {
-    name: "Engr. Emeka Obi",
-    role: "Director, Urban Planning",
-    image: "/images/avatar.png",
-  },
-  {
-    name: "Dr. Chika Nwankwo",
-    role: "Investment Promotion Lead",
-    image: "/images/avatar.png",
-  },
-  {
-    name: "Ms. Ify Okoye",
-    role: "ICT Consultant",
-    image: "/images/lady.jpg",
-  },
-  {
-    name: "Barr. John Eze",
-    role: "Legal Advisor",
-    image: "/images/avatar.png",
-  },
-  {
-    name: "Mr. Ken Uba",
-    role: "Infrastructure Head",
-    image: "/images/avatar.png",
-  },
-  {
-    name: "Mrs. Rose Ibe",
-    role: "Head of Admin",
-    image: "/images/lady.jpg",
-  },
-];
 
-export default function OverviewSection() {
+interface OverviewComponentProps extends BusinessPageOverview {}
+
+export default function OverviewSection({
+  introduction,
+  objectives,
+  spotlight,
+  councilMembers,
+  frontliners,
+  mandate,
+}: OverviewComponentProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
+  // Temporarily hardcode the content to test
+  const testContent = `- Set reform targets and oversee the implementation of the reforms.
+- Resolve bottlenecks arising from the operations of government agencies.
+- Communicate the reform agenda to all stakeholders within government and in the business community.
+- Conduct monthly meetings to provide oversight on the activities of MDAs involved in the EoDB drive.`;
 
   const scroll = (direction: "left" | "right") => {
     if (scrollRef.current) {
@@ -65,47 +39,10 @@ export default function OverviewSection() {
   };
 
   // Chunk council members into groups of 6 (3 rows × 2 cols)
-  const chunkedMembers = [];
+  const chunkedMembers: CouncilMember[][] = [];
   for (let i = 0; i < councilMembers.length; i += 6) {
     chunkedMembers.push(councilMembers.slice(i, i + 6));
   }
-
-  const sections = [
-    {
-      title: "Introduction",
-      content: [
-        "The Ease of Doing Business project was launched in 2002, it looks at domestic small and medium-size companies and measures the regulations applying to them through their life cycle.",
-        "It provides quantitative indicators on regulation for starting a business, dealing with construction permits, getting electricity, registering property, getting credit, protecting minority investors, paying taxes, trading across borders, enforcing contracts and resolving insolvency, also measures features of employing workers.",
-      ],
-    },
-    {
-      title: "Objectives",
-      list: [
-        "To act as umpire on investments matters thereby eliminating business and investment barriers and bottlenecks.",
-        "To aid improvement of the business enabling environment by following up on steps towards enhancing land administration, regulatory framework for private investment in fiber optic infrastructure, PPP investment promotion framework and economic opportunity in the State.",
-        "To move Anambra from No. 7 to No. 1 in EoDB ranking in the country for all indicators",
-      ],
-    },
-    {
-      title: "Council Mandate",
-      list: [
-        "Set reform targets and oversee the implementation of the reforms",
-        "Resolve bottlenecks arising from the operations of government agencies",
-        "Communicate the reform agenda to all stakeholders within government and in the business community",
-        "Conduct monthly meetings to provide oversight on the activities of MDAs involved in the EoDB drive",
-      ],
-    },
-    {
-      title: "Front Line MDAs",
-      list: [
-        "Ministry of Land",
-        "Anambra Physical Planning Agency",
-        "Anambra state Signage and Advertisement Agency",
-        "Anambra State Investment Promotion and Protection Agency",
-        "Ministry of Power & Water Resources",
-      ],
-    },
-  ];
 
   return (
     <>
@@ -126,33 +63,57 @@ export default function OverviewSection() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           {/* Column 1: Text content */}
           <div className="lg:col-span-7 space-y-10">
-            {sections.map((section, i) => (
-              <div key={i}>
-                <h3 className="inline-block text-sm font-semibold text-[#CB681C] bg-[#CB681C]/20 px-4 py-2 rounded">
-                  {section.title}
-                </h3>
+            {/* introduction */}
+            <div>
+              <h3 className="inline-block text-sm font-semibold text-[#CB681C] bg-[#CB681C]/20 px-4 py-2 rounded">
+                Introduction
+              </h3>
+              <p className="mt-2 text-gray-700 text-[14px] lg:text-[16px]">
+                {introduction}
+              </p>
+            </div>
 
-                {section.content &&
-                  section.content.map((p, idx) => (
-                    <p
-                      key={idx}
-                      className="mt-2 text-gray-700 text-[14px] lg:text-[16px]"
-                    >
-                      {p}
-                    </p>
-                  ))}
+            {/* objectives */}
+            <div>
+              <h3 className="inline-block text-sm font-semibold text-[#CB681C] bg-[#CB681C]/20 px-4 py-2 rounded">
+                Objectives
+              </h3>
+              <div
+                className="prose prose-sm lg:prose-base text-gray-700  mt-2"
+                dangerouslySetInnerHTML={{
+                  __html: toBulletedHTMLList(objectives),
+                }}
+              />
 
-                {section.list && (
-                  <ul className="list-disc pl-6 text-gray-700 space-y-1 mt-2 text-[14px] lg:text-[16px]">
-                    {section.list.map((item, idx) => (
-                      <li key={idx}>{item}</li>
-                    ))}
-                  </ul>
-                )}
+              <RankingStatsSection />
+            </div>
 
-                {section.title === "Objectives" && <RankingStatsSection />}
-              </div>
-            ))}
+            {/* council mandate */}
+            <div>
+              <h3 className="inline-block text-sm font-semibold text-[#CB681C] bg-[#CB681C]/20 px-4 py-2 rounded">
+                Council Mandate
+              </h3>
+              <div
+                className="prose prose-sm lg:prose-base text-gray-700  mt-2"
+                dangerouslySetInnerHTML={{
+                  __html: toBulletedHTMLList(mandate),
+                }}
+              />
+            </div>
+
+
+                {/* Front line mdas */}
+            <div>
+              <h3 className="inline-block text-sm font-semibold text-[#CB681C] bg-[#CB681C]/20 px-4 py-2 rounded">
+                Front Line MDAs
+              </h3>
+              <div
+                className="prose prose-sm lg:prose-base text-gray-700 mt-2"
+                dangerouslySetInnerHTML={{
+                  __html: toBulletedHTMLList(frontliners),
+                }}
+              />
+            </div>
           </div>
 
           <div className="lg:col-span-1"></div>
@@ -166,14 +127,12 @@ export default function OverviewSection() {
               <div className="flex gap-2">
                 <button
                   onClick={() => scroll("left")}
-                  className="p-2 bg-white shadow rounded-full"
-                >
+                  className="p-2 bg-white shadow rounded-full">
                   <ChevronLeft size={20} />
                 </button>
                 <button
                   onClick={() => scroll("right")}
-                  className="p-2 bg-white shadow rounded-full"
-                >
+                  className="p-2 bg-white shadow rounded-full">
                   <ChevronRight size={20} />
                 </button>
               </div>
@@ -184,13 +143,12 @@ export default function OverviewSection() {
                 {chunkedMembers.map((group, index) => (
                   <div
                     key={index}
-                    className="grid grid-cols-2 grid-rows-3 gap-4 min-w-[400px]"
-                  >
+                    className="grid grid-cols-2 grid-rows-3 gap-2 min-w-[400px]">
                     {group.map((member, idx) => (
                       <div key={idx} className=" p-4 text-center">
-                        <div className="w-full h-32 relative mb-1">
+                        <div className="w-full h-36 relative mb-1">
                           <Image
-                            src={member.image}
+                            src={member.profile_picture[0].url}
                             alt={member.name}
                             layout="fill"
                             objectFit="cover"
@@ -201,7 +159,7 @@ export default function OverviewSection() {
                           {member.name}
                         </p>
                         <p className="text-sm text-gray-600 text-[12px] lg:text-[12px]">
-                          {member.role}
+                          {member.designation}
                         </p>
                       </div>
                     ))}
