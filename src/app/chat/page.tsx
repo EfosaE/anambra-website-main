@@ -1,5 +1,6 @@
 "use client";
 
+import { parseRichContent } from "@/lib/utils/app.utils";
 import { ArrowRight } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
@@ -10,6 +11,8 @@ export default function ChatPage() {
   const [input, setInput] = useState("");
   const [isThinking, setIsThinking] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setMessages([
@@ -20,9 +23,18 @@ export default function ChatPage() {
     ]);
   }, []);
 
-//   useEffect(() => {
-//     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
-//   }, [messages]);
+  useEffect(() => {
+    const scrollContainer = scrollContainerRef.current;
+
+    if (!scrollContainer) return;
+
+    const isOverflowing =
+      scrollContainer.scrollHeight > scrollContainer.clientHeight;
+
+    if (isOverflowing) {
+      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
 
   const sendMessage = async () => {
     if (!input.trim() || isThinking) return;
@@ -42,6 +54,11 @@ export default function ChatPage() {
         body: JSON.stringify({ message: input }),
       });
 
+      
+      if (!res.ok) {
+        const errorBody = await res.json();
+        throw new Error(errorBody.error || "Unknown server error");
+      }
       const reader = res.body?.getReader();
       const decoder = new TextDecoder();
 
@@ -82,8 +99,10 @@ export default function ChatPage() {
   };
 
   return (
-    <div className="h-[80vh] bg-[#fefbf6] py-8 px-4 flex justify-center">
-      <div className="w-full max-w-3xl flex flex-col bg-white border border-[#e4d7b8] shadow-md overflow-hidden h-full">
+    <div className="h-[85vh] px-4 flex justify-center">
+      <div
+        className="w-full max-w-3xl flex flex-col overflow-hidden h-full"
+        ref={scrollContainerRef}>
         {/* Messages area */}
         <div className="flex-1 px-6 py-4 space-y-4 overflow-y-auto">
           {messages.map((msg, i) => (
@@ -102,17 +121,24 @@ export default function ChatPage() {
                   <span className="animate-pulse text-gray-400">
                     Thinking...
                   </span>
-                ) : (
+                ) : msg.role === "user" ? (
                   msg.text
+                ) : (
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: parseRichContent(msg.text),
+                    }}
+                    className="prose prose-sm max-w-none"
+                  />
                 )}
               </div>
             </div>
           ))}
-          <div ref={scrollRef} />
+          <div ref={messagesEndRef} />
         </div>
 
         {/* Input area */}
-        <div className="flex items-center gap-2 border-t border-gray-200 px-6 py-4 bg-white">
+        <div className="flex items-center gap-2 rounded-full border-t border-gray-200 pl-6 py-2 bg-white">
           <input
             type="text"
             placeholder="Type your question..."
@@ -120,12 +146,13 @@ export default function ChatPage() {
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
             disabled={isThinking}
-            className="flex-1 px-4 py-2 border border-gray-300 rounded-full focus:ring-2 focus:ring-[#e4b900] focus:outline-none text-sm disabled:bg-gray-100 disabled:cursor-not-allowed"
+            className="flex-1 px-4 py-2 md:py-4 text-sm disabled:bg-gray-100 disabled:cursor-not-allowed focus:outline-none focus:ring-0"
           />
+
           <button
             onClick={sendMessage}
             disabled={isThinking}
-            className="bg-[#e4b900] hover:bg-[#d1a800] text-white font-medium px-4 py-2 rounded-full transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+            className="bg-gray-700 hover:bg-[#d1a800] text-white font-medium px-4 py-2 md:py-4 rounded-full transition-all disabled:opacity-50 disabled:cursor-not-allowed">
             <ArrowRight className="w-5 h-5" />
           </button>
         </div>
@@ -133,3 +160,5 @@ export default function ChatPage() {
     </div>
   );
 }
+
+// border border-gray-300 rounded-full focus:ring-2 focus:ring-[#e4b900] focus:outline-none
