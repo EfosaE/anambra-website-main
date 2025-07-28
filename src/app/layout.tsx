@@ -7,6 +7,7 @@ import ClientSearchDrawerWrapper from "@/components/ClientSearchDrawerWrapper";
 import { fetchGlobalData } from "@/lib/clients/global.client";
 import { Metadata } from "next/types";
 import ApolloWrapper from "@/context/apollo-wrapper";
+import ChatBanner from "@/components/ChatBanner";
 
 const instrumentSans = Instrument_Sans({
   subsets: ["latin"],
@@ -81,6 +82,7 @@ export default async function RootLayout({
       <body className="font-instrument text-body bg-background min-h-screen flex flex-col">
         <ApolloWrapper>
           <ModalProvider>
+            
             <Navbar icon={data.favicon} />
             {children}
             <Footer />

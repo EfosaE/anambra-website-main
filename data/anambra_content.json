@@ -1,0 +1,461 @@
+[
+  {
+    "title": "Insurance Enrollment",
+    "description": "Provides citizens with access to Anambra Health Insurance Agency’s (ASHIA) public health plans.",
+    "content": [
+      {
+        "type": "paragraph",
+        "children": [
+          {
+            "text": "Registration is online or at ASHIA offices. Plans cover hospital visits, diagnostics, maternity, and basic surgeries. Citizens can enroll as individuals or families, with subsidies for low-income households.",
+            "type": "text"
+          }
+        ]
+      }
+    ],
+    "source": "Service: Insurance Enrollment"
+  },
+  {
+    "title": "Business Permit",
+    "description": "Supports entrepreneurs in securing official licenses and permits to operate legally.",
+    "content": [
+      {
+        "type": "paragraph",
+        "children": [
+          {
+            "text": "Business owners submit a CAC certificate, location details, and business activity form. Permits are valid for 1 year and renewable. Fees depend on business type and size.",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "children": [
+          {
+            "text": "",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "children": [
+          {
+            "text": "",
+            "type": "text"
+          }
+        ]
+      }
+    ],
+    "source": "Service: Business Permit"
+  },
+  {
+    "title": "Urban Planning Review",
+    "description": "Guides residents through the land-use approval process and urban zoning regulations.",
+    "content": [
+      {
+        "type": "paragraph",
+        "children": [
+          {
+            "text": "Property owners must submit site plans, architectural drawings, and land titles. The Urban Development Authority reviews plans in line with Awka’s master plan. Approvals are typically granted within 30 business days.",
+            "type": "text"
+          }
+        ]
+      }
+    ],
+    "source": "Service: Urban Planning Review"
+  },
+  {
+    "title": "Birth Certificate Processing",
+    "description": "Allows residents to apply for or retrieve official birth certificates from the civil registry.",
+    "content": [
+      {
+        "type": "paragraph",
+        "children": [
+          {
+            "text": "Available at local registry offices and online. Requires a hospital birth record or sworn affidavit. Digital copies can be requested, and updates (e.g., spelling corrections) require supporting legal documents.",
+            "type": "text"
+          }
+        ]
+      }
+    ],
+    "source": "Service: Birth Certificate Processing"
+  },
+  {
+    "title": "Anambra State Health Insurance Agency (ASHIA)",
+    "description": "Anambra State Health Insurance Agency (ASHIA) is the state body which provides coverage for health care and related services. Through these offerings, we improve and protect the health and financial security of consumers, families, businesses and communities of the state.",
+    "content": [
+      {
+        "type": "list",
+        "format": "unordered",
+        "children": [
+          {
+            "type": "list-item",
+            "children": [
+              {
+                "text": "Enrollee online Registration",
+                "type": "text"
+              }
+            ]
+          },
+          {
+            "type": "list-item",
+            "children": [
+              {
+                "text": "View affiliate healthcare providers or facilities.",
+                "type": "text"
+              }
+            ]
+          },
+          {
+            "type": "list-item",
+            "children": [
+              {
+                "text": "Find accredited enrolment centers near you. ",
+                "type": "text"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "source": "Service: Anambra State Health Insurance Agency (ASHIA)"
+  },
+  {
+    "title": "Revenue Inquiries",
+    "description": "Answers questions on tax categories, obligations, and payment procedures.",
+    "content": [
+      {
+        "type": "paragraph",
+        "children": [
+          {
+            "text": "Contact can be made via the state’s digital tax help portal, call center, or local offices. Topics include PAYE, property tax, levies, and exemptions. Assistance is free and available year-round.",
+            "type": "text"
+          }
+        ]
+      }
+    ],
+    "source": "Service: Revenue Inquiries"
+  },
+  {
+    "title": "Anambra Internal Revenue Agency",
+    "description": "The AIRS Portal is Anambra State’s official digital platform for seamless tax and revenue payments. It offers secure payment channels, generates valid transaction slips, and stores all tax documents digitally. Taxpayers must use this portal for all payments and create an Anambra State Identity Number (ASIN) for accurate assessment.",
+    "content": [
+      {
+        "type": "list",
+        "format": "unordered",
+        "children": [
+          {
+            "type": "list-item",
+            "children": [
+              {
+                "text": "Unified Tax/Revenue Payments: Pay all state taxes, levies, and fees securely online.",
+                "type": "text"
+              }
+            ]
+          },
+          {
+            "type": "list-item",
+            "children": [
+              {
+                "text": "Digital Document Generation: Automatically generate valid payment slips, e-receipts, and certificates upon payment.",
+                "type": "text"
+              }
+            ]
+          },
+          {
+            "type": "list-item",
+            "children": [
+              {
+                "text": "Document Management: Store, retrieve, download, or reprint payment slips, receipts, and certificates anytime via your dashboard.",
+                "type": "text"
+              }
+            ]
+          },
+          {
+            "type": "list-item",
+            "children": [
+              {
+                "text": "Anambra State Identity Number (ASIN): Register for a unique ASIN to ensure proper tax assessment and record-keeping.",
+                "type": "text"
+              }
+            ]
+          },
+          {
+            "type": "list-item",
+            "children": [
+              {
+                "text": "Multi-Channel Payments: Pay via debit cards, bank transfers, USSD, or approved payment partners.",
+                "type": "text"
+              }
+            ]
+          },
+          {
+            "type": "list-item",
+            "children": [
+              {
+                "text": "Taxpayer Dashboard: Access payment history, download invoices, and manage tax documents in one place.",
+                "type": "text"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "source": "Service: Anambra Internal Revenue Agency"
+  },
+  {
+    "title": "Anambra State Health Facilities Management Unit (ASHEFAMU)",
+    "description": "The ASHEFAMU was established in AUGUST 2023 and is charged with the responsibility of monitoring both private and public health facilities to ensure registration and accreditation of all health facilities in Anambra State.",
+    "content": [
+      {
+        "type": "list",
+        "format": "unordered",
+        "children": [
+          {
+            "type": "list-item",
+            "children": [
+              {
+                "text": "Accredit, inspect, monitor, and license all health facilities.",
+                "type": "text"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "list",
+        "format": "unordered",
+        "children": [
+          {
+            "type": "list-item",
+            "children": [
+              {
+                "text": "Set required minimum standards for operations of health facilities both in the public and private health sectors.",
+                "type": "text"
+              }
+            ]
+          },
+          {
+            "type": "list-item",
+            "children": [
+              {
+                "text": "Issue a format for the registration form to include information on projected patient flow and a monitoring chart for actual performance.",
+                "type": "text"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "source": "Service: Anambra State Health Facilities Management Unit (ASHEFAMU)"
+  },
+  {
+    "title": "Grievance Redress Portal (GRM)",
+    "description": "The Grievance Redress Portal (GRM) allows individuals and corporate entities to submit complaints or grievances related to domestic and external trade. Anambra State Government by this platform offers you a transparent and efficient grievance redress mechanism, ensuring that all issues raised are addressed promptly and effectively.\n\nWhether you are a business, individual, or stakeholder involved in trade, you can use this portal to submit your grievances, track the status of existing grievances, and communicate with the relevant authorities.",
+    "content": null,
+    "source": "Service: Grievance Redress Portal (GRM)"
+  },
+  {
+    "title": "Electronic ID (E-ID) App",
+    "description": "The Anambra E-ID Web App provides citizens and residents with a secure digital identity for accessing government services, verifying personal details, and streamlining transactions. ",
+    "content": [
+      {
+        "type": "paragraph",
+        "children": [
+          {
+            "text": "The Anambra State E-ID card is a digital identification system developed by the Anambra State Government, specifically for its civil servants and other government employees. It aims to streamline identity management within the state, enhance service delivery, and combat impersonation.",
+            "type": "text"
+          }
+        ]
+      }
+    ],
+    "source": "Service: Electronic ID (E-ID) App"
+  },
+  {
+    "title": "Where can I register my business in Anambra State?",
+    "content": [
+      {
+        "type": "paragraph",
+        "children": [
+          {
+            "text": "To register a business in Anambra, you must visit the Anambra State Ministry of Commerce, Industry, and Technology. You will need to submit a completed registration form, business plan, and identification documents. Online registration is also available through the Anambra State Government's business portal.",
+            "type": "text"
+          }
+        ]
+      }
+    ],
+    "source": "FAQ"
+  },
+  {
+    "title": "What are the requirements for applying for a government housing scheme in Anambra State?",
+    "content": [
+      {
+        "type": "paragraph",
+        "children": [
+          {
+            "text": "To apply for a government housing scheme, applicants must be a resident of Anambra State, possess valid identification, and meet income requirements based on the scheme's criteria. Additional documents such as proof of employment and a guarantor may also be requested during the application process.",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "children": [
+          {
+            "text": "",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "children": [
+          {
+            "text": "",
+            "type": "text"
+          }
+        ]
+      }
+    ],
+    "source": "FAQ"
+  },
+  {
+    "title": "What health insurance schemes are available in Anambra State?",
+    "content": [
+      {
+        "type": "paragraph",
+        "children": [
+          {
+            "text": "Anambra State offers a variety of health insurance schemes through the Anambra State Health Insurance Scheme (ASHIS). These programs provide coverage for essential healthcare services at discounted rates for residents. To apply, visit the Anambra State Health Insurance Board or apply online via the government’s portal.",
+            "type": "text"
+          }
+        ]
+      }
+    ],
+    "source": "FAQ"
+  },
+  {
+    "title": "What are the requirements for importing goods into Anambra State?",
+    "content": [
+      {
+        "type": "paragraph",
+        "children": [
+          {
+            "text": "Importers must obtain an Import Permit from the Anambra State Ministry of Commerce. Required documents include an invoice, proof of shipment, and payment receipt for any relevant duties. The Ministry ensures that goods comply with safety standards and local regulations before being cleared.",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "children": [
+          {
+            "text": "",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "children": [
+          {
+            "text": "",
+            "type": "text"
+          }
+        ]
+      }
+    ],
+    "source": "FAQ"
+  },
+  {
+    "title": "How can I get my birth certificate in Anambra State?",
+    "content": [
+      {
+        "type": "paragraph",
+        "children": [
+          {
+            "text": "To obtain a birth certificate in Anambra State, you can visit the National Population Commission (NPC) registration center.",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "type": "list",
+        "format": "unordered",
+        "children": [
+          {
+            "type": "list-item",
+            "children": [
+              {
+                "text": "Visit NPC Registration Center: Locate the nearest NPC registration center or the office in your Local Government Area.",
+                "type": "text"
+              }
+            ]
+          },
+          {
+            "type": "list-item",
+            "children": [
+              {
+                "text": "Obtain Form: Get the birth registration form from the registration officer.",
+                "type": "text"
+              }
+            ]
+          },
+          {
+            "type": "list-item",
+            "children": [
+              {
+                "text": "Complete the Form: Fill out the form accurately with all the necessary information.",
+                "type": "text"
+              }
+            ]
+          },
+          {
+            "type": "list-item",
+            "children": [
+              {
+                "text": "Submit Documents: Submit the completed form along with required documents like proof of birth (hospital report or affidavit).",
+                "type": "text"
+              }
+            ]
+          },
+          {
+            "type": "list-item",
+            "children": [
+              {
+                "text": "Make Payment: Pay the application fee at the center.",
+                "type": "text"
+              }
+            ]
+          },
+          {
+            "type": "list-item",
+            "children": [
+              {
+                "text": "Collect Certificate: Upon completion of the process, you will be notified and can collect the birth certificate from the center. ",
+                "type": "text"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "source": "FAQ"
+  },
+  {
+    "title": "What is ASIN?",
+    "content": [
+      {
+        "type": "paragraph",
+        "children": [
+          {
+            "text": "ASIN stands for Anambra State Identity Number. It is a unique and one-time electronically generated identification number issued to both individual and corporate entities or residents by the Anambra State Government through the Anambra State Internal Revenue Service.",
+            "type": "text"
+          }
+        ]
+      }
+    ],
+    "source": "FAQ"
+  }
+]

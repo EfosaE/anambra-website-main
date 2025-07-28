@@ -11,6 +11,7 @@ import { fetchAllArticles } from "@/lib/clients/articles.client";
 import { Article } from "@/types/graphql/articles";
 import { useModal } from "@/context/modal-context";
 import { GlobalQueryResponse } from "@/types/graphql/global";
+import ChatBanner from "./ChatBanner";
 
 export default function Navbar({
   icon,
@@ -25,12 +26,13 @@ export default function Navbar({
 
   const { openModal } = useModal();
   const pathname = usePathname();
-
+  const showChatBanner = !pathname.startsWith("/chat");
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
   return (
     <>
+      {showChatBanner && <ChatBanner />}
       <nav className="sticky top-0 z-50 font-[Instrument Sans] bg-[#FFF9F2] border-b">
         <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between md:justify-center relative">
           {/* Menu (Mobile Only) */}
