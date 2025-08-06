@@ -3,7 +3,7 @@ export type FAQ = {
   documentId: string;
   question: string;
   // publishedAt: string;
-  FaqAnswer: RichTextNode[];
+  faqAnswer: RichTextNode[];
   createdAt: string;
   updatedAt: string;
   publishedAt: string;

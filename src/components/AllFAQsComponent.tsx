@@ -4,11 +4,12 @@ import { useState, useEffect } from "react";
 import clsx from "clsx";
 import { fetchAllFaqs } from "@/lib/clients/faq.client";
 import Spinner from "./Spinner";
+import { FAQ } from "@/types/graphql/faq";
 
 export default function AllFAQsComponent() {
   const [query, setQuery] = useState("");
   const [sortOption, setSortOption] = useState("");
-  const [faqs, setFaqs] = useState<any[]>([]);
+  const [faqs, setFaqs] = useState<FAQ[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -108,8 +109,8 @@ export default function AllFAQsComponent() {
 
               {/* Answer */}
               <div className="text-sm text-gray-700 leading-relaxed mb-4">
-                {faq.FaqAnswer?.length ? (
-                  faq.FaqAnswer.map((block: any, blockIdx: number) => {
+                {faq.faqAnswer?.length ? (
+                  faq.faqAnswer.map((block: any, blockIdx: number) => {
                     if (block.type === "paragraph") {
                       return (
                         <p key={blockIdx} className="mb-2">

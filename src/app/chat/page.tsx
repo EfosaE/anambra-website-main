@@ -99,7 +99,7 @@ export default function ChatPage() {
   };
 
   return (
-    <div className="h-[85vh] px-4 flex justify-center">
+    <div className="md:h-[85vh] h-[65vh] px-4 flex justify-center">
       <div
         className="w-full max-w-3xl flex flex-col overflow-hidden h-full"
         ref={scrollContainerRef}>

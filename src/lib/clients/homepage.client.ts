@@ -17,13 +17,15 @@ export const fetchHomepageData = async (): Promise<
 
     const { homepage } = data;
 
+    // console.log("homepage data", homepage);
+
     // Validate presence of critical fields (optional)
     if (!homepage.Banner || !homepage.News_Articles_Grid) {
       console.error("Incomplete homepage data received:", homepage);
       return null;
     }
 
-    // console.log(homepage.News_Articles_Grid)
+    console.log(homepage.News_Articles_Grid)
 
     return {
       Banner: homepage.Banner,
@@ -49,6 +51,7 @@ export const fetchFooterSection = async (): Promise<
       homepage: FooterQueryResponse["homepage"];
     }>({
       query: HomepageQueries.footer,
+      fetchPolicy: "network-only"
     });
 
     // console.log("data", data);

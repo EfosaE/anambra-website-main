@@ -37,8 +37,8 @@ const query = gql`
     }
     faqs {
       question
-      FaqAnswer
-      Action {
+      faqAnswer
+      action {
         name
         url
       }
@@ -59,7 +59,7 @@ async function generateJSON() {
       })),
       ...data.faqs.map((f) => ({
         title: f.question,
-        content: f.FaqAnswer,
+        content: f.faqAnswer,
         source: "FAQ",
       })),
     ];
@@ -83,6 +83,6 @@ generateJSON();
 
 //  const faqs = data.faqs?.data.map((f) => ({
 //       title: f.attributes.question,
-//       content: f.attributes.FaqAnswer,
+//       content: f.attributes.faqAnswer,
 //       source: "FAQ",
 //     })) || [];

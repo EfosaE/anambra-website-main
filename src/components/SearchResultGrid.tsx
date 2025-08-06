@@ -101,7 +101,7 @@ function Card({
       >
         <h3 className="font-bold text-lg underline">{item.question}</h3>
         <p className="text-sm text-gray-600 mt-1">
-          {item.FaqAnswer?.[0]?.children?.[0]?.text?.slice(0, 120)}...
+          {item.faqAnswer?.[0]?.children?.[0]?.text?.slice(0, 120)}...
         </p>
         <div className="text-xs md:text-base text-golden mt-auto">
           <p>From FAQs</p>

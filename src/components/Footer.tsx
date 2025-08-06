@@ -33,7 +33,7 @@ export default async function Footer() {
   }
   const grouped = groupLinksByCategory(footerData.FooterLinks);
 
-  // console.log(grouped);
+  console.log(grouped);
 
   return (
     <footer className="relative text-white pt-12 mt-16">
@@ -50,7 +50,7 @@ export default async function Footer() {
       <div className="relative z-10">
         {/* Top Section: 2 columns for mobile, 4 for large screens */}
         {/* <div className="mx-auto px-4 grid grid-cols-2 lg:grid-cols-4 gap-x-10 gap-y-10 w-fit"> */}
-        <div className="mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 w-fit">
+        <div className="mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 w-fit items-start justify-items-center">
           {Object.entries(grouped).map(([category, links]) => (
             <div key={category}>
               <h4 className="text-white font-bold mb-2">
@@ -61,7 +61,9 @@ export default async function Footer() {
               <ul className="space-y-1 text-sm">
                 {links.map((link) => (
                   <li key={link.name}>
-                    <a href={link.link} className="text-white hover:underline hover:text-[#DA9617]">
+                    <a
+                      href={link.link}
+                      className="text-white hover:underline hover:text-[#DA9617]">
                       {link.name}
                     </a>
                   </li>
@@ -85,8 +87,12 @@ export default async function Footer() {
           </span>
         </div>
 
-        <Link href="https://ict.anambrastate.gov.ng" target="_blank" className="text-center block text-sm p-4" >
-          <span className="text-[#DA9617] font-semibold">Powered By - </span>Anambra State ICT Agency
+        <Link
+          href="https://ict.anambrastate.gov.ng"
+          target="_blank"
+          className="text-center block text-sm p-4">
+          <span className="text-[#DA9617] font-semibold">Powered By - </span>
+          Anambra State ICT Agency
         </Link>
       </div>
     </footer>

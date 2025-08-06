@@ -11,6 +11,7 @@ export const dynamic = "force-dynamic";
 
 export default async function Home() {
   const data = await fetchHomepageData();
+  // console.log("homepage data", data);
 
   if (!data) {
     return <div>Some Important Data is Missing</div>;

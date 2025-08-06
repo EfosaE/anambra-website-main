@@ -22,8 +22,8 @@ export const HomepageQueries = {
             documentId
             question
             publishedAt
-            FaqAnswer
-            Action {
+            faqAnswer
+            action {
               name
               url
             }

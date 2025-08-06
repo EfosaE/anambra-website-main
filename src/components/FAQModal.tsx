@@ -34,7 +34,7 @@ export default function FAQModal({ faq, onClose }: FAQModalProps) {
 
         {/* Answer */}
         {/* <div className="text-gray-700 text-sm space-y-2">
-          {faq.FaqAnswer?.map((block, idx) => {
+          {faq.faqAnswer?.map((block, idx) => {
             if (block.type === "paragraph") {
               return (
                 <p key={idx}>

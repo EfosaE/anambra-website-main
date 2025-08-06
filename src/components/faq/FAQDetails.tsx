@@ -43,8 +43,8 @@ export default function FAQDetails({
       {isOpen && (
         <div className="text-sm text-gray-700 mb-6 leading-relaxed">
           <div className="line-clamp-3">
-            {faq.FaqAnswer?.length ? (
-              faq.FaqAnswer.map((block, i) =>
+            {faq.faqAnswer?.length ? (
+              faq.faqAnswer.map((block, i) =>
                 block.type === "paragraph"
                   ? block.children?.map((child, j) => (
                       <span key={j}>{child.text}</span>
