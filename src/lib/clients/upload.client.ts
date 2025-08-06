@@ -1,17 +1,17 @@
 // lib/clients/uploadFile.client.ts
-import { UploadFileQueries } from "@/lib/graphql/queries/upload";
+import { GalleryQueries } from "@/lib/graphql/queries/upload";
 import client from "@/lib/http";
 
-export const fetchAllUploadFiles = async () => {
+export const fetchAllImages = async () => {
   const { data } = await client.query({
-    query: UploadFileQueries.root,
+    query: GalleryQueries.all,
   });
-  return data.uploadFiles;
+  return data.galleries;
 };
 
-export const fetchUploadFileById = async (documentId: string) => {
+export const fetchImageById = async (documentId: string) => {
   const { data } = await client.query({
-    query: UploadFileQueries.byId,
+    query: GalleryQueries.byId,
     variables: { documentId },
   });
   return data.uploadFile;

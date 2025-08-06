@@ -23,7 +23,7 @@ export default function ServiceCard({ title, slug, description }: Props) {
       .replace(/-services?$/, "") // remove '-service' or '-services' at end
       .replace(/’/g, "") // remove curly apostrophes
       .replace(/[&,:]/g, "") // remove special chars
-      .replace(/-/g, " ") // replace hyphens with space
+      .replace(/-/g, "_") // replace hyphens with underscore
       .replace(/\s+/g, " ") // normalize multiple spaces
       .trim();
 

@@ -9,6 +9,7 @@ export const serviceQueries = {
         Name
         Description
         ServicesDetails
+        websiteLink
         createdAt
         updatedAt
         publishedAt
@@ -20,15 +21,6 @@ export const serviceQueries = {
           createdAt
           updatedAt
           publishedAt
-          services {
-            documentId
-            Name
-            Description
-            ServicesDetails
-            createdAt
-            updatedAt
-            publishedAt
-          }
         }
       }
     }
@@ -40,12 +32,16 @@ export const serviceQueries = {
         Name
         Description
         ServicesDetails
-        WebsiteLink
-        email
-        phone
+        websiteLink
+
         createdAt
         updatedAt
         publishedAt
+        contactInfo {
+          email
+          phone
+          address
+        }
       }
     }
   `,

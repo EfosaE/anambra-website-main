@@ -4,12 +4,32 @@ export type Service = {
   Description: string;
   documentId: string;
   ServicesDetails: ServiceDetail[] | null;
-  WebsiteLink: string | null;
-  email: string | null;
-  phone: string | null;
+  websiteLink: string | null;
   createdAt: string;
   updatedAt: string;
   publishedAt: string;
+
+  service_category: ServiceCategory | null;
+
+  contactInfo?: ContactInfo | null;
+};
+
+// New type for the service_category object
+export type ServiceCategory = {
+  documentId: string;
+  Name: string;
+  Slug: string;
+  Description: string | null;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+};
+
+// New type for the contactInfo object
+export type ContactInfo = {
+  email: string | null;
+  phone: string | null;
+  address: string | null;
 };
 
 export type ServiceDetail = ParagraphBlock | ListBlock;

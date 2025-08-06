@@ -74,7 +74,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const data = await fetchGlobalData();
-  console.log(data);
+  // console.log(data);
   return (
     <html
       lang="en"

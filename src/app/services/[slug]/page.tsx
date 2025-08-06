@@ -5,6 +5,8 @@ import { useParams, useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { fetchAllServices } from "@/lib/clients/service.client";
 import { fetchAllFaqs } from "@/lib/clients/faq.client";
+import { FAQ } from "@/types/graphql/faq";
+import { Service } from "@/types/graphql/service";
 
 const TABS = ["All", "Services", "FAQ"];
 
@@ -17,8 +19,8 @@ export default function ServiceDetailPage() {
 
   const [activeTab, setActiveTab] = useState("Services");
   const [query, setQuery] = useState("");
-  const [services, setServices] = useState<any[]>([]);
-  const [faqs, setFaqs] = useState<any[]>([]);
+  const [services, setServices] = useState<Service[]>([]);
+  const [faqs, setFaqs] = useState<FAQ[]>([]);
 
   useEffect(() => {
     if (!slug) return;
@@ -34,12 +36,12 @@ export default function ServiceDetailPage() {
 
         setServices(
           allServices.filter(
-            (s) => s.service_category?.Slug?.toLowerCase() === slugStr
+            (s:Service) => s.service_category?.Slug?.toLowerCase() === slugStr
           )
         );
         setFaqs(
           allFaqs.filter(
-            (faq) => faq.faq_category?.Slug?.toLowerCase() === slugStr
+            (faq: FAQ) => faq.faq_category?.Slug?.toLowerCase() === slugStr
           )
         );
       } catch (err) {
