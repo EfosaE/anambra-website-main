@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { FaFilePdf, FaFileExcel, FaFileWord } from "react-icons/fa";
 import clsx from "clsx";
-import { fetchAllUploadFiles } from "@/lib/clients/upload.client";
+import { fetchAllImages } from "@/lib/clients/upload.client";
 
 const categories = [
   "Laws",
@@ -40,7 +40,7 @@ export default function DocumentLibrary() {
 
   useEffect(() => {
     const load = async () => {
-      const allDocs = await fetchAllUploadFiles();
+      const allDocs = await fetchAllImages();
       setDocuments(allDocs);
     };
     load();
