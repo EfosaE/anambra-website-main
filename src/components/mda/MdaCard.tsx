@@ -39,7 +39,7 @@ export default function MdaCard({ mda }: { mda: Mda }) {
     <>
       <div
         onClick={() => setIsModalOpen(true)}
-        className="cursor-pointer bg-white border border-gray-300 rounded-lg p-5 flex flex-col justify-between">
+        className="cursor-pointer bg-white border border-gray-300 rounded-lg p-5 flex flex-col">
         <div className="flex items-center gap-3 mb-4">
           <img
             src="/images/icons/ministries.svg"

@@ -3,11 +3,10 @@ import { gql } from "@apollo/client";
 
 export const lgaQueries = {
   root: gql`
-    query FetchLGAs {
-      about {
+    query LgaPage {
+      lgaPage {
         lgas
       }
     }
   `,
 };
-        

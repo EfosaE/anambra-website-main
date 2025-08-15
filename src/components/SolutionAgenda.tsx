@@ -1,4 +1,5 @@
 import { HomepageData } from "@/types/graphql/homepage";
+import clsx from "clsx";
 import { Shield, TrendingUp, Users, Scale, Leaf } from "lucide-react";
 
 const iconMap = {
@@ -8,7 +9,6 @@ const iconMap = {
   Scale,
   Leaf,
 } as const;
-
 
 // const solutionPillars = [
 //   {
@@ -80,24 +80,38 @@ export default function SolutionAgenda({
             <span className="text-yellow-500">5 Solution Agenda</span>
           </h2>
           <p className="text-gray-600 text-lg max-w-3xl mx-auto leading-relaxed">
-            Building a liveable and prosperous smart megacity — a preferred place
-            to live, learn, invest, work, and enjoy.
+            Building a liveable and prosperous smart megacity — a preferred
+            place to live, learn, invest, work, and enjoy.
           </p>
         </div>
 
         {/* Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 gap-6 mb-12">
           {pillarsWithIcons.map((pillar) => {
-            console.log(pillar)
+            const colorVariants = {
+              green: "bg-green-600 hover:bg-green-500",
+              black: "bg-black hover:bg-gray-800",
+              blue: "bg-blue-600 hover:bg-blue-500",
+              gray: "bg-gray-600 hover:bg-gray-500",
+              yellow: "bg-yellow-600 hover:bg-yellow-500",
+            };
+            console.log(colorVariants[pillar.color]);
             const IconComponent = pillar.icon;
             return (
               <div
                 key={pillar.id}
-                className="group hover:shadow-lg transition-all duration-300 border border-gray-200 bg-white rounded-lg p-6 h-full flex flex-col"
-              >
+                className="group hover:shadow-lg transition-all duration-300 border border-gray-200 bg-white rounded-lg p-6 h-full flex flex-col">
                 <div
-                  className={`w-12 h-12 rounded-lg ${pillar.color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}
-                >
+                  className={clsx(
+                    "w-12 h-12 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300",
+                    pillar.color === "green" &&
+                      "bg-green-600 hover:bg-green-500",
+                    pillar.color === "black" && "bg-black hover:bg-gray-800",
+                    pillar.color === "blue" && "bg-blue-600 hover:bg-blue-500",
+                    pillar.color === "gray" && "bg-gray-600 hover:bg-gray-500",
+                    pillar.color === "yellow" &&
+                      "bg-yellow-600 hover:bg-yellow-500"
+                  )}>
                   <IconComponent className="w-6 h-6 text-white" />
                 </div>
                 <h3 className="text-xl font-bold text-black mb-3 leading-tight">

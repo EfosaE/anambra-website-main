@@ -1,5 +1,5 @@
 import client from "@/lib/http";
-import { AboutQueryResponse, ExecutiveCouncilQueryResponse, LGAQueryResponse } from "@/types/graphql/about";
+import { AboutQueryResponse, LgaPageQueryResponse } from "@/types/graphql/about";
 import { aboutQueries } from "../graphql/queries/about";
 import { lgaQueries } from "../graphql/queries/lga";
 import { ApolloError } from "@apollo/client";
@@ -26,16 +26,12 @@ export async function fetchAboutPage(): Promise<AboutQueryResponse | null> {
   }
 }
 
-export async function fetchLGAPage(): Promise<LGAQueryResponse | null> {
+export async function fetchLGAPage(): Promise<LgaPageQueryResponse | null> {
   try {
-    const { data } = await client.query<{ about: LGAQueryResponse["about"] }>({
-      query: lgaQueries.root,
-      // fetchPolicy: "no-cache",
+    const { data } = await client.query<LgaPageQueryResponse>({
+      query: lgaQueries.root, // should be the LgaPage query
+      // fetchPolicy: "no-cache", // uncomment if you want fresh data always
     });
-
-    // if (process.env.NODE_ENV === "development") {
-    //   console.log(data.about.lgas);
-    // }
 
     return data;
   } catch (error) {
@@ -49,25 +45,5 @@ export async function fetchLGAPage(): Promise<LGAQueryResponse | null> {
 }
 
 
-export async function fetchAnsecPage(): Promise<ExecutiveCouncilQueryResponse | null> {
-  try {
-    const { data } = await client.query<{ about: ExecutiveCouncilQueryResponse["about"] }>({
-      query: ansecQueries.root,
-      // fetchPolicy: "no-cache",
-    });
 
-    // if (process.env.NODE_ENV === "development") {
-    //   console.log(data.about.executive_council);
-    // }
-
-    return data;
-  } catch (error) {
-    if (error instanceof ApolloError) {
-      logApolloError(error);
-    } else {
-      console.error("Unknown error fetching ANSEC page:", error);
-    }
-    return null;
-  }
-}
 

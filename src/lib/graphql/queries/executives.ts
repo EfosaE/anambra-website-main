@@ -3,15 +3,20 @@ import { gql } from "@apollo/client";
 
 export const ansecQueries = {
   root: gql`
-    query FetchExecutiveCouncil {
-      about {
-        executive_council {
-          designation
+    query Officials($filters: OfficialFiltersInput) {
+      officials(filters: $filters) {
+        designations {
           name
+        }
+        details {
+          name
+          id
+          position
+          Contact {
+            email
+          }
           profile_picture {
             url
-            width
-            height
           }
         }
       }

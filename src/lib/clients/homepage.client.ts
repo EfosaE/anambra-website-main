@@ -52,7 +52,7 @@ export const fetchFooterSection = async (): Promise<
       homepage: FooterQueryResponse["homepage"];
     }>({
       query: HomepageQueries.footer,
-      fetchPolicy: "network-only"
+      // fetchPolicy: "network-only"
     });
 
     // console.log("data", data);

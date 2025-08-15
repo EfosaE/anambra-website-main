@@ -1,8 +1,9 @@
 import { fetchLGAPage } from "@/lib/clients/about.client";
+import { LgaPageQueryResponse } from "@/types/graphql/about";
 
 const Lga = async () => {
-  const data = await fetchLGAPage();
-  const anambraLGAs = data.about.lgas["anambra state"];
+  const data: LgaPageQueryResponse = await fetchLGAPage();
+  const anambraLGAs = data.lgaPage.lgas.lgas;
 
   return (
     <div className="overflow-x-auto p-4">
@@ -15,8 +16,8 @@ const Lga = async () => {
         </thead>
         <tbody>
           {anambraLGAs.map((lga) => (
-            <tr key={lga.lga}>
-              <td className="border px-4 py-2 font-medium">{lga.lga}</td>
+            <tr key={lga.name}>
+              <td className="border px-4 py-2 font-medium">{lga.name}</td>
               <td className="border px-4 py-2">{lga.towns.join(", ")}</td>
             </tr>
           ))}

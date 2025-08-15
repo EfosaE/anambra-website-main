@@ -36,31 +36,22 @@ export type ComponentSharedSlider = {
   }[];
 };
 
-export type LGAQueryResponse = {
-  about: {
+export type LGA = {
+  name: string;
+  towns: string[];
+};
+
+export type LgaPageQueryResponse = {
+  lgaPage: {
     lgas: {
-      "anambra state": {
-        lga: string;
-        towns: string[];
-      }[];
+      lgas: LGA[];
     };
   };
 };
 
-export type ExecutiveCouncilMember = {
-  designation: string;
-  name: string;
-  profile_picture: {
-    url: string;
-    width: number;
-    height: number;
-  } | null; // In case some members have no image
-};
 
-export type AboutData = {
-  executive_council: ExecutiveCouncilMember[];
-};
+// export type AboutData = {
+//   executive_council: ExecutiveCouncilMember[];
+// };
 
-export type ExecutiveCouncilQueryResponse = {
-  about: AboutData;
-};
+
