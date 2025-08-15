@@ -33,7 +33,6 @@ export const serviceQueries = {
         Description
         ServicesDetails
         websiteLink
-
         createdAt
         updatedAt
         publishedAt

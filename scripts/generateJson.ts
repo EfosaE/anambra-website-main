@@ -30,7 +30,7 @@ const query = gql`
       Name
       Description
       ServicesDetails
-      WebsiteLink
+      websiteLink
       email
       phone
       publishedAt

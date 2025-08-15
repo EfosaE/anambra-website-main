@@ -17,12 +17,25 @@ export const SearchKeywordQueries = {
           documentId
           question
           faqAnswer
+          tags {
+            name
+          }
+          action {
+            name
+            url
+          }
         }
         services {
           __typename
           documentId
           Name
           Description
+          websiteLink
+          contactInfo {
+            email
+            address
+            phone
+          }
         }
       }
     }

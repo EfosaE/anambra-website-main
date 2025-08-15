@@ -9,7 +9,7 @@ export type FAQ = {
   publishedAt: string;
   tags: {
     name: string;
-  };
+  }[];
   faq_category: {
     documentId: string;
     Name: string;
@@ -19,7 +19,7 @@ export type FAQ = {
     updatedAt: string;
     publishedAt: string;
   };
-  Action: { name: string; url: string } | null;
+  action: { name: string; url: string } | null;
 };
 
 export type RichTextNode = {

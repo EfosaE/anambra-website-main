@@ -25,7 +25,7 @@ export default function ServiceDetails({ documentId }: { documentId: string }) {
   const service = data.service;
 
   return (
-    <div>
+    <div className="bg-white p-6 rounded-[8px] flex flex-col justify-between transition-all duration-300 ease-in-out">
       <h2 className="text-xl font-bold mb-2">{service.Name}</h2>
 
       <p className="text-gray-700 text-sm mb-4">{service.Description}</p>
@@ -77,10 +77,10 @@ export default function ServiceDetails({ documentId }: { documentId: string }) {
         </div>
       )}
 
-      {service.WebsiteLink && (
+      {service.websiteLink && (
         <div className="mt-4">
           <a
-            href={service.WebsiteLink}
+            href={service.websiteLink}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-block bg-blue-600 text-white text-sm px-4 py-2 rounded hover:bg-blue-700 transition">

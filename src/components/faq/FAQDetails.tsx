@@ -65,13 +65,23 @@ export default function FAQDetails({
               </button>
             </div>
           )}
+
+          {faq.action?.url && (
+            <div className="mt-3">
+              <a
+                href={faq.action.url} target="_blank" rel="noopener noreferrer"
+                className="inline-block bg-[#DA9617] text-white text-xs font-medium px-3 py-2 rounded hover:bg-[#b47812] transition">
+                {faq.action.name || "Learn More"}
+              </a>
+            </div>
+          )}
         </div>
       )}
 
       {/* Footer */}
       <div className="flex justify-between  pt-4 text-[11px] text-blue-600 font-semibold">
         <span className="truncate mr-2">
-          {faq.tags?.[0]?.Name?.trim() || "General"}
+          {faq?.tags[0]?.name.trim() || "General"}
         </span>
         <span>FAQ</span>
       </div>
