@@ -32,6 +32,7 @@ export const fetchHomepageData = async (): Promise<
       News_Articles_Grid: homepage.News_Articles_Grid,
       FAQ_Section: homepage.FAQ_Section,
       SearchSection: homepage.SearchSection,
+      AgendaSection: homepage.AgendaSection,
     };
   } catch (error) {
     if (error instanceof ApolloError) {

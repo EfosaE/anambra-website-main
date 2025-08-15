@@ -6,7 +6,7 @@ export const eodbQueries = {
     query FetchEodbPage {
       businessPage {
         documentId
-        Title
+        title
         councilMembers {
           name
           designation

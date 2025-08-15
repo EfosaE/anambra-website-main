@@ -38,7 +38,7 @@ export default function NoticeBoard() {
   }, []);
 
   return (
-    <section className="px-4 md:px-20 mt-20 py-16 bg-[#F9F9F9]">
+    <section className="px-4 md:px-20 py-16 bg-[#F9F9F9]">
       <div className="max-w-[1201px] mx-auto">
         <div className="grid md:grid-cols-11 gap-8">
           {/* Notice Board */}

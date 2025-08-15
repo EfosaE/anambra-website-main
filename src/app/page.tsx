@@ -4,6 +4,7 @@ import InterfaceWithGovernment from "@/components/InterfaceWithGovernment";
 import LatestNews from "@/components/LatestNews";
 import LightSection from "@/components/LightSection";
 import NoticeBoard from "@/components/NoticeBoard";
+import SolutionAgenda from "@/components/SolutionAgenda";
 import { fetchHomepageData } from "@/lib/clients/homepage.client";
 import { Article } from "@/types/graphql/articles";
 
@@ -17,7 +18,13 @@ export default async function Home() {
     return <div>Some Important Data is Missing</div>;
   }
 
-  const { FAQ_Section, Banner, SearchSection, News_Articles_Grid } = data;
+  const {
+    FAQ_Section,
+    Banner,
+    SearchSection,
+    News_Articles_Grid,
+    AgendaSection,
+  } = data;
 
   let latestArticles: Article[] = [];
 
@@ -48,6 +55,7 @@ export default async function Home() {
     <>
       <Hero keywords={SearchSection.search_keywords} />
       <LightSection stats={Banner.Statistics} />
+      <SolutionAgenda AgendaSection={AgendaSection} />
       <NoticeBoard />
       <InterfaceWithGovernment />
       <LatestNews articles={latestArticles} />
@@ -55,5 +63,3 @@ export default async function Home() {
     </>
   );
 }
-
-

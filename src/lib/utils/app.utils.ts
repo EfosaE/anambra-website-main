@@ -41,3 +41,29 @@ export function parseRichContent(content: string): string {
   // Fallback to markdown parser
   return parseMarkdown(content);
 }
+
+
+/**
+ * Creates a pre-transformed Cloudinary URL to prevent Next.js server timeouts.
+ * @param {string} originalUrl The original Cloudinary URL.
+ * @param {number} width The target width for the image.
+ * @returns {string} The new URL with Cloudinary transformation parameters.
+ */
+export const getTransformedCloudinaryUrl = (originalUrl:string, width:number): string => {
+  // Find the position of '/upload/' in the URL
+  const uploadIndex = originalUrl.indexOf('/upload/');
+  if (uploadIndex === -1) {
+    // If the URL format is unexpected, return the original
+    return originalUrl;
+  }
+
+  const baseUrl = originalUrl.slice(0, uploadIndex);
+  const versionAndPath = originalUrl.slice(uploadIndex + ('/upload/').length);
+
+  // Construct the new URL with transformation parameters
+  // w_auto tells Cloudinary to choose the best width up to the provided value
+  // f_auto and q_auto are best practices for automatic format and quality
+  const transformations = `w_${width},c_limit,f_auto,q_auto`;
+
+  return `${baseUrl}/upload/${transformations}/${versionAndPath}`;
+};

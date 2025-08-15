@@ -6,6 +6,7 @@ import clsx from "clsx";
 import Image from "next/image";
 import { UploadFile } from "@/types/graphql/upload"; // This type might need adjustment
 import { X } from "lucide-react";
+import { getTransformedCloudinaryUrl } from "@/lib/utils/app.utils";
 
 // 1. Define the GraphQL Query as provided
 const GET_GALLERIES = gql`
@@ -69,7 +70,7 @@ export default function Gallery() {
     // Filter out any invalid image data
     return allImages.filter(
       (img) =>
-        img.url && img.mime?.startsWith("image/") && img.width && img.height,
+        img.url && img.mime?.startsWith("image/") && img.width && img.height
     );
   }, [data]);
 
@@ -80,7 +81,6 @@ export default function Gallery() {
     return img.category === selectedCategory;
   });
 
- 
   const closeOverlay = useCallback(() => {
     setActiveIndex(null);
   }, []);
@@ -91,7 +91,7 @@ export default function Gallery() {
 
   const showNext = useCallback(() => {
     setActiveIndex((prev) =>
-      prev === null || prev >= filteredImages.length - 1 ? prev : prev + 1,
+      prev === null || prev >= filteredImages.length - 1 ? prev : prev + 1
     );
   }, [filteredImages.length]);
 
@@ -166,6 +166,7 @@ export default function Gallery() {
         Gallery
       </h2>
 
+      {/* Category Filter - Improved mobile responsiveness */}
       <div className="mb-8 sm:mb-10 lg:mb-12">
         <div className="overflow-x-auto scrollbar-hide pb-2">
           <div className="flex justify-start sm:justify-center gap-4 sm:gap-6 lg:gap-8 xl:gap-12 min-w-max px-2 sm:px-4">
@@ -177,7 +178,7 @@ export default function Gallery() {
                   "text-xs sm:text-sm lg:text-base font-semibold border-b-2 transition duration-200 pb-1 sm:pb-2 whitespace-nowrap flex-shrink-0",
                   selectedCategory === cat
                     ? "text-black border-black"
-                    : "text-gray-600 border-transparent hover:text-black hover:border-gray-300",
+                    : "text-gray-600 border-transparent hover:text-black hover:border-gray-300"
                 )}>
                 {cat}
               </button>
@@ -186,6 +187,7 @@ export default function Gallery() {
         </div>
       </div>
 
+      {/* Images Grid - Enhanced responsive grid */}
       {filteredImages.length === 0 ? (
         <div className="text-center py-8 sm:py-12 px-4">
           <p className="text-gray-600 text-sm sm:text-base lg:text-lg">
@@ -210,7 +212,7 @@ export default function Gallery() {
                   fill
                   className="object-cover"
                   sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 25vw"
-                  priority={idx < 8}
+                  priority={idx < 8} // Prioritize first 8 images for mobile
                 />
               </div>
               {img.caption && (
@@ -225,6 +227,7 @@ export default function Gallery() {
         </div>
       )}
 
+      {/* Show more button - Enhanced responsive styling */}
       {filteredImages.length > 16 && !showMore && (
         <div className="text-center mt-6 sm:mt-8 px-4">
           <button
@@ -235,11 +238,13 @@ export default function Gallery() {
         </div>
       )}
 
+      {/* Lightbox Overlay - Enhanced mobile experience */}
       {activeIndex !== null && filteredImages[activeIndex] && (
         <div
           className="fixed inset-0 bg-black/90 sm:bg-black/75 flex items-center justify-center z-50 p-2 sm:p-4"
           onClick={closeOverlay}>
           <div className="relative w-full max-w-[95vw] sm:max-w-[90vw] max-h-[95vh] sm:max-h-[90vh] flex justify-center items-center">
+            {/* Close Button - Better mobile positioning */}
             <button
               onClick={closeOverlay}
               className="absolute top-2 sm:top-4 right-2 sm:right-4 z-10 p-2 sm:p-3 bg-black/50 hover:bg-black/70 rounded-full transition text-white"
@@ -247,6 +252,7 @@ export default function Gallery() {
               <X size={20} className="sm:w-6 sm:h-6" />
             </button>
 
+            {/* Previous Button - Mobile optimized */}
             {activeIndex > 0 && (
               <button
                 onClick={(e) => {
@@ -265,6 +271,7 @@ export default function Gallery() {
               </button>
             )}
 
+            {/* Main Image - Responsive sizing */}
             <div
               className="relative max-w-full max-h-full"
               onClick={(e) => e.stopPropagation()}>
@@ -281,6 +288,7 @@ export default function Gallery() {
                 priority
               />
 
+              {/* Image Caption - Mobile responsive */}
               {filteredImages[activeIndex].caption && (
                 <div className="absolute bottom-0 left-0 right-0 bg-black/80 text-white p-2 sm:p-4 rounded-b">
                   <p className="text-center text-xs sm:text-sm lg:text-base leading-tight">
@@ -290,6 +298,7 @@ export default function Gallery() {
               )}
             </div>
 
+            {/* Next Button - Mobile optimized */}
             {activeIndex < filteredImages.length - 1 && (
               <button
                 onClick={(e) => {
@@ -308,6 +317,7 @@ export default function Gallery() {
               </button>
             )}
 
+            {/* Image Counter - Mobile responsive */}
             <div className="absolute bottom-2 sm:bottom-4 left-1/2 transform -translate-x-1/2 bg-black/80 text-white px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm">
               {activeIndex + 1} / {filteredImages.length}
             </div>

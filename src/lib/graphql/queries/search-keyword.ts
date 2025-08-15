@@ -16,7 +16,7 @@ export const SearchKeywordQueries = {
           __typename
           documentId
           question
-          FaqAnswer
+          faqAnswer
         }
         services {
           __typename

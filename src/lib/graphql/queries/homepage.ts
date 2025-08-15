@@ -31,7 +31,7 @@ export const HomepageQueries = {
             updatedAt
             publishedAt
             tags {
-              Name
+              name
             }
             faq_category {
               documentId
@@ -83,6 +83,19 @@ export const HomepageQueries = {
                 name
               }
             }
+          }
+        }
+        AgendaSection {
+          headline
+          outcomes
+          vision
+          agenda {
+            id
+            title
+            subTitle
+            description
+            icon
+            color
           }
         }
       }

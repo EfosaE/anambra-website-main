@@ -8,7 +8,7 @@ export type FAQ = {
   updatedAt: string;
   publishedAt: string;
   tags: {
-    Name: string;
+    name: string;
   };
   faq_category: {
     documentId: string;

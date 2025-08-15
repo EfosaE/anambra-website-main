@@ -44,6 +44,19 @@ export type HomepageData = {
         articles: Article[];
       }[];
     };
+    AgendaSection: {
+      headline: string;
+      outcomes: string;
+      vision: string;
+      agenda: {
+        id: string;
+        title: string;
+        subTitle: string;
+        description: string;
+        icon: string;
+        color: string;
+      }[];
+    };
   };
 };
 
