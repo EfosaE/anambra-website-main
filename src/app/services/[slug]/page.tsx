@@ -1,156 +1,117 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useParams, useSearchParams, useRouter } from "next/navigation";
-import Link from "next/link";
-import { fetchAllServices } from "@/lib/clients/service.client";
-import { fetchAllFaqs } from "@/lib/clients/faq.client";
-import { FAQ } from "@/types/graphql/faq";
+import { useState } from "react";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
+import { gql, useQuery } from "@apollo/client";
+import Modal from "@/components/Modal";
+import ServiceDetails from "@/components/services/ServiceDetails";
 import { Service } from "@/types/graphql/service";
+import Spinner from "@/components/Spinner";
+import { Card } from "@/components/SearchResultGrid";
+import { FAQ } from "@/types/graphql/faq";
+import ResultPopUpModal from "@/components/ResultPopUpModal";
 
 const TABS = ["All", "Services", "FAQ"];
 
-export default function ServiceDetailPage() {
-  const { slug } = useParams();
+const SERVICES_AND_FAQS_BY_CATEGORY = gql`
+  query ServiceAndFaqsByCategory($filters: ServiceCategoryFiltersInput) {
+    serviceCategories(filters: $filters) {
+      faqs {
+        __typename
+        question
+        faqAnswer
+        documentId
+        tags {
+          name
+        }
+        action {
+          name
+          url
+        }
+      }
+      services {
+        __typename
+        Name
+        Description
+        documentId
+      }
+    }
+  }
+`;
+
+export default function ServiceCategoryPage() {
+  const { slug } = useParams<{ slug: string }>();
   const searchParams = useSearchParams();
   const router = useRouter();
 
   const tabParam = searchParams.get("tab");
+  const activeTab = tabParam && TABS.includes(tabParam) ? tabParam : "All";
 
-  const [activeTab, setActiveTab] = useState("Services");
   const [query, setQuery] = useState("");
-  const [services, setServices] = useState<Service[]>([]);
-  const [faqs, setFaqs] = useState<FAQ[]>([]);
 
-  useEffect(() => {
-    if (!slug) return;
-
-    const loadData = async () => {
-      try {
-        const [allServices, allFaqs] = await Promise.all([
-          fetchAllServices(),
-          fetchAllFaqs(),
-        ]);
-
-        const slugStr = slug.toString().toLowerCase();
-
-        setServices(
-          allServices.filter(
-            (s:Service) => s.service_category?.Slug?.toLowerCase() === slugStr
-          )
-        );
-        setFaqs(
-          allFaqs.filter(
-            (faq: FAQ) => faq.faq_category?.Slug?.toLowerCase() === slugStr
-          )
-        );
-      } catch (err) {
-        console.error("Error fetching services/faqs:", err);
-      }
-    };
-
-    loadData();
-  }, [slug]);
-
-  useEffect(() => {
-    const validTab = TABS.map((t) => t.toLowerCase());
-    const cleanTab = tabParam?.toLowerCase();
-
-    if (cleanTab && validTab.includes(cleanTab)) {
-      setActiveTab(
-        TABS.find((t) => t.toLowerCase() === cleanTab) || "Services"
-      );
+  const handleTabChange = (tab: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (tab === "All") {
+      params.delete("tab");
     } else {
-      setActiveTab("Services");
+      params.set("tab", tab);
     }
-  }, [tabParam]);
+    router.push(`?${params.toString()}`);
+  };
+
+  const [selectedItem, setSelectedItem] = useState<Service | FAQ | null>(null);
+
+  const { data, loading, error } = useQuery<{
+    serviceCategories: {
+      services: Service[];
+      faqs: FAQ[];
+    }[];
+  }>(SERVICES_AND_FAQS_BY_CATEGORY, {
+    variables: {
+      filters: {
+        Slug: {
+          eqi: slug,
+        },
+      },
+    },
+    skip: !slug,
+  });
+
+  const category = data?.serviceCategories?.[0];
+  const faqs = category?.faqs ?? [];
+  const services = category?.services ?? [];
+
+  let filteredItems: (Service | FAQ)[] = [];
+
+  if (activeTab === "All") {
+    filteredItems = [...services, ...faqs];
+  } else if (activeTab === "Services") {
+    filteredItems = services;
+  } else if (activeTab === "FAQ") {
+    filteredItems = faqs;
+  }
+
+  // Apply search filtering
+  const searchQuery = query.toLowerCase();
+
+  const searchedItems = filteredItems.filter((item) => {
+    if (item.__typename === "Service") {
+      return item.Name?.toLowerCase().includes(searchQuery);
+    }
+    if (item.__typename === "Faq") {
+      return item.question?.toLowerCase().includes(searchQuery);
+    }
+    return false;
+  });
 
   const heading =
     services[0]?.service_category?.Name ??
-    slug?.toString().replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()) ??
+    slug?.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()) ??
     "Service";
-
-  const filteredServices = services.filter((s) =>
-    s.Name?.toLowerCase().includes(query.toLowerCase())
-  );
-
-  const filteredFaqs = faqs.filter((faq) =>
-    faq.question?.toLowerCase().includes(query.toLowerCase())
-  );
-
-  const showServices = activeTab === "All" || activeTab === "Services";
-  const showFaqs = activeTab === "All" || activeTab === "FAQ";
-
-  const renderTabContent = () => {
-    const noResults = showServices && filteredServices.length === 0 &&
-                      showFaqs && filteredFaqs.length === 0;
-
-    return (
-      <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {showServices &&
-          filteredServices.map((service) => (
-            <div
-              key={service.documentId}
-              className="border border-gray-200 bg-white rounded-lg p-4 flex flex-col justify-between h-full">
-              <p className="text-gray-600 text-[13px] mb-12">
-                {service.Description ||
-                  `Learn about the ${service.Name} service.`}
-              </p>
-
-              <div className="flex justify-between text-[11px] text-blue-600 font-semibold">
-                <Link
-                  href={`/services/${service.service_category?.Slug}?tab=services`}
-                  className="uppercase">
-                  {service.Name}
-                </Link>
-                <Link
-                  href={`/services/${service.service_category?.Slug}?tab=faq`}>
-                  FAQ
-                </Link>
-              </div>
-            </div>
-          ))}
-
-        {showFaqs &&
-          filteredFaqs.map((faq) => (
-            <div
-              key={faq.documentId}
-              className="border border-gray-200 bg-white rounded-lg p-4 flex flex-col justify-between h-full">
-              <p className="text-gray-600 text-[13px] mb-12">{faq.question}</p>
-
-              <div className="flex justify-between text-[11px] text-blue-600 font-semibold">
-                <Link
-                  href={`/services/${faq.faq_category?.Slug}?tab=services`}
-                  className="uppercase">
-                  {heading}
-                </Link>
-                <Link href={`/services/${faq.faq_category?.Slug}?tab=faq`}>
-                  {faq.question?.length > 18 ? "View FAQ" : faq.question}
-                </Link>
-              </div>
-            </div>
-          ))}
-
-        {noResults && (
-          <p className="col-span-full text-center text-[13px] text-gray-500">
-            No services or FAQs found for this category.
-          </p>
-        )}
-      </div>
-    );
-  };
-
-  // Update tab in URL when user clicks a tab
-  const handleTabClick = (tab: string) => {
-    setActiveTab(tab);
-    const current = new URLSearchParams(Array.from(searchParams.entries()));
-    current.set("tab", tab.toLowerCase());
-    router.push(`?${current.toString()}`);
-  };
 
   return (
     <main className="max-w-7xl mx-auto px-6 pt-[50px] pb-20">
-      <h1 className="text-[30px] sm:text-[40px] font-bold text-center leading-tight mb-9">
+      <h1 className="text-[30px]  sm:text-[40px] font-bold text-center leading-tight mb-9">
         {heading}
       </h1>
 
@@ -161,7 +122,7 @@ export default function ServiceDetailPage() {
           className="flex items-center bg-[#E9E9E9] rounded-[12px] w-full max-w-[529px] px-[7px]">
           <input
             type="text"
-            placeholder={`Search ${activeTab === "FAQ" ? "FAQs" : "Services"}...`}
+            placeholder="Search services..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             className="grow bg-transparent text-[13px] text-gray-800 focus:outline-none pl-[7px]"
@@ -185,8 +146,8 @@ export default function ServiceDetailPage() {
           {TABS.map((tab) => (
             <button
               key={tab}
-              onClick={() => handleTabClick(tab)}
-              className={`flex-1 h-full text-sm sm:text-base font-semibold transition duration-200 border-b-2 ${
+              onClick={() => handleTabChange(tab)}
+              className={`flex-1 h-full text-sm sm:text-base font-semibold transition duration-200 border-b-2 cursor-pointer ${
                 activeTab === tab
                   ? "text-black border-black"
                   : "text-black border-transparent hover:text-black hover:border-black"
@@ -197,8 +158,48 @@ export default function ServiceDetailPage() {
         </div>
       </div>
 
-      {/* Tab Content */}
-      {renderTabContent()}
+      {/* Loading / Error states */}
+      {loading && <Spinner size={40} position="top" />}
+      {error && (
+        <p className="mt-6 text-center text-red-500">
+          Failed to load data. Please try again later.
+        </p>
+      )}
+
+      {/* Services List */}
+      {!loading && !error && (
+        <>
+          <p className="text-center md:text-2xl ">
+            <span className="text-golden font-bold">
+              {searchedItems.length}{" "}
+            </span>{" "}
+            result(s) found
+          </p>
+          <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {searchedItems.length > 0 ? (
+              searchedItems.map((item) => (
+                <Card
+                  key={item.documentId}
+                  item={item}
+                  onClick={() => setSelectedItem(item)}
+                />
+              ))
+            ) : (
+              <p className="col-span-full text-center text-[13px] text-gray-500">
+                No {activeTab.toLowerCase()} found for this category.
+              </p>
+            )}
+          </div>
+        </>
+      )}
+
+      {/* Modal with service details */}
+      {selectedItem && (
+        <ResultPopUpModal
+          item={selectedItem}
+          onClose={() => setSelectedItem(null)}
+        />
+      )}
     </main>
   );
 }

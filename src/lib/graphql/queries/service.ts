@@ -58,11 +58,11 @@ export const serviceQueries = {
     }
   `,
   byCategorySlug: gql`
-    query ServicesByCategorySlug($slug: String!) {
-      serviceCategories(where: { Slug: $slug }) {
+     query GetServicesBySlug($filters: ServiceFiltersInput) {
+      services(filters: $filters) {
         documentId
         Name
-        Slug
+        Description
       }
     }
   `,

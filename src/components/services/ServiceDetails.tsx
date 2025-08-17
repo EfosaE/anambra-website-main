@@ -2,6 +2,7 @@
 
 import { serviceQueries } from "@/lib/graphql/queries/service";
 import { useQuery } from "@apollo/client";
+import Spinner from "../Spinner";
 // import { GET_SERVICE_BY_ID } from "@/lib/queries/service.queries";
 // import React from "react";
 
@@ -11,7 +12,7 @@ export default function ServiceDetails({ documentId }: { documentId: string }) {
   });
 
   if (loading) {
-    return <p className="text-sm text-gray-500">Loading service details...</p>;
+    return <Spinner size={30} position="center" />
   }
 
   if (error || !data?.service) {

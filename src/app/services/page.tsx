@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { useQuery, gql } from "@apollo/client";
-import ServiceCard from "@/components/services/servicecard";
 import Spinner from "@/components/Spinner";
+import ServiceCategoryCard from "@/components/services/ServiceCategoryCard";
 
 type ServiceCategory = {
   Name: string;
@@ -13,15 +13,12 @@ type ServiceCategory = {
 };
 
 const FETCH_SERVICE_CATEGORIES = gql`
-  query ServiceCategories {
-    serviceCategories {
+  query ServiceCategories($pagination: PaginationArg) {
+    serviceCategories(pagination: $pagination) {
       documentId
       Name
       Slug
       Description
-      createdAt
-      updatedAt
-      publishedAt
     }
   }
 `;
@@ -31,7 +28,13 @@ export default function ServicesPage() {
 
   const { data, loading, error } = useQuery<{
     serviceCategories: ServiceCategory[];
-  }>(FETCH_SERVICE_CATEGORIES);
+  }>(FETCH_SERVICE_CATEGORIES, {
+    variables: {
+      pagination: {
+        pageSize: 50,
+      },
+    },
+  });
 
   const categories = data?.serviceCategories ?? [];
 
@@ -73,20 +76,22 @@ export default function ServicesPage() {
 
       {/* Result State */}
       {loading ? (
-        <Spinner  size={40} position="top"/>
+        <Spinner size={40} position="top" />
       ) : error ? (
         <p className="text-center mt-10 text-[13px] text-red-500">
           Failed to load service categories.
         </p>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 items-stretch">
           {filtered.map((category) => (
-            <ServiceCard
-              key={category.documentId}
-              title={category.Name}
-              slug={category.Slug}
-              description={category.Description}
-            />
+            <div key={category.documentId} className="h-full">
+              <ServiceCategoryCard
+                title={category.Name}
+                slug={category.Slug}
+                description={category.Description}
+                className="h-full flex flex-col" // make card stretch
+              />
+            </div>
           ))}
         </div>
       )}

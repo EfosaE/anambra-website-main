@@ -20,6 +20,32 @@ export const fetchAllServices = async () => {
   }
 };
 
+export const fetchServicesBySlug = async (slug: string) => {
+  try {
+    const { data } = await client.query({
+      query: serviceQueries.byCategorySlug,
+      variables: {
+        filters: {
+          service_category: {
+            Slug: {
+              eqi: slug,
+            },
+          },
+        },
+      },
+    });
+    return data.services;
+  } catch (error) {
+    if (error instanceof ApolloError) {
+      logApolloError(error);
+    } else {
+      console.error("Unknown error fetching services:", error);
+    }
+    return null;
+  }
+};
+
+
 export const fetchServiceById = async (id: string): Promise<Service | null> => {
   try {
     const { data } = await client.query({

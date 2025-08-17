@@ -21,7 +21,7 @@ export default function Spinner({
   return (
     <div className={positionClasses}>
       <div
-        className="animate-spin rounded-full border-4 border-gray-200 border-t-transparent"
+        className="animate-spin rounded-full border-4 border-gray-200 border-t-transparent mt-2"
         style={{
           width: dimension,
           height: dimension,

@@ -5,10 +5,16 @@ import Link from "next/link";
 type Props = {
   title: string;
   slug: string;
-  description:string
+  description: string;
+  className: string;
 };
 
-export default function ServiceCard({ title, slug, description }: Props) {
+export default function ServiceCategoryCard({
+  title,
+  slug,
+  description,
+  className,
+}: Props) {
   const iconName =
     title
       .toLowerCase()
@@ -36,8 +42,9 @@ export default function ServiceCard({ title, slug, description }: Props) {
 
   return (
     <Link href={`/services/${slug}`}>
-      <div className="border border-gray-200 bg-white rounded-xl flex flex-col p-4 items-center text-center transition">
-        <div className="w-[74px] h-[74px] mb-4">
+      <div
+        className={`group border border-gray-200 bg-white rounded-xl flex flex-col p-4 items-center text-center transition hover:border-golden cursor-pointer ${className}`}>
+        <div className="w-[74px] h-[74px] mb-4 transition-transform duration-200 group-hover:scale-105 group-hover:-translate-y-1">
           <img
             src={iconPath}
             alt={title}

@@ -69,7 +69,7 @@ export default function SearchResultGrid({ results }: Props) {
   );
 }
 
-function Card({
+export function Card({
   item,
   onClick,
 }: {
@@ -86,8 +86,8 @@ function Card({
         <p className="text-sm text-gray-600 line-clamp-2 mt-1">
           {item.description}
         </p>
-        <div className="text-xs md:text-base text-golden mt-auto">
-          <p>From Article</p>
+        <div className="text-xs md:text-base text-blue-600 mt-auto">
+          <p>Article</p>
         </div>
       </div>
     );
@@ -103,8 +103,8 @@ function Card({
         <p className="text-sm text-gray-600 mt-1">
           {item.faqAnswer?.[0]?.children?.[0]?.text?.slice(0, 120)}...
         </p>
-        <div className="text-xs md:text-base text-golden mt-auto">
-          <p>From FAQs</p>
+        <div className="text-xs md:text-sm text-blue-600 mt-auto">
+          <p>FAQ</p>
         </div>
       </div>
     );
@@ -120,8 +120,8 @@ function Card({
         <p className="text-sm text-gray-600 mt-1 line-clamp-3">
           {item.Description}
         </p>
-        <div className="text-xs md:text-base text-golden mt-auto">
-          <p>From Service</p>
+        <div className="text-xs md:text-sm text-blue-600 mt-auto">
+          <p>Service</p>
         </div>
       </div>
     );

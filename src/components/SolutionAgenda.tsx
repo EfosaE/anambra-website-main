@@ -86,7 +86,7 @@ export default function SolutionAgenda({
         </div>
 
         {/* Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 gap-6 mb-12">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6 mb-12">
           {pillarsWithIcons.map((pillar) => {
             const colorVariants = {
               green: "bg-green-600 hover:bg-green-500",
