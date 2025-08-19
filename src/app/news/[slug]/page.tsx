@@ -1,7 +1,7 @@
 // app/news/[slug]/page.tsx
 import RelatedNews from "@/components/news/RelatedNews";
 import { fetchArticleBySlug } from "@/lib/clients/articles.client";
-import { marked } from "marked";
+import { parseRichContent } from "@/lib/utils/app.utils";
 import { notFound } from "next/navigation";
 
 export default async function NewsDetailPage({
@@ -54,7 +54,7 @@ export default async function NewsDetailPage({
               return (
                 <div
                   key={idx}
-                  dangerouslySetInnerHTML={{ __html: marked.parse(block.body) }}
+                  dangerouslySetInnerHTML={{ __html: parseRichContent(block.body) }}
                 />
               );
 

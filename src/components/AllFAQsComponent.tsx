@@ -1,46 +1,62 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import clsx from "clsx";
-import { fetchAllFaqs } from "@/lib/clients/faq.client";
+import { useState } from "react";
+import { gql, TypedDocumentNode, useQuery } from "@apollo/client";
 import Spinner from "./Spinner";
 import { FAQ } from "@/types/graphql/faq";
+import { logApolloError } from "@/lib/utils/graphqlHelpers";
+import { parseRichText } from "@/lib/utils/app.utils";
+
+// Define the shape of the query result + variables
+type GetAllFaqsData = {
+  faqs: FAQ[];
+};
+
+type GetAllFaqsVars = {}; // no variables in this query
+
+// Define query with types
+const GET_ALL_FAQS: TypedDocumentNode<GetAllFaqsData, GetAllFaqsVars> = gql`
+  query FetchFaqs {
+    faqs {
+      documentId
+      question
+      # publishedAt
+      faqAnswer
+      createdAt
+      updatedAt
+      publishedAt
+      faq_category {
+        Name
+        Slug
+      }
+    }
+  }
+`;
 
 export default function AllFAQsComponent() {
   const [query, setQuery] = useState("");
   const [sortOption, setSortOption] = useState("");
-  const [faqs, setFaqs] = useState<FAQ[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    const loadFaqs = async () => {
-      setIsLoading(true);
-      try {
-        const result = await fetchAllFaqs();
-        setFaqs(result);
-      } catch (error) {
-        console.error("Failed to fetch FAQs:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    loadFaqs();
-  }, []);
+  const { data, loading, error } = useQuery(GET_ALL_FAQS);
+
+  if (error) {
+    logApolloError(error);
+  }
+
+  const faqs = data?.faqs ?? [];
 
   const filteredFaqs = faqs
-    .filter((faq) => faq.question.toLowerCase().includes(query.toLowerCase()))
+    .filter((faq) => faq.question?.toLowerCase().includes(query.toLowerCase()))
     .sort((a, b) => {
       if (sortOption === "az") return a.question.localeCompare(b.question);
       if (sortOption === "za") return b.question.localeCompare(a.question);
       if (sortOption === "newest")
         return (
-          new Date(b.publishedAt).getTime() -
-          new Date(a.publishedAt).getTime()
+          new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
         );
       if (sortOption === "oldest")
         return (
-          new Date(a.publishedAt).getTime() -
-          new Date(b.publishedAt).getTime()
+          new Date(a.publishedAt).getTime() - new Date(b.publishedAt).getTime()
         );
       return 0;
     });
@@ -51,6 +67,7 @@ export default function AllFAQsComponent() {
         <h2 className="text-[30px] sm:text-[40px] font-bold mb-12">FAQs</h2>
       </div>
 
+      {/* Search */}
       <div className="flex flex-col items-center justify-center mb-10">
         <form
           onSubmit={(e) => e.preventDefault()}
@@ -72,6 +89,7 @@ export default function AllFAQsComponent() {
         </form>
       </div>
 
+      {/* Sort */}
       <div className="flex justify-end mb-6">
         <select
           className="bg-[#E9E9E9] border border-[#D4D4D4] px-4 py-2 rounded text-sm text-gray-800 w-full sm:w-auto appearance-none pr-10"
@@ -91,9 +109,14 @@ export default function AllFAQsComponent() {
         </select>
       </div>
 
-      {isLoading ? (
+      {/* Content */}
+      {loading ? (
         <div className="flex items-start justify-center h-64">
           <Spinner size={40} />
+        </div>
+      ) : error ? (
+        <div className="text-center py-12 text-red-500">
+          Failed to load FAQs.
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -108,26 +131,12 @@ export default function AllFAQsComponent() {
               </p>
 
               {/* Answer */}
-              <div className="text-sm text-gray-700 leading-relaxed mb-4">
-                {faq.faqAnswer?.length ? (
-                  faq.faqAnswer.map((block: any, blockIdx: number) => {
-                    if (block.type === "paragraph") {
-                      return (
-                        <p key={blockIdx} className="mb-2">
-                          {block.children?.map(
-                            (child: any, childIdx: number) => (
-                              <span key={childIdx}>{child.text}</span>
-                            )
-                          )}
-                        </p>
-                      );
-                    }
-                    return null;
-                  })
-                ) : (
-                  <p>Answer not available</p>
-                )}
-              </div>
+              <div
+                className="prose prose-sm max-w-none text-gray-700 leading-relaxed"
+                dangerouslySetInnerHTML={{
+                  __html: parseRichText(faq.faqAnswer || []),
+                }}
+              />
 
               {/* Footer */}
               <div className="flex justify-between mt-auto pt-4 text-[11px] text-blue-600 font-semibold">
@@ -139,7 +148,7 @@ export default function AllFAQsComponent() {
         </div>
       )}
 
-      {!isLoading && filteredFaqs.length === 0 && (
+      {!loading && !error && filteredFaqs.length === 0 && (
         <div className="text-center py-12 text-gray-500">
           No FAQs match your criteria.
         </div>

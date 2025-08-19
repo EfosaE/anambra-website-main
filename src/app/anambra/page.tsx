@@ -7,6 +7,7 @@ import { AboutBlock } from "@/types/graphql/about";
 import ScrollableSlider from "@/components/ScrollableSlider";
 import TopTabs from "@/components/TopTabs";
 import Link from "next/link";
+import { safeParseRichContent } from "@/lib/utils/app.utils";
 
 export const dynamic = "force-dynamic";
 
@@ -83,7 +84,10 @@ export default async function Anambra() {
               block.media?.__typename === "ComponentSharedMedia"
             ) {
               const heading = block.text.body.match(/^##\s+(.*)/m)?.[1];
-              const html = marked.parse(
+              // const html = marked.parse(
+              //   block.text.body.replace(/^##\s+.*\n/, "")
+              // );
+              const html = safeParseRichContent(
                 block.text.body.replace(/^##\s+.*\n/, "")
               );
 
@@ -168,7 +172,10 @@ export default async function Anambra() {
                 .trim();
 
               // 4. Remove heading line so it’s not duplicated in HTML
-              const html = marked.parse(cleanedBody.replace(/^##\s+.*\n/, ""));
+              // const html = marked.parse(cleanedBody.replace(/^##\s+.*\n/, ""));
+              const html = safeParseRichContent(
+                cleanedBody.replace(/^##\s+.*\n/, "")
+              );
 
               // 5. Conditional layout
               return youtubeId ? (

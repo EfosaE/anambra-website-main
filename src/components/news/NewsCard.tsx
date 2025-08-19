@@ -17,7 +17,7 @@ export default function NewsCard({
   slug,
 }: NewsCardProps) {
   return (
-    <Link href={`/news/${slug}`} className="block">
+    <Link href={`/news/${slug}`} className="block" key={slug}>
       <article className="space-y-4 rounded-lg overflow-hidden transition p-4">
         {/* Image */}
         <div className="w-full h-[217px] overflow-hidden rounded-lg mb-4">
@@ -34,23 +34,26 @@ export default function NewsCard({
             <span
               key={tag}
               className="bg-[#DADADA] text-gray-800 font-semibold px-3 py-1 rounded-[4px]
-                         text-[11px] md:text-[12px] inline-block"
-            >
+                         text-[11px] md:text-[12px] inline-block">
               {tag}
             </span>
           ))}
         </div>
 
+        {/* Title
+        <h3 className="text-[15px] md:text-[20px] font-semibold underline text-black mb-2">
+          {title}
+        </h3> */}
+
         {/* Summary */}
-        <h3 className="text-[15px] md:text-[20px] font-semibold text-black mb-2">
+        <h3 className="text-[15px] md:text-[20px] underline font-semibold text-black mb-2 line-clamp-3">
           {summary}
         </h3>
 
         {/* Date */}
         <time
-          className="text-[15px] md:text-[20px] text-gray-500 block"
-          dateTime={new Date().toISOString()}
-        >
+          className="text-xs md:text-sm text-gray-500 block"
+          dateTime={new Date().toISOString()}>
           {new Date().toLocaleDateString("en-US", {
             month: "short",
             day: "2-digit",

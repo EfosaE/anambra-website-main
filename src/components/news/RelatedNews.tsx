@@ -21,26 +21,36 @@ export default function RelatedNews({
       try {
         const allArticles = await fetchAllArticles();
 
-        const filtered = allArticles
-          .filter((article: Article) => article.slug !== currentSlug)
-          .filter((article: Article) =>
-            article.tags?.some((tag) =>
-              currentTags.some((curr) =>
-                tag.Name.toLowerCase().includes(curr.toLowerCase())
-              )
-            )
-          )
-          .slice(0, 3); // Limit to 3 related articles
+        let filtered: Article[] = [];
 
-        setRelated(filtered);
+        if (currentTags.length) {
+          // First: try to match by tags
+          filtered = allArticles.filter(
+            (article: Article) =>
+              article.slug !== currentSlug &&
+              article.tags?.some((tag) =>
+                currentTags.some((curr) =>
+                  tag.Name.toLowerCase().includes(curr.toLowerCase())
+                )
+              )
+          );
+        }
+
+        // Fallback: if no tag match or no tags at all, just take latest 3
+        if (!filtered.length) {
+          filtered = allArticles.filter(
+            (article: Article) => article.slug !== currentSlug
+          );
+        }
+
+        // Limit to 3
+        setRelated(filtered.slice(0, 3));
       } catch (error) {
         console.error("Failed to load related news:", error);
       }
     };
 
-    if (currentTags.length) {
-      loadRelated();
-    }
+    loadRelated();
   }, [currentSlug, currentTags]);
 
   if (!related.length) return null;

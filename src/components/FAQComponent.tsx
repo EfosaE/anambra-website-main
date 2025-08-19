@@ -167,7 +167,7 @@ export default function FAQComponent({ faqs }: FAQComponentProps) {
                 faq={faq}
                 isOpen={true}
                 onToggle={() => setOpenIndex(openIndex === idx ? null : idx)}
-                onReadMore={() => setSelectedFaq(faq)}
+                // onReadMore={() => setSelectedFaq(faq)}
               />
             ))}
           </div>

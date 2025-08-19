@@ -26,9 +26,9 @@ export const articleQueries = {
           width
         }
         tags {
-          Description
-          Name
-          Slug
+          description
+          name
+          slug
           documentId
           services {
             Name
@@ -48,7 +48,7 @@ export const articleQueries = {
           alternativeText
         }
         tags {
-          Name
+          name
         }
         blocks {
           ... on ComponentSharedRichText {
