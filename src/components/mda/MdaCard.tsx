@@ -30,10 +30,10 @@ export default function MdaCard({ mda }: { mda: Mda }) {
     }
   }, [mda.Functions]);
 
-  // Before the return statement in your component
-  if (activeTab === "Core Mandate") {
-    console.log(mda); // ✅ Log once per render when tab is active
-  }
+  // // Before the return statement in your component
+  // if (activeTab === "Core Mandate") {
+  //   console.log(mda); // ✅ Log once per render when tab is active
+  // }
 
   return (
     <>
@@ -46,17 +46,27 @@ export default function MdaCard({ mda }: { mda: Mda }) {
             alt="Icon"
             className="w-10 h-7 shrink-0"
           />
-          <h4 className="text-base font-semibold leading-tight">{mda.name}</h4>
+          <h4 className="text-base font-semibold leading-tight">
+            {mda.name
+              .toLowerCase()
+              .replace(/\b\w/g, (char) => char.toUpperCase())}
+          </h4>
         </div>
 
-        {Array.isArray(mda.Mandate) &&
+        {/* {Array.isArray(mda.Mandate) &&
           mda.Mandate.map((block: any, i: number) => (
             <p
               key={i}
-              className="text-[13px] text-gray-700 leading-relaxed mb-2">
+              className="text-[13px] text-gray-700 leading-relaxed mb-2 line-clamp-3">
               {block.children?.map((child: any) => child.text).join("")}
             </p>
-          ))}
+          ))} */}
+
+        {Array.isArray(mda.Mandate) && mda.Mandate.length > 0 && (
+          <p className="text-[13px] text-gray-700 leading-relaxed mb-2 line-clamp-3">
+            {mda.Mandate[0].children?.map((child: any) => child.text).join("")}
+          </p>
+        )}
       </div>
 
       {/* Modal */}

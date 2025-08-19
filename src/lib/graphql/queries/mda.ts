@@ -14,7 +14,7 @@ export const MdaQueries = {
           url
         }
         Officials {
-          designation
+          position
           name
           Contact {
             email

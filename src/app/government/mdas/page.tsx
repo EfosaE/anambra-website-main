@@ -41,9 +41,9 @@ export default function MdasPage() {
     : allMdas;
 
   return (
-    <main className="max-w-7xl mx-auto px-4 py-10">
+    <main className="container mx-auto px-4 py-10">
       <div className="text-center mb-8">
-        <h2 className="mt-[50px] text-[30px] md:text-[40px] font-bold text-black">
+        <h2 className="text-[30px] md:text-[40px] font-bold text-black">
           MDAs
         </h2>
       </div>
