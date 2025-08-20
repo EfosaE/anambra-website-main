@@ -3,10 +3,12 @@ import { User } from "lucide-react";
 import { FaEnvelope } from "react-icons/fa6";
 
 interface ExecutiveCouncilProps {
-  searchParams: { tab?: string };
+  searchParams?: { tab?: string };
 }
 
-const ExecutiveCouncil = async ({ searchParams }: ExecutiveCouncilProps) => {
+export default async function ExecutiveCouncil({
+  searchParams,
+}: ExecutiveCouncilProps) {
   // Determine active tab from query
   const activeTab = searchParams.tab ?? "All";
 
@@ -124,6 +126,4 @@ const ExecutiveCouncil = async ({ searchParams }: ExecutiveCouncilProps) => {
       </div>
     </main>
   );
-};
-
-export default ExecutiveCouncil;
+}
