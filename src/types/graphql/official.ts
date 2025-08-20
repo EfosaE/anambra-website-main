@@ -4,17 +4,15 @@ export type ExecutiveCouncilQueryResponse = {
     designations: {
       name: string;
     }[];
-    details: {
-      id: string;
-      name: string;
-      position: string;
-      Contact: {
-        email: string;
-      } | null;
-      profile_picture: {
-        url: string;
-      } | null;
-    };
+
+    name: string;
+    position: string;
+    contactInfo: {
+      email: string;
+    } | null;
+    profile_picture: {
+      url: string;
+    } | null;
   }[];
 };
 

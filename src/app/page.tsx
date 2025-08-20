@@ -28,6 +28,8 @@ export default async function Home() {
 
   let latestArticles: Article[] = [];
 
+  console.log(News_Articles_Grid)
+
   if (News_Articles_Grid.news_selection_criteria === "Latest") {
     const seen = new Set<string>();
 

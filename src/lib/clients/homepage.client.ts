@@ -11,7 +11,7 @@ export const fetchHomepageData = async (): Promise<
     const { data } = await client.query<{ homepage: HomepageData["homepage"] }>(
       {
         query: HomepageQueries.root,
-        // fetchPolicy: "no-cache"
+        fetchPolicy: "network-only"
       }
     );
 

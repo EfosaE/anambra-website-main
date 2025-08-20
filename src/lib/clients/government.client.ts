@@ -4,10 +4,24 @@ import { ansecQueries } from "../graphql/queries/executives";
 import { ApolloError } from "@apollo/client/errors";
 import { logApolloError } from "../utils/graphqlHelpers";
 
-export async function fetchExecutiveCouncil(): Promise<ExecutiveCouncilQueryResponse | null> {
+export async function fetchExecutiveCouncil(
+  keys: string[]
+): Promise<ExecutiveCouncilQueryResponse | null> {
   try {
-    const { data } = await client.query< ExecutiveCouncilQueryResponse >({
+    const { data } = await client.query<ExecutiveCouncilQueryResponse>({
       query: ansecQueries.root,
+      variables: {
+        filters: {
+          designations: {
+            name: {
+              in: keys,
+            },
+          },
+        },
+        pagination: {
+          pageSize: 50,
+        },
+      },
       // fetchPolicy: "no-cache",
     });
 

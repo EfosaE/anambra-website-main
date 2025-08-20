@@ -3,21 +3,21 @@ import { gql } from "@apollo/client";
 
 export const ansecQueries = {
   root: gql`
-    query Officials($filters: OfficialFiltersInput) {
-      officials(filters: $filters) {
+    query Officials(
+      $filters: OfficialFiltersInput
+      $pagination: PaginationArg
+    ) {
+      officials(filters: $filters, pagination: $pagination) {
         designations {
           name
         }
-        details {
-          name
-          id
-          position
-          Contact {
-            email
-          }
-          profile_picture {
-            url
-          }
+        name
+        position
+        contactInfo {
+          email
+        }
+        profile_picture {
+          url
         }
       }
     }
