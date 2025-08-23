@@ -5,9 +5,9 @@ export const ansecQueries = {
   root: gql`
     query Officials(
       $filters: OfficialFiltersInput
-      $pagination: PaginationArg
+      $pagination: PaginationArg, $sort: [String]
     ) {
-      officials(filters: $filters, pagination: $pagination) {
+      officials(filters: $filters, pagination: $pagination, sort: $sort) {
         designations {
           name
         }

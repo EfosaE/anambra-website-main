@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 // Import the ranking component
@@ -20,28 +20,45 @@ export default function OverviewSection({
   mandate,
 }: OverviewComponentProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
-  // Temporarily hardcode the content to test
-  const testContent = `- Set reform targets and oversee the implementation of the reforms.
-- Resolve bottlenecks arising from the operations of government agencies.
-- Communicate the reform agenda to all stakeholders within government and in the business community.
-- Conduct monthly meetings to provide oversight on the activities of MDAs involved in the EoDB drive.`;
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+  const [currentPage, setCurrentPage] = useState(0);
+
+  // Check scroll position to enable/disable buttons and track current page
+  const checkScrollPosition = () => {
+    if (scrollRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+      setCanScrollLeft(scrollLeft > 0);
+      setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
+      
+      // Calculate current page based on scroll position
+      const pageWidth = clientWidth;
+      const page = Math.round(scrollLeft / pageWidth);
+      setCurrentPage(page);
+    }
+  };
+
+  useEffect(() => {
+    checkScrollPosition();
+    const scrollElement = scrollRef.current;
+    if (scrollElement) {
+      scrollElement.addEventListener("scroll", checkScrollPosition);
+      return () =>
+        scrollElement.removeEventListener("scroll", checkScrollPosition);
+    }
+  }, []);
 
   const scroll = (direction: "left" | "right") => {
     if (scrollRef.current) {
       const container = scrollRef.current;
-      const scrollAmount = container.offsetWidth;
+      // Scroll by full container width to show next page of 4 members
+      const scrollAmount = container.clientWidth;
       container.scrollBy({
         left: direction === "left" ? -scrollAmount : scrollAmount,
         behavior: "smooth",
       });
     }
   };
-
-  // Chunk council members into groups of 6 (3 rows × 2 cols)
-  const chunkedMembers: CouncilMember[][] = [];
-  for (let i = 0; i < councilMembers.length; i += 6) {
-    chunkedMembers.push(councilMembers.slice(i, i + 6));
-  }
 
   return (
     <>
@@ -58,7 +75,7 @@ export default function OverviewSection({
         </div>
       </section>
 
-      <section className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           {/* Column 1: Text content */}
           <div className="lg:col-span-7 space-y-10">
@@ -125,46 +142,104 @@ export default function OverviewSection({
               <div className="flex gap-2">
                 <button
                   onClick={() => scroll("left")}
-                  className="p-2 bg-white shadow rounded-full">
+                  disabled={!canScrollLeft}
+                  className={`p-2 bg-white shadow rounded-full transition-opacity ${
+                    !canScrollLeft
+                      ? "opacity-40 cursor-not-allowed"
+                      : "hover:bg-gray-50"
+                  }`}>
                   <ChevronLeft size={20} />
                 </button>
                 <button
                   onClick={() => scroll("right")}
-                  className="p-2 bg-white shadow rounded-full">
+                  disabled={!canScrollRight}
+                  className={`p-2 bg-white shadow rounded-full transition-opacity ${
+                    !canScrollRight
+                      ? "opacity-40 cursor-not-allowed"
+                      : "hover:bg-gray-50"
+                  }`}>
                   <ChevronRight size={20} />
                 </button>
               </div>
             </div>
 
-            <div ref={scrollRef} className="overflow-x-auto scrollbar-none">
-              <div className="flex gap-4">
-                {chunkedMembers.map((group, index) => (
-                  <div
-                    key={index}
-                    className="grid grid-cols-2 grid-rows-3 gap-2 min-w-[400px]">
-                    {group.map((member, idx) => (
-                      <div key={idx} className=" p-4 text-center">
-                        <div className="relative w-full h-36 rounded overflow-hidden mb-1">
-                          <Image
-                            src={member.profile_picture[0].url}
-                            alt={member.name}
-                            fill
-                            className="object-cover"
-                          />
-                        </div>
+            <div
+              ref={scrollRef}
+              className="overflow-x-auto scrollbar-none scroll-smooth"
+              style={{
+                scrollbarWidth: "none",
+                msOverflowStyle: "none",
+              }}>
+              {/* Hide scrollbar for webkit browsers */}
+              <style jsx>{`
+                div::-webkit-scrollbar {
+                  display: none;
+                }
+              `}</style>
 
-                        <p className="text-base font-semibold text-[12px] lg:text-[16px] mb-1">
-                          {member.name}
-                        </p>
-                        <p className="text-sm text-gray-600 text-[12px] lg:text-[12px]">
-                          {member.designation}
-                        </p>
+              <div className="flex gap-4 pb-2">
+                {Array.from({ length: Math.ceil(councilMembers.length / 4) }).map((_, pageIndex) => {
+                  const startIndex = pageIndex * 4;
+                  const pageMembers = councilMembers.slice(startIndex, startIndex + 4);
+
+                  return (
+                    <div
+                      key={pageIndex}
+                      className="flex-shrink-0 w-full"
+                    >
+                      <div className="grid grid-cols-2 grid-rows-2 gap-3">
+                        {pageMembers.map((member, memberIndex) => (
+                          <div
+                            key={startIndex + memberIndex}
+                            className="text-center">
+                            <div className="relative w-full h-32 rounded-lg overflow-hidden mb-2 bg-gray-100">
+                              <Image
+                                src={member.profile_picture.url}
+                                alt={member.name}
+                                fill
+                                className="object-cover"
+                                sizes="(max-width: 768px) 150px, 180px"
+                              />
+                            </div>
+
+                            <p className="text-sm font-semibold mb-1 leading-tight">
+                              {member.name}
+                            </p>
+                            <p className="text-xs text-gray-600 leading-tight">
+                              {member.position}
+                            </p>
+                          </div>
+                        ))}
+
+                        {/* Fill empty slots if less than 4 members in the last group */}
+                        {pageMembers.length < 4 &&
+                          Array.from({ length: 4 - pageMembers.length }).map(
+                            (_, emptyIndex) => (
+                              <div
+                                key={`empty-${emptyIndex}`}
+                                className="invisible"></div>
+                            )
+                          )}
                       </div>
-                    ))}
-                  </div>
-                ))}
+                    </div>
+                  );
+                })}
               </div>
             </div>
+
+            {/* Scroll indicator dots with active tracking */}
+            {councilMembers.length > 4 && (
+              <div className="flex justify-center mt-4 space-x-1">
+                {Array.from({ length: Math.ceil(councilMembers.length / 4) }).map((_, index) => (
+                  <div
+                    key={index}
+                    className={`w-2 h-2 rounded-full transition-colors ${
+                      index === currentPage ? 'bg-blue-500' : 'bg-gray-300'
+                    }`}
+                  />
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </section>

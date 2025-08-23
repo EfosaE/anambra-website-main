@@ -1,8 +1,8 @@
 // Council Member
 export interface CouncilMember {
   name: string;
-  designation: string;
-  profile_picture: Image[];
+  position: string;
+  profile_picture: Image;
 }
 
 // Image
@@ -42,7 +42,7 @@ export interface SaberOfficial {
 
 // Requirements
 export interface Requirement {
-  Heading: string;
+  heading: string;
   information: string | null;
   documentId: string;
   mda: Mda | null;
@@ -79,9 +79,9 @@ export interface BusinessPage {
   contactinfo: ContactInfo;
   documentId: string;
   fees: Fee[];
-  saber_officials: SaberOfficial[];
+  saberOfficials: SaberOfficial[];
   requirement: Requirement;
-  mda_processes: Requirement[];
+  mdaProcesses: Requirement[];
   stimulators: Stimulator[];
 }
 
@@ -105,4 +105,5 @@ export type BusinessPageOverview = Pick<
 
 export type BusinessPageStimulator = Pick<BusinessPage, "stimulators">;
 
-export type BusinessPageMdaProcesses = Pick<BusinessPage, "mda_processes" | "saber_officials" | "fees">;
+// export type BusinessPageMdaProcesses = Pick<BusinessPage, "mdaProcesses" | "saberOfficials" | "fees">;
+export type BusinessPageMdaProcesses = Pick<BusinessPage, "mdaProcesses">;

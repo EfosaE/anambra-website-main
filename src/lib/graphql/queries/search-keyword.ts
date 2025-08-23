@@ -40,4 +40,35 @@ export const SearchKeywordQueries = {
       }
     }
   `,
+
+  byQuery: gql`
+    query FetchByQuery(
+      $filters: FaqFiltersInput
+      $servicesFilters2: ServiceFiltersInput
+    ) {
+      faqs(filters: $filters) {
+        documentId
+        question
+        faqAnswer
+        tags {
+          name
+        }
+        action {
+          name
+          url
+        }
+      }
+      services(filters: $servicesFilters2) {
+        documentId
+        Name
+        Description
+        websiteLink
+        contactInfo {
+          email
+          address
+          phone
+        }
+      }
+    }
+  `,
 };

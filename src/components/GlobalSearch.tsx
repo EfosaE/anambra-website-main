@@ -1,51 +1,50 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import clsx from "clsx";
+import { useMemo } from "react";
+import { useQuery } from "@apollo/client";
 import { FiSearch } from "react-icons/fi";
-import { fetchContentBySearchKeyword } from "@/lib/clients/search-keyword.client";
 import SearchResultGrid, { SearchResultWrapper } from "./SearchResultGrid";
 import { logApolloError } from "@/lib/utils/graphqlHelpers";
+import { SearchKeywordQueries } from "@/lib/graphql/queries/search-keyword";
+
+// You can make this a proper GraphQL query typed with your schema
+// but I'll assume `SearchKeywordQueries.byQuery` is already set up
 
 export default function GlobalSearch({ query }: { query: string }) {
-  const [result, setResult] = useState<SearchResultWrapper[] | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  // Only run the query if at least 1 chars entered
+  const shouldSearch = query.trim().length >= 1;
 
-  // useEffect(() => {
-  //   console.log("RESULT", result);
-  // }, [result]);
+  const { data, loading, error } = useQuery(SearchKeywordQueries.byQuery, {
+    variables: {
+      filters: {
+        question: {
+          containsi: query,
+        },
+      },
+      servicesFilters2: {
+        Name: {
+          containsi: query,
+        },
+      },
+    },
+    skip: !shouldSearch, // ✅ prevent firing if query is too short
+    fetchPolicy: "no-cache",
+  });
 
-  useEffect(() => {
-    const delayDebounce = setTimeout(() => {
-      const search = async () => {
-        setError(null);
-        setIsLoading(true);
+  // Normalize response into SearchResultWrapper
+  const results: SearchResultWrapper | null = useMemo(() => {
+    if (!data) return null;
+    return {
+      articles: data.articles ?? [],
+      faqs: data.faqs ?? [],
+      services: data.services ?? [],
+    };
+  }, [data]);
 
-        try {
-          // console.log("query", query);
-
-          if (query.trim().length >= 2) {
-            const data = await fetchContentBySearchKeyword(query);
-            setResult(data);
-          } else {
-            setResult(null);
-          }
-        } catch (error) {
-          setError(error);
-          logApolloError(error);
-          // Optional: display an error message to the user
-          setResult(null); // Or set to [] if you prefer
-        } finally {
-          setIsLoading(false);
-        }
-      };
-
-      search();
-    }, 400);
-
-    return () => clearTimeout(delayDebounce);
-  }, [query]);
+  // Handle errors (log + UI message)
+  if (error) {
+    logApolloError(error);
+  }
 
   return (
     <section className="max-w-7xl mx-auto px-4 py-4">
@@ -53,20 +52,23 @@ export default function GlobalSearch({ query }: { query: string }) {
         <div className="text-center text-red-500 py-12">
           An error occurred while fetching search results. Please try again.
         </div>
-      ) : isLoading ? (
+      ) : loading ? (
         <div className="flex justify-center items-center py-12">
           <div className="w-6 h-6 border-2 border-t-transparent border-gray-500 rounded-full animate-spin" />
         </div>
-      ) : query.trim().length < 2 ? (
+      ) : !shouldSearch ? (
         <div className="text-center text-gray-500 py-12">
           Start typing to explore articles, services, and FAQs.
         </div>
-      ) : result && result.length === 0 ? (
+      ) : results &&
+        results.articles?.length === 0 &&
+        results.faqs.length === 0 &&
+        results.services.length === 0 ? (
         <div className="text-center text-gray-500 py-12">
           No results found. Try a different keyword.
         </div>
-      ) : result ? (
-        <SearchResultGrid results={result} />
+      ) : results ? (
+        <SearchResultGrid results={results} />
       ) : null}
     </section>
   );

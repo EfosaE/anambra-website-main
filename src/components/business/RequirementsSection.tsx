@@ -60,11 +60,11 @@ export default function RequirementsSection({
         <div className="flex items-center w-full">
           <div className="flex-1 h-px bg-[#B3B0AD]" />
           <h2 className="text-[24px] italic font-playfair text-center mx-6">
-            {requirement.Heading}
+            {requirement.heading}
           </h2>
 
           <div className="flex-1 h-px bg-[#B3B0AD]" />
-        </div>
+        </div>3
       </div>
 
       {/* Centered content container */}

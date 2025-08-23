@@ -4,18 +4,16 @@ import { useState, useEffect } from "react";
 import { Article } from "@/types/graphql/articles";
 import { FAQ } from "@/types/graphql/faq";
 import { Service } from "@/types/graphql/service";
-import ResultPopUpModal from "./ResultPopUpModal"; // update path as needed
+import ResultPopUpModal from "./ResultPopUpModal";
 
 export type SearchResultWrapper = {
-  documentId: string;
-  keyword: string;
-  articles: Article[];
+  articles?: Article[];
   faqs: FAQ[];
   services: Service[];
 };
 
 type Props = {
-  results: SearchResultWrapper[];
+  results: SearchResultWrapper;
 };
 
 type SearchItem = Article | FAQ | Service;
@@ -23,12 +21,14 @@ type SearchItem = Article | FAQ | Service;
 export default function SearchResultGrid({ results }: Props) {
   const [selectedItem, setSelectedItem] = useState<SearchItem | null>(null);
 
-  const flattened = results.flatMap((item) => [
-    ...item.articles,
-    ...item.faqs,
-    ...item.services,
-  ]);
+  // Flatten everything into a single array
+  const flattened: SearchItem[] = [
+    ...(results.articles ?? []),
+    ...(results.faqs ?? []),
+    ...(results.services ?? []),
+  ];
 
+  // Deduplicate by documentId
   const seen = new Set<string>();
   const uniqueFlattened = flattened.filter((item) => {
     if (!item?.documentId) return false;
@@ -55,7 +55,7 @@ export default function SearchResultGrid({ results }: Props) {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {uniqueFlattened.map((item, idx) => (
-          <Card key={idx} item={item} onClick={() => setSelectedItem(item)} />
+          <Card key={item.documentId ?? idx} item={item} onClick={() => setSelectedItem(item)} />
         ))}
       </div>
 

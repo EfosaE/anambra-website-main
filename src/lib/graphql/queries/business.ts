@@ -3,61 +3,27 @@ import { gql } from "@apollo/client";
 
 export const eodbQueries = {
   root: gql`
-    query FetchEodbPage {
+    query BusinessPage($pagination: PaginationArg) {
       businessPage {
-        documentId
         title
-        councilMembers {
+        introduction
+        objectives
+        councilMembers(pagination: $pagination) {
           name
-          designation
+          position
           profile_picture {
             url
           }
         }
-        introduction
-        frontliners
         mandate
-        objectives
-        spotlight
-        contactinfo {
-          address
-          email
+        frontliners
+        stimulators {
+          highlight
+          extras
           id
-          phone
-        }
-
-        fees {
-          Estate
-          LGA
-          cost {
-            price
-            type
-            id
-          }
-        }
-        saber_officials {
-          designation_eodb
-          designation_state
-          id
-          name
-          type
         }
         requirement {
-          Heading
-          information
-          documentId
-          mda {
-            name
-            Slug
-          }
-          steps {
-            number
-            heading
-            content
-          }
-        }
-        mda_processes {
-          Heading
+          heading
           information
           documentId
           steps {
@@ -66,10 +32,15 @@ export const eodbQueries = {
             content
           }
         }
-        stimulators {
-          extras
-          highlight
-          id
+        mdaProcesses {
+          heading
+          information
+          slug
+          steps {
+            number
+            heading
+            content
+          }
         }
       }
     }

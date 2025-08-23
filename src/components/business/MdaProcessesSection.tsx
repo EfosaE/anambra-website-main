@@ -10,54 +10,54 @@ import TabbedStepsSection from "./MDA/TabbedStepsSection";
 interface MdaProcessesProps extends BusinessPageMdaProcesses {}
 
 export default function MdaProcessesSection({
-  mda_processes: processes,
-  saber_officials: saberOfficials,
-  fees,
+  mdaProcesses: processes,
+  // saberOfficials: saberOfficials,
+  // fees,
 }: MdaProcessesProps) {
-  const groupedSaberTable = [
-    {
-      title: "Saber Council Members",
-      type: "council_members",
-    },
-    {
-      title: "Saber Reform Leaders",
-      type: "reform_leaders",
-    },
-  ].map(({ title, type }) => ({
-    title,
-    headers: ["S/N", "NAME", "DESIGNATION IN THE STATE", "DESIGNATION EoDB"],
-    rows: saberOfficials
-      .filter((official) => official.type === type)
-      .map((official, index) => [
-        `${index + 1}`,
-        official.name,
-        official.designation_state,
-        official.designation_eodb,
-      ]),
-  }));
+  // const groupedSaberTable = [
+  //   {
+  //     title: "Saber Council Members",
+  //     type: "council_members",
+  //   },
+  //   {
+  //     title: "Saber Reform Leaders",
+  //     type: "reform_leaders",
+  //   },
+  // ].map(({ title, type }) => ({
+  //   title,
+  //   headers: ["S/N", "NAME", "DESIGNATION IN THE STATE", "DESIGNATION EoDB"],
+  //   rows: saberOfficials
+  //     .filter((official) => official.type === type)
+  //     .map((official, index) => [
+  //       `${index + 1}`,
+  //       official.name,
+  //       official.designation_state,
+  //       official.designation_eodb,
+  //     ]),
+  // }));
 
-  const groupedFeesTables = Object.entries(
-    fees.reduce((acc, fee) => {
-      if (!acc[fee.LGA]) acc[fee.LGA] = [];
-      acc[fee.LGA].push(fee);
-      return acc;
-    }, {} as Record<string, Fee[]>)
-  ).map(([lga, fees], lgaIndex) => ({
-    title: `${lga} & its environs`,
-    headers: ["S/N", "LAYOUT/ESTATE", "RESIDENTIAL", "COMMERCIAL"],
-    rows: fees.map((fee, index) => {
-      const residential =
-        fee.cost.find((c) => c.type === "residential")?.price ?? "-";
-      const commercial =
-        fee.cost.find((c) => c.type === "commercial")?.price ?? "-";
-      return [
-        `${index + 1}`,
-        fee.Estate,
-        `${residential.toLocaleString()}/M2`,
-        `${commercial.toLocaleString()}/M2`,
-      ];
-    }),
-  }));
+  // const groupedFeesTables = Object.entries(
+  //   fees.reduce((acc, fee) => {
+  //     if (!acc[fee.LGA]) acc[fee.LGA] = [];
+  //     acc[fee.LGA].push(fee);
+  //     return acc;
+  //   }, {} as Record<string, Fee[]>)
+  // ).map(([lga, fees], lgaIndex) => ({
+  //   title: `${lga} & its environs`,
+  //   headers: ["S/N", "LAYOUT/ESTATE", "RESIDENTIAL", "COMMERCIAL"],
+  //   rows: fees.map((fee, index) => {
+  //     const residential =
+  //       fee.cost.find((c) => c.type === "residential")?.price ?? "-";
+  //     const commercial =
+  //       fee.cost.find((c) => c.type === "commercial")?.price ?? "-";
+  //     return [
+  //       `${index + 1}`,
+  //       fee.Estate,
+  //       `${residential.toLocaleString()}/M2`,
+  //       `${commercial.toLocaleString()}/M2`,
+  //     ];
+  //   }),
+  // }));
 
   return (
     <section id="MDA Processes" className="w-full mt-[20px] overflow-hidden">
@@ -77,7 +77,7 @@ export default function MdaProcessesSection({
           if (process.information && process.steps.length === 0) {
             return (
               <ParagraphBlock
-                heading={process.Heading}
+                heading={process.heading}
                 content={process.information}
               />
             );
@@ -85,7 +85,7 @@ export default function MdaProcessesSection({
             return (
               <div>
                 <ParagraphBlock
-                  heading={process.Heading}
+                  heading={process.heading}
                   content={process.information}
                 />
 
@@ -98,7 +98,7 @@ export default function MdaProcessesSection({
           } else if (!process.information && process.steps.length > 0) {
             return (
               <TabbedStepsSection
-                heading={process.Heading}
+                heading={process.heading}
                 steps={process.steps}
               />
             );
@@ -106,16 +106,16 @@ export default function MdaProcessesSection({
         })}
 
         {/* Section 8 */}
-        <AccordionTableSection
+        {/* <AccordionTableSection
           title="State Action on Business Enabling Reforms (SABER)"
           tablesData={groupedSaberTable}
-        />
+        /> */}
 
         {/* Section 9 */}
-        <AccordionTableSection
+        {/* <AccordionTableSection
           title="Fees for Certificate of Occupancy (C of O) for State Land"
           tablesData={groupedFeesTables}
-        />
+        /> */}
       </div>
     </section>
   );

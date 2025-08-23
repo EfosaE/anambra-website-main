@@ -21,6 +21,7 @@ export async function fetchExecutiveCouncil(
         pagination: {
           pageSize: 50,
         },
+        sort: ["createdAt:asc"],
       },
       // fetchPolicy: "no-cache",
     });
