@@ -60,18 +60,29 @@ export default function GlobalSearchDrawer() {
           </div>
 
           {/* Search Form */}
-          <div className="flex items-center gap-3 w-4/5 max-w-md">
+          <div className="flex items-center gap-3 w-full md:w-3/5 mb-2 md:mb-4">
             <input
               type="text"
               placeholder="Enter a search term to begin..."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              className="flex-grow border border-gray-300 rounded-xl px-4 py-2 text-sm text-gray-800 focus:outline-none shadow-sm"
+              className="
+      flex-1
+      min-w-0
+      border border-gray-300 
+      rounded-full
+      px-4 py-2 lg:py-4
+      text-sm text-gray-800 
+      shadow-sm
+      outline-none
+      focus:border-primary 
+      focus:ring-2 focus:ring-primary/50
+    "
             />
           </div>
 
           {/* Category Tabs */}
-          <div className="flex gap-6 justify-between w-full max-w-[748px] mt-4">
+          {/* <div className="flex gap-6 justify-between w-full max-w-[748px] mt-4">
             {categories.map((category) => (
               <button
                 key={category}
@@ -85,7 +96,7 @@ export default function GlobalSearchDrawer() {
                 {category}
               </button>
             ))}
-          </div>
+          </div> */}
         </div>
       </div>
 
@@ -101,7 +112,7 @@ export default function GlobalSearchDrawer() {
       </div>
 
       {/* Scrollable Content */}
-      <div className="flex-1 overflow-y-auto p-6">
+      <div className="flex-1 overflow-y-auto">
         <GlobalSearch query={query} />
       </div>
     </div>

@@ -54,7 +54,7 @@ export default function GlobalSearch({ query }: { query: string }) {
         </div>
       ) : loading ? (
         <div className="flex justify-center items-center py-12">
-          <div className="w-6 h-6 border-2 border-t-transparent border-gray-500 rounded-full animate-spin" />
+          <div className="w-12 h-12 border-2 border-t-transparent border-gray-500 rounded-full animate-spin" />
         </div>
       ) : !shouldSearch ? (
         <div className="text-center text-gray-500 py-12">

@@ -34,7 +34,9 @@ html {
 }
 
 p {
-  margin-bottom: 10px;
+  line-height: 1.8; /* or 1.7 for even more space */
+  margin-bottom: 1rem; /* Space between paragraphs */
+  letter-spacing: 0.01em; /* Slight character spacing */
 }
 
 /* DM Sans Font - Optional fallback or for specific use */

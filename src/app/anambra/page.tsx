@@ -51,8 +51,8 @@ export default async function Anambra() {
   }
 
   return (
-    <main className="max-w-7xl mx-auto px-4 py-10">
-      <h2 className="mt-[50px] mb-[70px] text-[40px] font-bold text-black text-center">
+    <main className="max-w-7xl mx-auto px-4">
+      <h2 className="m-12 text-[40px] font-bold text-black text-center">
         {about.title}
       </h2>
       <TopTabs />

@@ -85,22 +85,14 @@ export default function SolutionAgenda({
           </p>
         </div>
 
-        {/* Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6 mb-12">
+        <div className="flex flex-wrap gap-6 justify-center items-stretch mb-4">
           {pillarsWithIcons.map((pillar) => {
-            const colorVariants = {
-              green: "bg-green-600 hover:bg-green-500",
-              black: "bg-black hover:bg-gray-800",
-              blue: "bg-blue-600 hover:bg-blue-500",
-              gray: "bg-gray-600 hover:bg-gray-500",
-              yellow: "bg-yellow-600 hover:bg-yellow-500",
-            };
-            console.log(colorVariants[pillar.color]);
             const IconComponent = pillar.icon;
             return (
               <div
                 key={pillar.id}
-                className="group hover:shadow-lg transition-all duration-300 border border-gray-200 bg-white rounded-lg p-6 h-full flex flex-col">
+                className="w-full sm:w-[calc(50%-1.5rem)] lg:w-[calc(33.333%-1.5rem)] 2xl:w-[calc(25%-1.5rem)] 
+                 flex flex-col border border-gray-200 bg-white rounded-lg p-6 group hover:shadow-lg transition-all duration-300">
                 <div
                   className={clsx(
                     "w-12 h-12 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300",
@@ -121,7 +113,7 @@ export default function SolutionAgenda({
                   {pillar.subTitle}
                 </p>
                 <div className="pt-4 border-t border-gray-200">
-                  <p className="text-xs text-gray-500 leading-relaxed">
+                  <p className="text-xs text-gray-500 leading-relaxed line-clamp-3">
                     {pillar.description}
                   </p>
                 </div>
