@@ -1,3 +1,5 @@
+import { Official } from "./official";
+
 // Council Member
 export interface CouncilMember {
   name: string;
@@ -29,15 +31,6 @@ export interface FeeCost {
   price: number;
   type: "residential" | "commercial";
   id: string;
-}
-
-// Saber Official
-export interface SaberOfficial {
-  designation_eodb: string;
-  designation_state: string;
-  id: string;
-  name: string;
-  type: string;
 }
 
 // Requirements
@@ -76,17 +69,14 @@ export interface BusinessPage {
   mandate: string;
   objectives: string;
   spotlight: string;
-  contactinfo: ContactInfo;
+  contactInfo: ContactInfo;
   documentId: string;
   fees: Fee[];
-  saberOfficials: SaberOfficial[];
+  saberOfficials: Official[];
   requirement: Requirement;
   mdaProcesses: Requirement[];
   stimulators: Stimulator[];
 }
-
-
-
 
 // Root Query Response
 export interface BusinessPageQuery {
@@ -105,5 +95,6 @@ export type BusinessPageOverview = Pick<
 
 export type BusinessPageStimulator = Pick<BusinessPage, "stimulators">;
 
-// export type BusinessPageMdaProcesses = Pick<BusinessPage, "mdaProcesses" | "saberOfficials" | "fees">;
+// export type BusinessPageSaberOfficials = Pick<BusinessPage, "saberOfficials">;
+export type BusinessFees = Pick<BusinessPage, "fees">;
 export type BusinessPageMdaProcesses = Pick<BusinessPage, "mdaProcesses">;

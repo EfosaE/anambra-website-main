@@ -3,7 +3,10 @@ import { gql } from "@apollo/client";
 
 export const eodbQueries = {
   root: gql`
-    query BusinessPage($pagination: PaginationArg) {
+    query BusinessPage(
+      $pagination: PaginationArg
+      $saberOfficialsPagination2: PaginationArg
+    ) {
       businessPage {
         title
         introduction
@@ -41,6 +44,18 @@ export const eodbQueries = {
             heading
             content
           }
+        }
+        saberOfficials(pagination: $saberOfficialsPagination2) {
+          name
+          designations {
+            name
+          }
+          position
+        }
+        contactInfo {
+          phone
+          email
+          address
         }
       }
     }

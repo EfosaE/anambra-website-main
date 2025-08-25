@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useRef, useState, useEffect } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, User } from "lucide-react";
 
 // Import the ranking component
 import RankingStatsSection from "./RankingStatsSection";
@@ -30,7 +30,7 @@ export default function OverviewSection({
       const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
       setCanScrollLeft(scrollLeft > 0);
       setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
-      
+
       // Calculate current page based on scroll position
       const pageWidth = clientWidth;
       const page = Math.round(scrollLeft / pageWidth);
@@ -178,28 +178,38 @@ export default function OverviewSection({
               `}</style>
 
               <div className="flex gap-4 pb-2">
-                {Array.from({ length: Math.ceil(councilMembers.length / 4) }).map((_, pageIndex) => {
+                {Array.from({
+                  length: Math.ceil(councilMembers.length / 4),
+                }).map((_, pageIndex) => {
                   const startIndex = pageIndex * 4;
-                  const pageMembers = councilMembers.slice(startIndex, startIndex + 4);
+                  const pageMembers = councilMembers.slice(
+                    startIndex,
+                    startIndex + 4
+                  );
 
                   return (
-                    <div
-                      key={pageIndex}
-                      className="flex-shrink-0 w-full"
-                    >
+                    <div key={pageIndex} className="flex-shrink-0 w-full">
                       <div className="grid grid-cols-2 grid-rows-2 gap-3">
                         {pageMembers.map((member, memberIndex) => (
                           <div
                             key={startIndex + memberIndex}
                             className="text-center">
                             <div className="relative w-full h-32 rounded-lg overflow-hidden mb-2 bg-gray-100">
-                              <Image
-                                src={member.profile_picture.url}
-                                alt={member.name}
-                                fill
-                                className="object-cover"
-                                sizes="(max-width: 768px) 150px, 180px"
-                              />
+                              {member.profile_picture?.url ? (
+                                // If the URL exists, render the Image component
+                                <Image
+                                  src={member.profile_picture.url}
+                                  alt={member.name}
+                                  fill
+                                  className="object-cover"
+                                  sizes="(max-width: 768px) 150px, 180px"
+                                />
+                              ) : (
+                                // If the URL is null, render the fallback icon
+                                <div className="flex items-center justify-center w-full h-full bg-gray-100">
+                                  <User className="w-1/2 h-1/2 text-gray-400" />
+                                </div>
+                              )}
                             </div>
 
                             <p className="text-sm font-semibold mb-1 leading-tight">
@@ -230,11 +240,13 @@ export default function OverviewSection({
             {/* Scroll indicator dots with active tracking */}
             {councilMembers.length > 4 && (
               <div className="flex justify-center mt-4 space-x-1">
-                {Array.from({ length: Math.ceil(councilMembers.length / 4) }).map((_, index) => (
+                {Array.from({
+                  length: Math.ceil(councilMembers.length / 4),
+                }).map((_, index) => (
                   <div
                     key={index}
                     className={`w-2 h-2 rounded-full transition-colors ${
-                      index === currentPage ? 'bg-blue-500' : 'bg-gray-300'
+                      index === currentPage ? "bg-blue-500" : "bg-gray-300"
                     }`}
                   />
                 ))}

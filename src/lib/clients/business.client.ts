@@ -11,6 +11,14 @@ export async function fetchBusinessPage(): Promise<BusinessPageQuery | null> {
       businessPage: BusinessPageQuery["businessPage"];
     }>({
       query: eodbQueries.root,
+      variables: {
+        pagination: {
+          pageSize: 50,
+        },
+        saberOfficialsPagination2: {
+          pageSize: 50,
+        },
+      },
       // fetchPolicy: "no-cache",
     });
     // console.log(data.about);

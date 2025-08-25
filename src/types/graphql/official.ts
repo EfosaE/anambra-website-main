@@ -27,4 +27,7 @@ export type Official = {
     width?: number;
     height?: number;
   } | null;
+  designations: {
+    name: string;
+  }[];
 };

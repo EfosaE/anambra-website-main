@@ -11,30 +11,10 @@ interface MdaProcessesProps extends BusinessPageMdaProcesses {}
 
 export default function MdaProcessesSection({
   mdaProcesses: processes,
-  // saberOfficials: saberOfficials,
+ 
   // fees,
 }: MdaProcessesProps) {
-  // const groupedSaberTable = [
-  //   {
-  //     title: "Saber Council Members",
-  //     type: "council_members",
-  //   },
-  //   {
-  //     title: "Saber Reform Leaders",
-  //     type: "reform_leaders",
-  //   },
-  // ].map(({ title, type }) => ({
-  //   title,
-  //   headers: ["S/N", "NAME", "DESIGNATION IN THE STATE", "DESIGNATION EoDB"],
-  //   rows: saberOfficials
-  //     .filter((official) => official.type === type)
-  //     .map((official, index) => [
-  //       `${index + 1}`,
-  //       official.name,
-  //       official.designation_state,
-  //       official.designation_eodb,
-  //     ]),
-  // }));
+
 
   // const groupedFeesTables = Object.entries(
   //   fees.reduce((acc, fee) => {
@@ -77,6 +57,7 @@ export default function MdaProcessesSection({
           if (process.information && process.steps.length === 0) {
             return (
               <ParagraphBlock
+                key={process.heading}
                 heading={process.heading}
                 content={process.information}
               />
@@ -105,11 +86,7 @@ export default function MdaProcessesSection({
           }
         })}
 
-        {/* Section 8 */}
-        {/* <AccordionTableSection
-          title="State Action on Business Enabling Reforms (SABER)"
-          tablesData={groupedSaberTable}
-        /> */}
+       
 
         {/* Section 9 */}
         {/* <AccordionTableSection

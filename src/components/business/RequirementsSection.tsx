@@ -64,7 +64,7 @@ export default function RequirementsSection({
           </h2>
 
           <div className="flex-1 h-px bg-[#B3B0AD]" />
-        </div>3
+        </div>
       </div>
 
       {/* Centered content container */}
@@ -76,9 +76,9 @@ export default function RequirementsSection({
             ref={scrollRef}
             className="flex overflow-x-auto scrollbar-none w-full px-6 snap-x snap-mandatory">
             <div className="flex gap-4 min-w-max mx-auto relative">
-              {steps.map((step) => (
+              {steps.map((step, i) => (
                 <button
-                  key={step.number}
+                  key={i + 1}
                   onClick={() => setSelected(step.number)}
                   className={`w-[112px] h-[48px] shrink-0 text-sm sm:text-base font-semibold border-b-2 transition duration-200 flex items-center justify-center ${
                     selected === step.number

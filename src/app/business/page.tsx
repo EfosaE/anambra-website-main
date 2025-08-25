@@ -6,6 +6,7 @@ import StimulatorsSection from "@/components/business/StimulatorsSection ";
 import MdaProcessesSection from "@/components/business/MdaProcessesSection";
 import ContactSection from "@/components/business/ContactSection";
 import { fetchBusinessPage } from "@/lib/clients/business.client";
+import SaberOfficials from "../../components/business/SaberOfficials";
 
 export default async function BusinessPage() {
   const { businessPage } = await fetchBusinessPage();
@@ -26,10 +27,11 @@ export default async function BusinessPage() {
         <RequirementsSection requirement={businessPage.requirement} />
         <MdaProcessesSection
           mdaProcesses={businessPage.mdaProcesses}
-          // saberOfficials={businessPage.saberOfficials}
+          
           // fees={businessPage.fees}
         />
-        {/* <ContactSection contactInfo={businessPage.contactinfo}/> */}
+        <SaberOfficials  saberOfficials={businessPage.saberOfficials} />
+        <ContactSection contactInfo={businessPage.contactInfo}/>
       </div>
     </main>
   );
