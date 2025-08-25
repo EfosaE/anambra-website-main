@@ -8,6 +8,7 @@ import { useModal } from "@/context/modal-context";
 import { useSearchParams } from "next/navigation";
 import GlobalSearch from "./GlobalSearch";
 import { ArrowLeft } from "lucide-react";
+import Link from "next/link";
 
 const categories = ["All", "Ministry", "Agency", "Services", "Documents"];
 
@@ -60,25 +61,36 @@ export default function GlobalSearchDrawer() {
           </div>
 
           {/* Search Form */}
-          <div className="flex items-center gap-3 w-full md:w-3/5 mb-2 md:mb-4">
+          <div className="flex flex-col items-center gap-4 w-full md:w-3/5 mb-4">
             <input
               type="text"
-              placeholder="Enter a search term to begin..."
+              placeholder='Enter a search term like "business" to begin...'
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               className="
-      flex-1
-      min-w-0
-      border border-gray-300 
-      rounded-full
-      px-4 py-2 lg:py-4
-      text-sm text-gray-800 
-      shadow-sm
-      outline-none
-      focus:border-primary 
-      focus:ring-2 focus:ring-primary/50
-    "
+                w-full
+                border border-gray-300
+                rounded-full
+                px-5 py-3 lg:py-4
+                text-base text-gray-800
+                shadow-sm
+                outline-none
+                focus:border-primary
+                focus:ring-2 focus:ring-primary
+                transition
+              "
             />
+
+            <Link
+              href="/chat"
+              className="
+                text-sm md:text-base text-primary
+               hover:opacity-75
+                transition-colors
+                underline underline-offset-4 decoration-primary
+              ">
+              For a more sentence-like search, use our chat assistant →
+            </Link>
           </div>
 
           {/* Category Tabs */}

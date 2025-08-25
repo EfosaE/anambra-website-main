@@ -66,3 +66,30 @@ export const fetchContentByQuery = async (
   };
 };
 
+// export const fetchContentByQuery = async (query: string): Promise<FetchContentResponse> => {
+//   const words = query.split(/\s+/).filter(Boolean);
+
+//   const { data } = await client.query({
+//     query: SearchKeywordQueries.byQuery,
+//     variables: {
+//       filters: {
+//         or: [
+//           {
+//             or: words.map((word) => ({
+//               question: { containsi: word },
+//             })),
+//           },
+//           {
+//             and: words.map((word) => ({
+//               Name: { containsi: word },
+//             })),
+//           },
+//         ],
+//       },
+//     },
+//     fetchPolicy: "no-cache",
+//   });
+
+//   return data;
+// };
+

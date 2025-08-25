@@ -44,7 +44,7 @@ export default function MdasPage() {
     <main className="container mx-auto px-4 py-10">
       <div className="text-center mb-8">
         <h2 className="text-[30px] md:text-[40px] font-bold text-black">
-          MDAs
+          Ministries, Agencies & Commissions
         </h2>
       </div>
 

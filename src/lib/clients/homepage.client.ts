@@ -11,13 +11,13 @@ export const fetchHomepageData = async (): Promise<
     const { data } = await client.query<{ homepage: HomepageData["homepage"] }>(
       {
         query: HomepageQueries.root,
-        fetchPolicy: "network-only"
+        fetchPolicy: "no-cache"
       }
     );
 
     const { homepage } = data;
 
-    // console.log("homepage data", homepage);
+    // console.log("homepage data", homepage.SearchSection);
 
     // Validate presence of critical fields (optional)
     if (!homepage.Banner || !homepage.News_Articles_Grid) {
@@ -25,7 +25,7 @@ export const fetchHomepageData = async (): Promise<
       return null;
     }
 
-    console.log(homepage.News_Articles_Grid)
+    // console.log(homepage.News_Articles_Grid)
 
     return {
       Banner: homepage.Banner,

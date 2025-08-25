@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import clsx from "clsx";
 import { X } from "lucide-react";
 import { Mda } from "@/types/graphql/mda";
+import { toTitleCase } from "../../lib/utils/app.utils";
 
 const tabs = [
   "Core Mandate",
@@ -39,17 +40,15 @@ export default function MdaCard({ mda }: { mda: Mda }) {
     <>
       <div
         onClick={() => setIsModalOpen(true)}
-        className="cursor-pointer bg-white border border-gray-300 rounded-lg p-5 flex flex-col">
+        className="cursor-pointer bg-white border border-gray-300 rounded-lg p-5 flex flex-col hover:border-2 group hover:border-golden">
         <div className="flex items-center gap-3 mb-4">
           <img
             src="/images/icons/ministries.svg"
             alt="Icon"
             className="w-10 h-7 shrink-0"
           />
-          <h4 className="text-base font-semibold leading-tight">
-            {mda.name
-              .toLowerCase()
-              .replace(/\b\w/g, (char) => char.toUpperCase())}
+          <h4 className="text-base md:text-xl 3xl:text-2xl font-semibold leading-tight group-hover:underline group-hover:decoration-golden">
+            {mda.name}
           </h4>
         </div>
 

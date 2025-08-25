@@ -79,7 +79,7 @@ export default async function ExecutiveCouncil({
 
       {/* Officials */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-4">
-        {filteredOfficials.map((member: any) => {
+        {filteredOfficials.map((member) => {
           const profile = member.profile_picture;
 
           return (
@@ -104,10 +104,8 @@ export default async function ExecutiveCouncil({
                 {member.name}
               </h2>
 
-              <p className="text-golden text-center">
-                {member.designations[0].name
-                  .replace(/_/g, " ")
-                  .replace(/\b\w/g, (char) => char.toUpperCase())}
+              <p className="text-blue-500 text-center font-medium md:text-xl my-2">
+                {member.position}
               </p>
 
               {member.contactInfo?.email && (

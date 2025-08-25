@@ -3,6 +3,19 @@ import { marked, type Tokens } from "marked";
 
 import DOMPurify from "isomorphic-dompurify";
 
+export function toTitleCase(str: string) {
+  const smallWords = ["of", "and", "in", "on", "with", "for", "the", "a", "an"];
+  return str
+    .toLowerCase()
+    .split(" ")
+    .map((word, index) => {
+      if (index !== 0 && smallWords.includes(word)) {
+        return word; // keep lowercase
+      }
+      return word.charAt(0).toUpperCase() + word.slice(1);
+    })
+    .join(" ");
+}
 
 
 const renderer = {
